@@ -14,10 +14,11 @@
   --color-muted: #5C6470;
   --color-signal: #B8704A; /* Reserved: status only — never decorative */
 
-  /* Type families set in layout via next/font */
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-source-serif);
-  --font-mono: var(--font-jetbrains);
+  /* All families resolve to Plus Jakarta Sans (loaded in layout via next/font) */
+  --font-sans: var(--font-jakarta);
+  --font-heading: var(--font-jakarta);
+  --font-serif: var(--font-jakarta);
+  --font-mono: var(--font-jakarta);
 
   /* Spacing rhythm */
   --section-pad-y: 7.5rem; /* 120px desktop */
