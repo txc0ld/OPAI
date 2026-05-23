@@ -3,7 +3,7 @@
 
 export const BUSINESS = {
   name: "OperateAI",
-  legalName: "TODO(operator): OperateAI Pty Ltd (confirm legal entity)",
+  legalName: "Operate AI - by Fantom Labs Tech",
   url: "https://operateai.com.au",
   email: "TODO(operator): hello@operateai.com.au",
   telephone: "TODO(operator): +61 ...",
