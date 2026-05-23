@@ -1,57 +1,35 @@
 import { Section } from "@/components/section";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
-import { cn } from "@/lib/cn";
-
-const problems = [
-  {
-    title: "Leads go cold.",
-    body: "The owner doesn't see the website enquiry until Tuesday.",
-  },
-  {
-    title: "Quotes wait on someone.",
-    body: "Admin chases scope details for two days; the customer goes elsewhere.",
-  },
-  {
-    title: "The owner is the bottleneck.",
-    body: "Every escalation lands in one inbox at 9pm.",
-  },
-];
 
 export function ProblemBand() {
   return (
-    <Section>
+    <Section tone="paper" className="border-t-[3px] border-black">
       <SectionHeading
         eyebrow="The problem"
-        title="Operational work waits on people who are already at capacity."
+        title="Most businesses know AI matters. Few know where to start."
+        as="h2"
+        className="mb-8"
       />
-      <ul
-        className={cn(
-          "mt-16 grid grid-cols-1 gap-y-10",
-          "md:grid-cols-3 md:gap-y-0",
-          "md:divide-x md:divide-[var(--color-rule)]",
-        )}
-      >
-        {problems.map((p, i) => (
-          <Reveal
-            as="li"
-            key={p.title}
-            delay={i * 100}
-            className={cn(
-              "md:px-10",
-              i === 0 && "md:pl-0",
-              i === problems.length - 1 && "md:pr-0",
-            )}
-          >
-            <h3 className="font-serif text-[1.5rem] leading-[1.2] tracking-[-0.01em] text-[var(--color-ink)]">
-              {p.title}
-            </h3>
-            <p className="mt-4 font-sans text-[1rem] leading-[1.6] text-[var(--color-muted)] max-w-[34ch]">
-              {p.body}
-            </p>
-          </Reveal>
-        ))}
-      </ul>
+      <Reveal>
+        <div className="max-w-[var(--measure)] space-y-5 text-[1.0625rem] leading-[1.65] text-[var(--color-muted)]">
+          <p>
+            AI tools are everywhere, but most small and medium businesses are
+            still stuck at the experimentation stage.
+          </p>
+          <p>
+            You may have staff using ChatGPT casually. You may have tried a few
+            automation tools. You may know AI could save time, reduce admin and
+            improve customer service — but without a clear implementation plan,
+            it becomes another disconnected tool instead of a business
+            advantage.
+          </p>
+          <p>
+            OperateAI helps you move from scattered AI usage to structured AI
+            systems that support real business workflows.
+          </p>
+        </div>
+      </Reveal>
     </Section>
   );
 }
