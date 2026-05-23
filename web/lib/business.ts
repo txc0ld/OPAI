@@ -7,7 +7,7 @@ export const BUSINESS = {
   url: "https://operateai.com.au",
   email: "TODO(operator): hello@operateai.com.au",
   telephone: "TODO(operator): +61 ...",
-  abn: "TODO(operator): ABN ## ### ### ###",
+  abn: "ABN 51 559 921 362",
   tagline:
     "AI agents, automation, hosting and training for Australian businesses. Built in Perth. Delivered online worldwide.",
   description:
