@@ -45,7 +45,7 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-16 w-full max-w-[var(--container-max)] items-center justify-between px-6 md:h-20 lg:px-10">
-        <Link href="/" aria-label="AAO Group — home" className="group inline-flex items-baseline">
+        <Link href="/" aria-label="OperateAI home" className="group inline-flex items-baseline">
           <Logo variant="compact" tone="ink" />
         </Link>
 
@@ -73,7 +73,7 @@ export function SiteHeader() {
 
         <div className="hidden md:block">
           <Link
-            href="/contact"
+            href="/book-ai-audit/"
             className={cn(
               "inline-flex items-center justify-center",
               "border border-[var(--color-ink)] px-5 py-2.5",
@@ -146,7 +146,7 @@ export function SiteHeader() {
           </ul>
 
           <Link
-            href="/contact"
+            href="/book-ai-audit/"
             className={cn(
               "mt-8 inline-flex w-full items-center justify-center",
               "border border-[var(--color-ink)] px-5 py-4",

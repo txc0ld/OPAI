@@ -1,8 +1,8 @@
-# Australian AI Operations Group (AAO Group)
+# OperateAI website (rebranded from AAO Group)
 
-> Secure AI operations for Australian businesses.
+> AI agents, automation, hosting and training for Australian businesses.
 
-This repo contains everything required to operate AAO Group as a managed AI operations business: the marketing site, the operator skill library, the sales asset pack, the legal scaffolds, the per-client workspace template, the operator playbook, and the operator CLI.
+This repo contains everything required to operate OperateAI as a managed AI operations business: the marketing site, the operator skill library, the sales asset pack, the legal scaffolds, the per-client workspace template, the operator playbook, and the operator CLI.
 
 ## Repo layout
 
@@ -24,8 +24,8 @@ This repo contains everything required to operate AAO Group as a managed AI oper
 1. Read the PRD: `australian_smb_ai_ops_prd.md`
 2. Read the playbook: `OPERATOR_PLAYBOOK.md`
 3. Familiarise yourself with the 12 AAO skills (live in `~/.claude/skills/aao-*`)
-4. Walk the marketing site at https://aaogroup.au (or `cd web && pnpm dev`)
-5. Walk the demo agents at https://aaogroup.au/demo
+4. Walk the marketing site at https://operateai.com.au (or `cd web && pnpm dev`)
+5. Walk the demo agents at https://operateai.com.au/demo
 6. To run a real audit: instantiate `clients/_template/` for the client, follow the playbook
 
 ## Where the dollar comes from
@@ -62,12 +62,12 @@ v1 operating system shipped (skills, sales pack, legal scaffolds, playbook, demo
 
 Pending before first paid audit:
 
-- [ ] Domain DNS pointed at Vercel (`aaogroup.au` -> Vercel)
+- [ ] Domain DNS pointed at Vercel (`operateai.com.au` -> Vercel)
 - [ ] Counsel review of `legal-scaffolds/`
 - [ ] Founder photograph for `/about`
-- [ ] First-vertical Calendly event types under `calendly.com/aaogroup`
+- [ ] First-vertical Calendly event types under `calendly.com/operateai`
 - [ ] First 10 outbound contacts per `sales-assets/08-outreach-pack.md`
 
 ## Contact
 
-Taylor Mayor  ·  taylor@aaogroup.au  ·  Perth, Western Australia  ·  ABN 51 559 921 362
+Taylor Mayor  ·  taylor@operateai.com.au  ·  Perth, Western Australia

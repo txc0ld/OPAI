@@ -14,6 +14,10 @@ const withMDX = createMDX({
 
 const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
+  trailingSlash: true,
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default withMDX(nextConfig);

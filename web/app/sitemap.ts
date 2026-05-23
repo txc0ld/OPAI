@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { USE_CASES } from "@/lib/use-cases";
 
-const BASE_URL = "https://aaogroup.au";
+const BASE_URL = "https://operateai.com.au";
 
 const MAIN_ROUTES: { path: string; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number }[] = [
   { path: "/", changeFrequency: "monthly", priority: 1 },

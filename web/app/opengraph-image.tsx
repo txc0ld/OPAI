@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
+import { BUSINESS } from "@/lib/business";
 
-export const alt = "AAO Group — Secure AI operations for Australian businesses";
+export const alt = "OperateAI — AI agents, automation, hosting and training for Australian businesses";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -32,7 +33,7 @@ export default async function Image() {
             }}
           >
             <span style={{ fontWeight: 200, opacity: 0.55 }}>[</span>
-            <span style={{ fontWeight: 700 }}>aao</span>
+            <span style={{ fontWeight: 700 }}>opai</span>
             <span style={{ fontWeight: 200, opacity: 0.55 }}>]</span>
           </div>
           <div
@@ -47,7 +48,7 @@ export default async function Image() {
               fontFamily: "monospace",
             }}
           >
-            Australian AI Operations
+            OperateAI · AI for Small Business
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -61,7 +62,7 @@ export default async function Image() {
               fontWeight: 500,
             }}
           >
-            Secure AI operations for Australian businesses.
+            AI agents and automation for small businesses.
           </div>
           <div
             style={{
@@ -74,7 +75,7 @@ export default async function Image() {
               fontStyle: "italic",
             }}
           >
-            Approval gates, logs, data boundaries — and onshore models.
+            Built in Perth. Delivered across Australia and online worldwide.
           </div>
         </div>
         <div
@@ -89,11 +90,12 @@ export default async function Image() {
             fontFamily: "sans-serif",
           }}
         >
-          <span>Integration · Workflow · Guarded LLM · Approval queue · Audit</span>
-          <span>aaogroup.au</span>
+          <span>Audit · Integration · Agents · Hosting · Training</span>
+          <span>operateai.com.au</span>
         </div>
       </div>
     ),
     { ...size }
   );
+  void BUSINESS; // referenced for future variable swap
 }

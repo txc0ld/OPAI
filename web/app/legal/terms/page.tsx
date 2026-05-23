@@ -5,7 +5,7 @@ import { Prose } from "@/components/prose";
 
 export const metadata: Metadata = {
   title: "Terms",
-  description: "AAO Group terms of service. Placeholder pending counsel review.",
+  description: "OperateAI terms of service. Placeholder pending counsel review.",
 };
 
 export default function TermsPage() {
@@ -56,7 +56,7 @@ export default function TermsPage() {
 
           <h2>Contact</h2>
           <p>
-            Commercial and contractual queries: <strong>legal@aaogroup.au</strong>.
+            Commercial and contractual queries: <strong>legal@operateai.com.au</strong>.
           </p>
 
           <p className="footnote">Last updated: 25 April 2026 (placeholder).</p>

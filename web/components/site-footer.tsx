@@ -1,51 +1,54 @@
 import Link from "next/link";
-import { cn } from "@/lib/cn";
-import { FOOTER_LEGAL, PRIMARY_NAV } from "@/lib/nav";
 import { Logo } from "@/components/logo";
+import { FOOTER_LEGAL, PRIMARY_NAV } from "@/lib/nav";
+import { BUSINESS } from "@/lib/business";
+import { cn } from "@/lib/cn";
 
 export function SiteFooter() {
   return (
-    <footer
-      className={cn(
-        "bg-[var(--color-ink)] text-[var(--color-paper)]",
-        "border-t border-[rgb(246_244_238_/_0.08)]",
-      )}
-    >
-      <div className="mx-auto w-full max-w-[var(--container-max)] px-6 pt-20 pb-10 lg:px-10 lg:pt-28">
-        <div className="grid grid-cols-1 gap-14 md:grid-cols-12 md:gap-10">
-          <div className="md:col-span-5">
-            <Link href="/" aria-label="AAO Group — home" className="inline-block">
+    <footer className="border-t-[3px] border-black bg-black text-white">
+      <div className="mx-auto w-full max-w-[var(--container-max)] px-[clamp(1.5rem,4vw,3rem)] py-12">
+        <div className="grid grid-cols-1 border-[3px] border-white md:grid-cols-12">
+          <div className="border-b-[3px] border-white p-6 md:col-span-5 md:border-b-0 md:border-r-[3px]">
+            <Link href="/" aria-label="OperateAI home" className="inline-block hover:text-[var(--color-primary-container)]">
               <Logo variant="stacked" tone="paper" />
             </Link>
-            <p className="mt-6 max-w-[34ch] text-[1.0625rem] leading-[1.55] text-[rgb(246_244_238_/_0.78)]">
-              Secure AI operations for Australian businesses.
+            <p className="mt-8 max-w-[28ch] font-heading text-[2rem] font-bold uppercase leading-[0.95] tracking-[-0.04em]">
+              AI agents, automation, hosting and training for Australian small and medium businesses.
+            </p>
+            <p className="mt-6 max-w-[36ch] font-sans text-[0.9375rem] leading-[1.55] text-white/70">
+              Based in Perth, Western Australia. Supporting businesses across Australia and online worldwide.
             </p>
           </div>
 
-          <div className="md:col-span-4">
-            <p className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-[rgb(246_244_238_/_0.45)]">
+          <div className="border-b-[3px] border-white p-6 md:col-span-4 md:border-b-0 md:border-r-[3px]">
+            <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-primary-container)]">
               Navigate
             </p>
-            <ul className="mt-6 grid grid-cols-2 gap-y-3 gap-x-6">
+            <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {PRIMARY_NAV.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={cn(
-                      "inline-block text-[0.9375rem] leading-none text-[var(--color-paper)]",
-                      "transition-colors duration-200",
-                      "hover:text-[rgb(246_244_238_/_0.65)]",
-                    )}
+                    className="font-heading text-[0.8125rem] font-bold uppercase tracking-[0.06em] underline-offset-[6px] hover:text-[var(--color-primary-container)] hover:underline"
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/book-ai-audit/"
+                  className="font-heading text-[0.8125rem] font-bold uppercase tracking-[0.06em] underline-offset-[6px] hover:text-[var(--color-primary-container)] hover:underline"
+                >
+                  Book audit
+                </Link>
+              </li>
             </ul>
           </div>
 
-          <div className="md:col-span-3">
-            <p className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-[rgb(246_244_238_/_0.45)]">
+          <div className="p-6 md:col-span-3">
+            <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-primary-container)]">
               Legal
             </p>
             <ul className="mt-6 flex flex-col gap-3">
@@ -53,35 +56,30 @@ export function SiteFooter() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={cn(
-                      "inline-block text-[0.9375rem] leading-none text-[var(--color-paper)]",
-                      "transition-colors duration-200",
-                      "hover:text-[rgb(246_244_238_/_0.65)]",
-                    )}
+                    className="font-heading text-[0.8125rem] font-bold uppercase tracking-[0.06em] underline-offset-[6px] hover:text-[var(--color-primary-container)] hover:underline"
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <p className="mt-6 font-mono text-[0.75rem] tracking-[0.04em] text-[rgb(246_244_238_/_0.55)]">
-              ABN 51 559 921 362
+            <p className="mt-8 font-mono text-[0.75rem] tracking-[0.04em] text-white/70">
+              {BUSINESS.abn}
             </p>
           </div>
         </div>
 
         <div
           className={cn(
-            "mt-20 flex flex-col gap-4 border-t pt-6",
-            "border-[rgb(246_244_238_/_0.08)]",
+            "mt-8 flex flex-col gap-3 border-t-[3px] border-white pt-5",
             "md:flex-row md:items-center md:justify-between",
           )}
         >
-          <p className="font-mono text-[0.75rem] tracking-[0.04em] text-[rgb(246_244_238_/_0.5)]">
-            &copy; 2026 AAO Group Pty Ltd. All rights reserved.
+          <p className="font-mono text-[0.75rem] tracking-[0.04em] text-white/70">
+            &copy; {BUSINESS.copyrightYear} {BUSINESS.legalName}. All rights reserved.
           </p>
-          <p className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-[rgb(246_244_238_/_0.4)]">
-            Made in Australia
+          <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-primary-container)]">
+            Built in Perth · Delivered worldwide
           </p>
         </div>
       </div>

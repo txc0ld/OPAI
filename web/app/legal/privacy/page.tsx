@@ -5,7 +5,7 @@ import { Prose } from "@/components/prose";
 
 export const metadata: Metadata = {
   title: "Privacy",
-  description: "AAO Group privacy policy. Placeholder pending counsel review.",
+  description: "OperateAI privacy policy. Placeholder pending counsel review.",
 };
 
 export default function PrivacyPage() {
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       <Section>
         <Prose>
           <p>
-            AAO Group operates in compliance with the Australian Privacy Principles under the
+            OperateAI operates in compliance with the Australian Privacy Principles under the
             Privacy Act 1988 (Cth). We collect personal information only where it is necessary to
             deliver services to our clients, manage business operations, and comply with the law.
           </p>
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
           <h2>Your rights</h2>
           <p>
             You can request access to or correction of personal information we hold about you, or
-            lodge a complaint, by contacting <strong>privacy@aaogroup.au</strong>. We acknowledge
+            lodge a complaint, by contacting <strong>privacy@operateai.com.au</strong>. We acknowledge
             requests within five business days.
           </p>
 

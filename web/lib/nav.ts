@@ -1,14 +1,13 @@
 export const PRIMARY_NAV = [
-  { href: "/services", label: "Services" },
-  { href: "/framework", label: "Framework" },
-  { href: "/use-cases", label: "Use cases" },
-  { href: "/trust", label: "Trust" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/insights", label: "Insights" },
-  { href: "/about", label: "About" },
+  { href: "/ai-integration-services/", label: "Integration" },
+  { href: "/ai-agents-for-business/", label: "AI Agents" },
+  { href: "/ai-agent-hosting/", label: "Hosting" },
+  { href: "/ai-training-for-business/", label: "Training" },
+  { href: "/industries/", label: "Industries" },
+  { href: "/perth-ai-consultant/", label: "Perth" },
 ] as const;
 
 export const FOOTER_LEGAL = [
-  { href: "/legal/privacy", label: "Privacy" },
-  { href: "/legal/terms", label: "Terms" },
+  { href: "/legal/privacy/", label: "Privacy" },
+  { href: "/legal/terms/", label: "Terms" },
 ] as const;

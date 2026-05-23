@@ -712,7 +712,7 @@ export const MOCK_TEMPLATES: MockGovernanceTemplate[] = [
 ];
 
 export const MOCK_OPERATOR = {
-  email: "operator@aaogroup.au",
+  email: "operator@operateai.com.au",
   role: "Platform Owner",
   name: "Taylor Mayo",
 };

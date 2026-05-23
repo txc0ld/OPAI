@@ -1,6 +1,6 @@
-# AAO Group — Marketing Site
+# OperateAI — Marketing Site
 
-Production marketing site for **Australian AI Operations Group** at [aaogroup.au](https://aaogroup.au).
+Production marketing site for **OperateAI** at [operateai.com.au](https://operateai.com.au).
 
 ## Stack
 
@@ -66,9 +66,9 @@ Smoke suite only — covers route rendering and console-error checks. Visual qua
 Copy `.env.example` to `.env.local`:
 
 ```
-NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/aaogroup
+NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/operateai
 RESEND_API_KEY=
-PLAUSIBLE_DOMAIN=aaogroup.au
+PLAUSIBLE_DOMAIN=operateai.com.au
 ```
 
 The site runs without these set — absent integrations no-op gracefully:
