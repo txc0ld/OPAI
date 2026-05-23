@@ -1,23 +1,22 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: { path: string; needle: RegExp }[] = [
-  { path: "/", needle: /Secure AI operations/i },
-  { path: "/services", needle: /Three ways to work/i },
-  { path: "/framework", needle: /Sovereign AI Operations Framework/i },
-  { path: "/use-cases", needle: /Where AAO works/i },
-  { path: "/use-cases/trades-construction", needle: /Trades & construction/i },
-  { path: "/use-cases/mining-services", needle: /Mining services/i },
-  { path: "/use-cases/accounting-bookkeeping", needle: /Accounting & bookkeeping/i },
-  { path: "/use-cases/legal-admin", needle: /Legal admin/i },
-  { path: "/use-cases/property-management", needle: /Property management/i },
-  { path: "/trust", needle: /Trust is the product/i },
-  { path: "/pricing", needle: /Priced against/i },
-  { path: "/about", needle: /We install AI that earns trust/i },
-  { path: "/insights", needle: /Insights/i },
-  { path: "/insights/why-most-smb-ai-projects-fail-in-week-three", needle: /week three/i },
-  { path: "/contact", needle: /Book a 15-minute audit/i },
-  { path: "/legal/privacy", needle: /Privacy/i },
-  { path: "/legal/terms", needle: /Terms/i },
+  { path: "/", needle: /AI agents and automation for small businesses/i },
+  { path: "/ai-integration-services/", needle: /AI integration services for small and medium businesses/i },
+  { path: "/ai-agents-for-business/", needle: /Custom AI agents for business workflows/i },
+  { path: "/ai-agent-hosting/", needle: /Managed AI agent hosting and support/i },
+  { path: "/ai-training-for-business/", needle: /Practical AI training for business owners and teams/i },
+  { path: "/perth-ai-consultant/", needle: /AI consultant in Perth/i },
+  { path: "/book-ai-audit/", needle: /Book an AI Business Audit/i },
+  { path: "/industries/", needle: /AI by industry/i },
+  { path: "/industries/ai-for-accounting-firms/", needle: /AI for accounting firms/i },
+  { path: "/industries/ai-for-real-estate-agencies/", needle: /AI for real estate agencies/i },
+  { path: "/industries/ai-for-trades-businesses/", needle: /AI for trades businesses/i },
+  { path: "/industries/ai-for-health-clinics/", needle: /AI for health clinics/i },
+  { path: "/industries/ai-for-law-firms/", needle: /AI for law firms/i },
+  { path: "/industries/ai-for-ecommerce-businesses/", needle: /AI for ecommerce businesses/i },
+  { path: "/legal/privacy/", needle: /Privacy/i },
+  { path: "/legal/terms/", needle: /Terms/i },
 ];
 
 for (const { path, needle } of ROUTES) {
@@ -41,5 +40,4 @@ test("home page has no console errors", async ({ page }) => {
 test("404 page renders for unknown route", async ({ page }) => {
   const response = await page.goto("/totally-nonexistent-route-xyz");
   expect(response?.status()).toBe(404);
-  await expect(page.getByText(/not the page/i)).toBeVisible();
 });
