@@ -7,7 +7,7 @@ import { Reveal } from "@/components/reveal";
 import { CTABand } from "@/components/cta-band";
 import { JsonLd } from "@/components/json-ld";
 import { buildService, buildWebPage, wrapGraph } from "@/lib/schema";
-import { BUSINESS } from "@/lib/business";
+import { BrandMark } from "@/components/brand-mark";
 
 export type ServicePageLayoutProps = {
   // Page meta passed through for schema/title display.
@@ -81,7 +81,7 @@ export function ServicePageLayout({
       <Section tone="paper">
         <Reveal>
           <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-muted)]">
-            {BUSINESS.name} — service
+            <BrandMark /> — service
           </p>
           <h1 className="mt-5 max-w-[18ch] font-heading text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] tracking-[-0.04em]">
             {h1}

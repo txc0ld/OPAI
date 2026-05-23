@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand-mark";
 import { cn } from "@/lib/cn";
 
 type LogoProps = {
@@ -20,11 +21,13 @@ export function Logo({ variant = "stacked", tone = "ink", className }: LogoProps
       >
         <span className="font-sans text-[1.5rem] tracking-[-0.04em] leading-none">
           <span className={cn("font-light", muted)}>[</span>
-          <span className={cn("font-semibold", fg)}>opai</span>
+          <span className={cn("font-semibold", fg)}>
+            opa<span className="inline-block rotate-180 text-[#a0ffdf]">i</span>
+          </span>
           <span className={cn("font-light", muted)}>]</span>
         </span>
         <span className={cn("font-mono text-[0.625rem] uppercase tracking-[0.28em] translate-y-[-2px]", muted)}>
-          OperateAI · Perth
+          <BrandMark /> · Perth
         </span>
       </span>
     );
@@ -41,7 +44,7 @@ export function Logo({ variant = "stacked", tone = "ink", className }: LogoProps
         <span className={cn("font-light", muted)}>]</span>
       </span>
       <span className={cn("mt-2 pt-2 border-t font-mono text-[0.625rem] uppercase tracking-[0.32em]", rule, muted)}>
-        OperateAI · AI for Small Business
+        <BrandMark /> · AI for Small Business
       </span>
     </span>
   );

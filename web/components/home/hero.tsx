@@ -1,4 +1,5 @@
 import { Button } from "@/components/button";
+import { BrandMark } from "@/components/brand-mark";
 import { cn } from "@/lib/cn";
 
 const supportPoints = [
@@ -22,7 +23,7 @@ export function Hero() {
         <div className="paint-in paint-delay-1 mb-8 flex items-center gap-3">
           <span className="power-dot" aria-hidden="true" />
           <p className="font-heading text-[0.75rem] font-bold uppercase leading-none tracking-[0.08em]">
-            OperateAI · Built in Perth
+            <BrandMark /> · Built in Perth
           </p>
         </div>
         <h1
