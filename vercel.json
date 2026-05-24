@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "installCommand": "cd web && corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install && cd .. && ln -sfn web/node_modules node_modules",
-  "buildCommand": "cd web && pnpm build",
+  "installCommand": "cd web && npx -y pnpm@10.28.2 install && cd .. && ln -sfn web/node_modules node_modules",
+  "buildCommand": "cd web && npx -y pnpm@10.28.2 build",
   "outputDirectory": "web/.next",
   "regions": ["syd1"],
   "headers": [
