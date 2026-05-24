@@ -40,8 +40,8 @@ export default function Page() {
       description={DESCRIPTION}
       h1="Custom AI agents for business workflows"
       heroImage={{
-        src: "/operateai_02_glowing_ai_orb.webp",
-        alt: "A glowing lime sphere floating above rippling water — an AI agent given a clear job inside your business.",
+        src: "/operateai_ai_agents_4x5.webp",
+        alt: "AI AGENTS — Digital workers that get the job done. A glowing lime sphere floating above rippling water.",
       }}
       opening={
         <>

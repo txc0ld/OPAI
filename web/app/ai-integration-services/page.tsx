@@ -40,8 +40,8 @@ export default function Page() {
       description={DESCRIPTION}
       h1="AI integration services for small and medium businesses"
       heroImage={{
-        src: "/operateai_03_workflow_key.webp",
-        alt: "A keyboard key labelled WORKFLOW AUTOMATED in lime — symbolising AI plugged into the tools you already use.",
+        src: "/operateai_integration_4x5.webp",
+        alt: "INTEGRATION — Connect what already works. App icons (Slack, Sheets, Notion, HubSpot, Gmail, Salesforce) connected by lime threads to a central OperateAI hub.",
       }}
       opening={
         <>

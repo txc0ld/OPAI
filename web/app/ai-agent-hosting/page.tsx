@@ -40,8 +40,8 @@ export default function Page() {
       description={DESCRIPTION}
       h1="Managed AI agent hosting and support"
       heroImage={{
-        src: "/operateai_04_automation_flow.webp",
-        alt: "A diagram showing TRIGGER, AI AGENT, ACTION and NOTIFY nodes connected — a managed automation flow OperateAI runs for you.",
+        src: "/operateai_hosting_4x5.webp",
+        alt: "HOSTING — Secure. Reliable. Always on. A dark server hallway with a lime cloud icon and floor stripe.",
       }}
       opening={
         <>

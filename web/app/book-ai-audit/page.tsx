@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
 import { buildService, buildWebPage, wrapGraph } from "@/lib/schema";
@@ -67,7 +66,7 @@ export default function Page() {
       />
 
       <section className="bg-[var(--color-bg)] px-6 pt-[140px] pb-24 lg:px-12 lg:pt-[180px] lg:pb-32">
-        <div className="mx-auto grid w-full max-w-[1200px] items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+        <div className="mx-auto w-full max-w-[1200px]">
           <div>
             <span className="eyebrow">Entry offer · Audit</span>
             <h1 className="mt-6 max-w-[20ch] text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
@@ -102,16 +101,6 @@ export default function Page() {
               See what comes after
             </Link>
             </div>
-          </div>
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--color-w10)] bg-[#060606]">
-            <Image
-              src="/operateai_06_mobile_lock_screen.webp"
-              alt="An iPhone on a rocky surface showing the OperateAI lock screen with 'Automate. Delegate. Elevate.'"
-              fill
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-cover"
-              priority
-            />
           </div>
         </div>
       </section>

@@ -40,8 +40,8 @@ export default function Page() {
       description={DESCRIPTION}
       h1="Practical AI training for business owners and teams"
       heroImage={{
-        src: "/operateai_07_touch_signal.webp",
-        alt: "A hand reaching down with a lime spark at the fingertip — the moment a person and AI start working together.",
+        src: "/operateai_training_4x5.webp",
+        alt: "TRAINING — Upskill your team. Drive real results. Laptop showing 'AI Training Built for Real Work' with practical / hands-on / business-focused checkpoints.",
       }}
       opening={
         <>
