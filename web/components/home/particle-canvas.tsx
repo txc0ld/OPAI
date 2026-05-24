@@ -24,16 +24,18 @@ export function ParticleCanvas() {
     const ctx = canvasEl.getContext("2d", { alpha: false });
     if (!ctx) return;
     const canvas = canvasEl;
-    // GPU layer promotion. Forces the canvas onto its own compositor layer
-    // so iOS Safari can keep painting it during the scroll compositor thread
-    // instead of freezing the layer until the touch gesture completes.
-    canvas.style.transform = "translateZ(0)";
-    canvas.style.willChange = "transform";
     if (!coarsePointer) {
+      // Desktop: hide OS cursor, stir circle replaces it. Don't set transform
+      // or will-change here — they're an iOS-only fix and can interact badly
+      // with desktop compositor layout.
       canvas.style.cursor = "none";
     } else {
-      // Pointer events would only intercept scroll on touch. Let them through.
+      // Touch/iOS path: pointer-events:none so scrolling passes through, and
+      // GPU layer promotion so iOS Safari keeps painting the canvas during
+      // the touch scroll gesture instead of freezing it on the compositor.
       canvas.style.pointerEvents = "none";
+      canvas.style.transform = "translateZ(0)";
+      canvas.style.willChange = "transform";
     }
     // Read the next/font-generated Orbitron family name so the canvas can
     // draw the big "Ai" title in the same typeface as the rest of the brand.
@@ -230,11 +232,14 @@ export function ParticleCanvas() {
     }
 
     // iOS Safari does not update window.scrollY during a touch-scroll gesture
-    // (only after it ends). visualViewport.pageTop DOES update in real-time
-    // and is what we want. Falls back to window.scrollY on browsers without
-    // visualViewport.
+    // (only after it ends). visualViewport.pageTop DOES update live, so we
+    // read it on touch. Desktop uses window.scrollY directly because some
+    // desktop browsers can produce non-numeric pageTop values in edge cases.
     function getScrollY(): number {
-      return window.visualViewport ? window.visualViewport.pageTop : window.scrollY;
+      if (coarsePointer && window.visualViewport) {
+        return window.visualViewport.pageTop;
+      }
+      return window.scrollY;
     }
 
     // Scroll handler coalesces its DOM writes onto the next animation frame.
@@ -414,12 +419,9 @@ export function ParticleCanvas() {
     }
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
-    // iOS Safari does not always update window.scrollY in real-time during
-    // touch scroll, but the visualViewport scroll event does fire each frame.
-    // Reading scrollY from the rAF loop already handles desktop; the visual-
-    // viewport listener gives us a parallel signal that the user is mid-scroll
-    // on iOS so the next frame still triggers immediately.
-    if (window.visualViewport) {
+    // Touch-only: also listen on visualViewport so iOS fires our scroll
+    // handler at touch-frequency instead of only at gesture end.
+    if (coarsePointer && window.visualViewport) {
       window.visualViewport.addEventListener("scroll", onScroll, { passive: true });
     }
 
@@ -467,7 +469,7 @@ export function ParticleCanvas() {
       }
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
-      if (window.visualViewport) {
+      if (coarsePointer && window.visualViewport) {
         window.visualViewport.removeEventListener("scroll", onScroll);
       }
       document.removeEventListener("visibilitychange", onVisibility);
