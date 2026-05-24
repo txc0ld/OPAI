@@ -6,7 +6,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/ai-integration-services/`;
 const TITLE = "AI Integration Services for Small Business | OperateAI";
 const DESCRIPTION =
-  "AI integration services for small and medium businesses. OperateAI helps integrate AI tools, agents and automation into daily workflows. Perth-based, Australia-wide and online.";
+  "Plug AI into the tools you already use. OperateAI helps small and medium businesses use AI in everyday work, without ripping out what already works.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -16,19 +16,19 @@ export const metadata: Metadata = {
 
 const FAQS = [
   {
-    question: "What is AI integration?",
+    question: "What is AI integration in plain English?",
     answer:
-      "AI integration is the process of connecting AI tools, agents and automation into the systems your business already uses — CRMs, helpdesks, document stores, spreadsheets, accounting tools — so AI supports daily operations rather than sitting in a separate app.",
+      "It just means connecting AI to the tools your business already uses. Your email, your CRM, your helpdesk, your documents, your spreadsheets. So AI helps you in the apps you are already in, rather than being one more thing to open.",
   },
   {
     question: "Do we need to replace our existing tools?",
     answer:
-      "No. OperateAI typically integrates AI alongside your existing tools (ChatGPT, Microsoft Copilot, Google Gemini, Notion, Zapier, Make, CRMs, helpdesks, accounting platforms) rather than replacing them.",
+      "No. We work with the tools you already have. ChatGPT, Microsoft Copilot, Google Gemini, Notion, Zapier, Make, your CRM, your helpdesk, your accounting platform. We add AI alongside them.",
   },
   {
     question: "How long does an integration take?",
     answer:
-      "A single high-value workflow typically takes 2 to 4 weeks from audit to handover. Larger multi-workflow programs run longer and are scoped on a roadmap after the AI Business Audit.",
+      "One high-value workflow usually ships in 2 to 4 weeks. Bigger programs run longer and are mapped out after the AI Business Audit.",
   },
 ];
 
@@ -42,51 +42,46 @@ export default function Page() {
       opening={
         <>
           <p>
-            AI integration is not about adding another tool to your business.
-            It is about connecting AI to the way your business already works.
+            AI is most useful when it fits the work you already do. We do not
+            try to replace your tools or your team. We plug AI into the tools
+            you already use, so the slow parts of your day get faster.
           </p>
           <p>
-            OperateAI helps small and medium businesses integrate AI into
-            practical workflows across admin, sales, customer service,
-            operations, reporting, documentation and internal knowledge
-            management.
+            Useful systems, not gimmicks.
           </p>
-          <p>We focus on usable systems, not gimmicks.</p>
         </>
       }
       whoItIsFor={
         <p>
-          This service is for businesses that want to move beyond casual AI
-          usage and start using AI as part of daily operations. You may
-          already use tools like ChatGPT, Microsoft Copilot, Google Gemini,
-          Notion, Zapier, Make, CRMs, helpdesk software, accounting platforms
-          or internal databases. We help identify where AI fits, what should
-          be automated, what should stay human-led, and how to make the
-          system reliable.
+          This is for businesses that are ready to move past poking at AI on
+          the side. You may already use ChatGPT, Microsoft Copilot, Gemini,
+          Notion, Zapier, Make, a CRM, a helpdesk, or an accounting platform.
+          We will help you work out where AI fits, what should be automated,
+          what should stay human, and how to make the whole thing reliable.
         </p>
       }
       included={{
         heading: "What we can integrate",
         items: [
-          "AI chat assistants",
-          "Internal knowledge bases",
+          "AI chat helpers",
+          "Internal knowledge tools",
           "Customer support workflows",
-          "Sales and lead qualification workflows",
-          "Document generation systems",
+          "Sales and lead qualification",
+          "Document drafting",
           "Email and inbox workflows",
           "CRM and pipeline workflows",
-          "Reporting and summarisation workflows",
+          "Auto-summarised reports",
           "Standard operating procedures",
           "Staff training workflows",
         ],
       }}
       conversion={
         <p>
-          The result is a practical AI system that supports your business
-          instead of distracting it.
+          The result is an AI system that supports your business instead of
+          distracting it.
         </p>
       }
-      ctaLabel="Book an AI Integration Call"
+      ctaLabel="Book a chat"
       relatedLinks={[
         { href: "/ai-agents-for-business/", label: "Custom AI Agents" },
         { href: "/ai-agent-hosting/", label: "AI Agent Hosting" },

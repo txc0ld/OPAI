@@ -6,7 +6,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/ai-agent-hosting/`;
 const TITLE = "AI Agent Hosting & Management | Managed AI Agents | OperateAI";
 const DESCRIPTION =
-  "Managed AI agent hosting, monitoring and optimisation for businesses. OperateAI hosts and manages AI agents so your team can use AI without technical overhead.";
+  "We host, watch and look after your AI agents so they keep working. Managed AI for businesses without technical staff in-house.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -16,19 +16,19 @@ export const metadata: Metadata = {
 
 const FAQS = [
   {
-    question: "What does managed AI agent hosting include?",
+    question: "What does managed AI hosting include?",
     answer:
-      "Hosting, access management, prompt and knowledge-base maintenance, workflow monitoring, performance reviews, issue troubleshooting, usage reporting, security controls, and ongoing improvement recommendations.",
+      "We host the agent, manage who can access it, keep its prompts and knowledge up to date, watch how it performs, fix issues, give you usage reports, and recommend improvements as things change.",
   },
   {
-    question: "How do you handle security and access controls?",
+    question: "How do you handle security and access?",
     answer:
-      "Every managed agent has defined access controls, logged activity, and a documented data-handling policy. We work with you to set role boundaries, retention rules and escalation paths before go-live.",
+      "Every agent we manage has clear access controls, logged activity, and a written data-handling policy. We agree the rules with you before go-live: who can use it, what it can see, how long things are kept.",
   },
   {
     question: "Can we cancel managed hosting?",
     answer:
-      "Yes. Managed AI hosting runs on a month-to-month basis after the initial setup period. On cancellation we provide an offboarding handover covering knowledge bases, prompts, configuration and documentation.",
+      "Yes. Managed AI runs month-to-month after the initial setup. If you cancel, we hand over the knowledge bases, prompts, configuration and documentation so you keep ownership.",
   },
 ];
 
@@ -42,42 +42,39 @@ export default function Page() {
       opening={
         <>
           <p>
-            Building an AI agent is only the first step. To be useful in a
-            business, it needs to be hosted, monitored, maintained, updated
-            and improved over time.
+            Building an AI agent is only step one. To be useful in a business,
+            it has to keep working: hosted, watched, updated, and fixed when
+            things change.
           </p>
           <p>
-            OperateAI provides managed AI agent hosting and support for
-            businesses that want the benefits of AI automation without
-            carrying the technical burden internally.
+            We do that part. You get the benefit of AI automation without
+            needing a technical team in-house.
           </p>
         </>
       }
       included={{
         heading: "What is included",
         items: [
-          "AI agent setup and deployment",
+          "Setup and deployment",
           "Hosting and access management",
-          "Prompt and instruction maintenance",
+          "Prompt and instruction upkeep",
           "Knowledge base updates",
           "Workflow monitoring",
           "Performance reviews",
-          "Issue troubleshooting",
-          "Usage reporting",
+          "Issue fixes",
+          "Usage reports",
           "Security and access controls",
-          "Ongoing improvement recommendations",
+          "Ongoing improvements",
         ],
       }}
       conversion={
         <p>
-          Managed AI agent hosting is suitable for businesses that want AI
-          systems operating reliably across customer support, sales, admin,
-          internal knowledge, training or operational workflows. It is
-          especially useful when your business does not have an internal AI
-          engineer or automation specialist.
+          Managed AI is a good fit when you want AI working quietly in the
+          background across customer support, sales, admin or operations,
+          without having to staff up a technical team to run it.
         </p>
       }
-      ctaLabel="View Managed AI Options"
+      ctaLabel="See managed AI options"
       relatedLinks={[
         { href: "/ai-agents-for-business/", label: "Custom AI Agents" },
         { href: "/ai-integration-services/", label: "AI Integration" },

@@ -9,11 +9,11 @@ export function SiteFooter() {
       <div className="mx-auto grid w-full max-w-[1200px] gap-12 md:grid-cols-[2fr_1fr_1fr]">
         <div>
           <Link href="/" aria-label="OperateAI home" className="inline-flex">
-            <Logo showPerth={false} />
+            <Logo />
           </Link>
           <p className="mt-4 max-w-[340px] text-sm leading-[1.6] text-[var(--color-w50)]">
             AI agents, automation, hosting and training for Australian small and medium businesses.
-            Based in Perth, Western Australia — supporting businesses across Australia and online
+            Based in Perth, Western Australia. Working with businesses across Australia and online
             worldwide.
           </p>
         </div>

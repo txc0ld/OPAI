@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { BUSINESS } from "@/lib/business";
 
-export const alt = "OperateAI — AI agents, automation, hosting and training for Australian businesses";
+export const alt = "OperateAI. AI agents, automation, hosting and training for Australian businesses.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

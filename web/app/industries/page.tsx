@@ -7,7 +7,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/industries/`;
 const TITLE = "AI by Industry | OperateAI";
 const DESCRIPTION =
-  "AI agents, automation and training tailored to industries — accounting, real estate, trades, health, law and ecommerce. OperateAI helps reduce admin and improve operations.";
+  "AI agents, automation and training built for specific industries. Accounting, real estate, trades, health, law and ecommerce. Plain-English help for any team.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -36,8 +36,9 @@ export default function Page() {
             AI by industry
           </h1>
           <p className="mt-8 max-w-[var(--measure)] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            Practical AI agents, automation and training tailored to common Australian small- and
-            medium-business sectors.
+            AI agents, automation and training tailored to the sectors most
+            small and medium businesses sit in. Plain-English for first-timers,
+            deep for technical teams.
           </p>
         </div>
       </section>
@@ -73,8 +74,8 @@ export default function Page() {
             Don&apos;t see your industry?
           </h2>
           <p className="reveal mt-[22px] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            If your sector is not listed, it does not mean we cannot help. Book an audit and we will
-            assess fit directly.
+            That does not mean we cannot help. Book an audit and we will work
+            out whether AI fits your situation.
           </p>
           <div className="reveal mt-10 flex justify-center">
             <Link

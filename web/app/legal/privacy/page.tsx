@@ -54,7 +54,7 @@ export default function PrivacyPage() {
           <h2>Your rights</h2>
           <p>
             You can request access to or correction of personal information we hold about you, or
-            lodge a complaint, by contacting <strong>privacy@operateai.com.au</strong>. We acknowledge
+            lodge a complaint, by contacting <strong>team@operateai.com.au</strong>. We acknowledge
             requests within five business days.
           </p>
 

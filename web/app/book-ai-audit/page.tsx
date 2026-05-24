@@ -8,7 +8,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/book-ai-audit/`;
 const TITLE = "Book an AI Business Audit | OperateAI";
 const DESCRIPTION =
-  "Book an AI Business Audit with OperateAI. A focused review of your workflows, tools, risks and AI opportunities, with a prioritised implementation roadmap.";
+  "Book an AI Business Audit. A simple, structured look at your tools, your workflows, and where AI could actually help. Plain-English plan, no slide deck.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -17,33 +17,38 @@ export const metadata: Metadata = {
 };
 
 const DELIVERABLES = [
-  "Workflow review",
-  "AI opportunity map",
-  "Risk and feasibility assessment",
-  "Recommended tools and systems",
-  "Prioritised implementation roadmap",
-  "Next-step proposal",
+  "A look at how your business currently runs",
+  "A map of where AI could help most",
+  "Honest risk and feasibility notes",
+  "Suggested tools and systems",
+  "A plan ranked by value, effort and risk",
+  "Next-step proposal if you want to keep going",
 ];
 
 const FAQS = [
   {
     question: "How long is the audit?",
     answer:
-      "The audit is typically delivered over 1 to 2 weeks, depending on the size of your business and the number of workflows under review.",
+      "Usually 1 to 2 weeks. Bigger businesses with more workflows take a little longer.",
   },
   {
     question: "What do we need to prepare?",
     answer:
-      "An overview of your business, a list of the tools and systems you currently use, the workflows that consume the most time, and (if available) any prior AI tool usage your team has experimented with.",
+      "A quick overview of your business, a list of the tools and systems you use, the parts of your week that take the most time, and (if relevant) any AI tools your team has already played with.",
   },
   {
     question: "What happens after the audit?",
     answer:
-      "You receive a prioritised implementation roadmap and a next-step proposal. From there you can engage OperateAI for an AI Integration Sprint, custom AI agent build, training, or managed AI operations — or take the roadmap to another provider.",
+      "You get a clear plan and a proposal for what to do first. You can keep working with us on integration, custom agents, training or managed AI, or take the plan to someone else. Either way, you keep it.",
+  },
+  {
+    question: "Is this for businesses that have never used AI?",
+    answer:
+      "Yes. The audit is just as useful if you have never used AI at all. We focus on the work, not the tech. You will leave with a plain-English plan you can act on, even if you have no technical staff.",
   },
 ];
 
-const BOOKING_HREF = "mailto:hello@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry";
+const BOOKING_HREF = "mailto:team@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry";
 
 export default function Page() {
   return (
@@ -55,7 +60,7 @@ export default function Page() {
             name: "AI Business Audit",
             url: PAGE_URL,
             description:
-              "A focused review of your business workflows, tools, risks and AI opportunities, delivering a prioritised AI implementation roadmap.",
+              "A simple, structured look at your tools, workflows and where AI could actually help, with a plain-English plan and risk notes.",
           }),
         ])}
       />
@@ -68,10 +73,15 @@ export default function Page() {
           </h1>
           <div className="mt-8 max-w-[var(--measure)] space-y-5 text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
             <p>
-              A focused review of your business workflows, tools, risks and AI opportunities. Best for
-              businesses that want a clear starting point before investing in AI implementation.
+              The fastest way to start. We look at your tools, your workflows
+              and where AI could actually help. You leave with a plain-English
+              plan, not vague ideas.
             </p>
-            <p>You will leave with a prioritised implementation roadmap instead of vague AI ideas.</p>
+            <p>
+              Best if you want a clear starting point before you commit to
+              anything bigger. Works the same whether you have never used AI
+              or you already have a few things running.
+            </p>
           </div>
           <div className="mt-10 flex flex-wrap gap-[14px]">
             {/* TODO(operator): replace mailto + data-booking-url placeholder with the real
@@ -95,9 +105,9 @@ export default function Page() {
 
       <section className="border-t border-[var(--color-w10)] bg-[var(--color-bg)] px-6 py-24 lg:px-12 lg:py-32">
         <div className="mx-auto w-full max-w-[1200px]">
-          <span className="eyebrow">What you receive</span>
+          <span className="eyebrow">What you get</span>
           <h2 className="reveal mt-6 text-[clamp(28px,4vw,44px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
-            Six deliverables
+            Six things, plain English
           </h2>
           <ul className="mt-10 grid list-none gap-x-12 gap-y-3 sm:grid-cols-2">
             {DELIVERABLES.map((d) => (
@@ -120,8 +130,8 @@ export default function Page() {
             Ready when you are.
           </h2>
           <p className="reveal mt-[22px] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            We will identify the best opportunities, the risks to avoid, and the clearest next steps
-            for implementation.
+            Tell us a bit about your business. We will work out the best
+            opportunities, the things to avoid, and what to do first.
           </p>
           <div className="reveal mt-10 flex justify-center">
             <Link

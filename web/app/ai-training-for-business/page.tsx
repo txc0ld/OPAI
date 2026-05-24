@@ -6,7 +6,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/ai-training-for-business/`;
 const TITLE = "AI Training for Business | Practical AI Training for SMBs | OperateAI";
 const DESCRIPTION =
-  "Practical AI training for small and medium businesses. Train owners, managers and staff to use AI tools, prompts, workflows and agents safely and effectively.";
+  "Plain-English AI training for small and medium businesses. Show your team how to actually use AI tools, whatever their starting point.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -18,17 +18,17 @@ const FAQS = [
   {
     question: "Do you train teams that have never used AI before?",
     answer:
-      "Yes. Our beginner sessions assume zero prior experience and focus on what AI can and cannot do, how to use tools like ChatGPT effectively, and how to avoid common mistakes.",
+      "Yes. Beginner sessions assume zero experience. We cover what AI is good at, what it is not, how to use tools like ChatGPT properly, and the common mistakes to avoid.",
   },
   {
     question: "Is training delivered in person or online?",
     answer:
-      "Both. In-person sessions are available in Perth and on request elsewhere in Australia. Online sessions are available worldwide.",
+      "Both. In-person sessions are available in Perth, and on request elsewhere in Australia. Online sessions are available worldwide.",
   },
   {
     question: "Can you tailor training to our business?",
     answer:
-      "Yes. Sessions are built around your team capability, the tools you already use, and the workflows where AI can make the biggest difference.",
+      "Yes. Every session is built around your team, the tools you already use, and the work where AI will make the biggest difference.",
   },
 ];
 
@@ -41,42 +41,42 @@ export default function Page() {
       h1="Practical AI training for business owners and teams"
       opening={
         <>
-          <p>AI training should not be abstract, technical or filled with hype.</p>
+          <p>AI training should be practical, not buzzword soup.</p>
           <p>
-            OperateAI provides practical AI training for small and medium
-            businesses that want their owners, managers and staff to use AI
-            tools confidently, safely and productively.
+            We teach owners, managers and staff how to actually use AI tools at
+            work. Whether someone on your team has never opened ChatGPT, or
+            they already build agents, we meet them where they are.
           </p>
         </>
       }
       body={
         <>
-          <h2 className="font-heading text-[1.5rem] font-bold uppercase tracking-[-0.02em] text-[var(--color-on-surface)]">
-            Training levels
+          <h2 className="font-heading text-[1.5rem] font-bold uppercase tracking-[-0.02em] text-[var(--color-fg)]">
+            Three levels
           </h2>
           <div className="space-y-5">
             <div>
               <h3 className="font-heading text-[1.125rem] font-bold uppercase tracking-[-0.01em]">Beginner</h3>
               <p>
-                For teams starting from zero. Learn what AI can do, where it
-                fits in business, how to use tools like ChatGPT effectively,
-                and how to avoid common mistakes.
+                For teams starting from zero. Learn what AI can and cannot do,
+                how to use tools like ChatGPT properly, and the common mistakes
+                to avoid.
               </p>
             </div>
             <div>
               <h3 className="font-heading text-[1.125rem] font-bold uppercase tracking-[-0.01em]">Intermediate</h3>
               <p>
                 For teams already using AI casually. Learn stronger prompting,
-                repeatable workflows, document handling, task automation and
-                team-wide usage standards.
+                repeatable workflows, document handling, and team standards
+                everyone can follow.
               </p>
             </div>
             <div>
               <h3 className="font-heading text-[1.125rem] font-bold uppercase tracking-[-0.01em]">Advanced</h3>
               <p>
-                For technical or operations-focused teams. Learn AI agent
+                For technical or operations-focused teams. Cover AI agent
                 workflows, automation planning, knowledge base design, tool
-                selection, governance and implementation methods.
+                selection, governance and rollout.
               </p>
             </div>
           </div>
@@ -85,19 +85,19 @@ export default function Page() {
       included={{
         heading: "Training topics",
         items: [
-          "AI fundamentals for business",
-          "Prompting for practical work",
-          "AI for admin, sales and operations",
-          "AI-assisted writing and documentation",
-          "AI workflow design",
-          "AI agents and automation",
+          "AI basics for business",
+          "Prompting that actually works",
+          "AI for admin, sales and ops",
+          "AI-assisted writing and docs",
+          "Designing AI workflows",
+          "Agents and automation",
           "AI policy and governance",
           "Safe use of business data",
-          "Tool selection and implementation",
-          "Team adoption and change management",
+          "Picking the right tools",
+          "Getting your team onboard",
         ],
       }}
-      ctaLabel="Book AI Training"
+      ctaLabel="Book AI training"
       relatedLinks={[
         { href: "/ai-integration-services/", label: "AI Integration" },
         { href: "/ai-agents-for-business/", label: "Custom AI Agents" },

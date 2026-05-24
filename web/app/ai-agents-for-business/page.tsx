@@ -6,7 +6,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/ai-agents-for-business/`;
 const TITLE = "AI Agents for Business | Custom AI Agents for SMBs | OperateAI";
 const DESCRIPTION =
-  "Custom AI agents for small and medium businesses. Build AI agents for customer support, admin, sales, operations, documents and internal knowledge workflows.";
+  "Custom AI agents for small and medium businesses. We build helpers for customer support, admin, sales, operations, documents and internal knowledge.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -18,17 +18,17 @@ const FAQS = [
   {
     question: "What is the difference between an AI agent and a chatbot?",
     answer:
-      "A chatbot follows a fixed script. An AI agent has a defined role, access to the right business information, clear instructions, usage boundaries, and a workflow it is designed to support. Agents can retrieve information, draft responses, process documents and operate across multiple steps.",
+      "A chatbot follows a fixed script. An AI agent has a clear role, the right business information, clear instructions, and a job to do. Agents can look things up, draft replies, process documents, and work through more than one step on their own.",
   },
   {
     question: "Where do AI agents store our business information?",
     answer:
-      "We design agents with a defined knowledge boundary — typically a curated knowledge base of FAQs, policies, documents or procedures that you control. We do not feed customer data into public training pipelines, and access controls are part of every build.",
+      "In a knowledge area you control. It is usually a curated set of FAQs, policies, documents or procedures. We do not push your customer data into public training pipelines, and every agent has access controls baked in.",
   },
   {
     question: "Can AI agents connect to our existing tools?",
     answer:
-      "Yes. Agents can be wired to CRMs, helpdesks, document stores, ticketing systems, calendars and similar tools where the integration is supported and authorised. Scope is defined per build.",
+      "Yes. Agents can hook into CRMs, helpdesks, document stores, ticketing systems, calendars and similar tools where the integration is supported and you have the permissions. Scope is decided per build.",
   },
 ];
 
@@ -42,61 +42,59 @@ export default function Page() {
       opening={
         <>
           <p>
-            AI agents can help your business handle repetitive,
-            information-heavy and process-driven work with greater speed and
-            consistency.
+            An AI agent is a helper with one clear job. It can answer customer
+            questions, look things up in your documents, draft messages,
+            qualify leads, or work through a process for your team.
           </p>
           <p>
-            OperateAI designs and builds custom AI agents for small and medium
-            businesses. These agents can support staff, assist customers,
-            retrieve business information, process documents, draft responses,
-            qualify leads and help automate routine workflows.
+            We design and build these agents for small and medium businesses.
+            Whether you have never used one before, or you already have a few
+            running, we will build the right one for your work.
           </p>
         </>
       }
       body={
         <>
-          <h2 className="font-heading text-[1.5rem] font-bold uppercase tracking-[-0.02em] text-[var(--color-on-surface)]">
+          <h2 className="font-heading text-[1.5rem] font-bold uppercase tracking-[-0.02em] text-[var(--color-fg)]">
             An AI agent is not just a chatbot.
           </h2>
           <p>
-            A properly designed AI agent has a defined role, access to the
-            right business information, clear instructions, usage boundaries
-            and a workflow it is designed to support.
+            A good AI agent has a clear job, the right information, clear
+            instructions, and limits on what it can and cannot do. That is
+            what makes it actually useful in a real business.
           </p>
         </>
       }
       included={{
         heading: "What every agent we build includes",
         items: [
-          "Clearly defined role and scope",
-          "Curated knowledge base",
-          "Guardrails and refusal behaviour",
-          "Escalation paths to humans",
-          "Documentation for staff and operators",
-          "Logging and review hooks",
-          "Performance tuning over time",
-          "Access controls and data handling rules",
+          "A clear job and scope",
+          "A curated knowledge base",
+          "Safety rules and refusal behaviour",
+          "An escalation path to a human",
+          "Documentation for your team",
+          "Logging so you can review what it did",
+          "Tuning over time as you use it",
+          "Access controls and data rules",
         ],
       }}
       secondaryList={{
-        heading: "Agent examples",
+        heading: "What agents we usually build",
         items: [
-          "Customer support agent trained on your FAQs, policies and service information",
-          "Internal staff assistant trained on procedures, documents and business knowledge",
-          "Sales assistant for lead qualification, follow-up and proposal drafting",
-          "Operations assistant for task summaries, handovers and workflow support",
-          "Admin assistant for intake forms, emails, document drafting and data extraction",
-          "Training assistant for onboarding and staff education",
+          "A customer support helper trained on your FAQs and policies",
+          "An internal staff helper trained on your procedures and docs",
+          "A sales helper that qualifies leads and drafts follow-ups",
+          "An operations helper for summaries, handovers and task notes",
+          "An admin helper for intake forms, emails and data extraction",
+          "A training helper for onboarding new staff",
         ],
       }}
       conversion={
         <p>
-          Poorly designed AI agents create risk, confusion and inconsistent
-          results. OperateAI designs agents with clear scope, guardrails,
-          escalation paths, documentation and ongoing improvement. The goal is
-          not to replace your team. The goal is to give your team better
-          systems.
+          A badly designed agent creates risk and confusion. A well-designed
+          one quietly takes work off your team. We do not build agents to
+          replace people. We build them so people can spend time on the work
+          that needs them.
         </p>
       }
       ctaLabel="Discuss an AI Agent Build"
