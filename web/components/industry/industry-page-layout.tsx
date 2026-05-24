@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, wrapGraph } from "@/lib/schema";
@@ -12,6 +13,8 @@ export type IndustryPageLayoutProps = {
   opening: ReactNode;
   useCases: string[];
   relatedLinks: { href: string; label: string }[];
+  /** Optional hero image displayed alongside the H1 + opening. */
+  heroImage?: { src: string; alt: string };
 };
 
 export function IndustryPageLayout({
@@ -23,28 +26,49 @@ export function IndustryPageLayout({
   opening,
   useCases,
   relatedLinks,
+  heroImage,
 }: IndustryPageLayoutProps) {
   return (
     <>
       <JsonLd schema={wrapGraph([buildWebPage({ url: pageUrl, title, description })])} />
 
       <section className="bg-[var(--color-bg)] px-6 pt-[140px] pb-24 lg:px-12 lg:pt-[180px] lg:pb-32">
-        <div className="mx-auto w-full max-w-[1200px]">
-          <span className="eyebrow">OperateAI · Industries · {industry}</span>
-          <h1 className="mt-6 max-w-[18ch] text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
-            {h1}
-          </h1>
-          <div className="mt-8 max-w-[var(--measure)] space-y-5 text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            {opening}
+        <div
+          className={
+            heroImage
+              ? "mx-auto grid w-full max-w-[1200px] items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16"
+              : "mx-auto w-full max-w-[1200px]"
+          }
+        >
+          <div>
+            <span className="eyebrow">OperateAI · Industries · {industry}</span>
+            <h1 className="mt-6 max-w-[18ch] text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
+              {h1}
+            </h1>
+            <div className="mt-8 max-w-[var(--measure)] space-y-5 text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
+              {opening}
+            </div>
+            <div className="mt-10">
+              <Link
+                href="/book-ai-audit/"
+                className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                Discuss AI for your {industry} business →
+              </Link>
+            </div>
           </div>
-          <div className="mt-10">
-            <Link
-              href="/book-ai-audit/"
-              className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              Discuss AI for your {industry} business →
-            </Link>
-          </div>
+          {heroImage ? (
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--color-w10)] bg-[#060606]">
+              <Image
+                src={heroImage.src}
+                alt={heroImage.alt}
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+          ) : null}
         </div>
       </section>
 

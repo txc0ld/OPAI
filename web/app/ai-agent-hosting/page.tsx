@@ -39,6 +39,10 @@ export default function Page() {
       title={TITLE}
       description={DESCRIPTION}
       h1="Managed AI agent hosting and support"
+      heroImage={{
+        src: "/operateai_04_automation_flow.webp",
+        alt: "A diagram showing TRIGGER, AI AGENT, ACTION and NOTIFY nodes connected — a managed automation flow OperateAI runs for you.",
+      }}
       opening={
         <>
           <p>

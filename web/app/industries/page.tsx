@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, wrapGraph } from "@/lib/schema";
@@ -30,16 +31,28 @@ export default function Page() {
       <JsonLd schema={wrapGraph([buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION })])} />
 
       <section className="bg-[var(--color-bg)] px-6 pt-[140px] pb-16 lg:px-12 lg:pt-[180px] lg:pb-24">
-        <div className="mx-auto w-full max-w-[1200px]">
-          <span className="eyebrow">OperateAI · Industries</span>
-          <h1 className="mt-6 text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
-            AI by industry
-          </h1>
-          <p className="mt-8 max-w-[var(--measure)] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            AI agents, automation and training tailored to the sectors most
-            small and medium businesses sit in. Plain-English for first-timers,
-            deep for technical teams.
-          </p>
+        <div className="mx-auto grid w-full max-w-[1200px] items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+          <div>
+            <span className="eyebrow">OperateAI · Industries</span>
+            <h1 className="mt-6 text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
+              AI by industry
+            </h1>
+            <p className="mt-8 max-w-[var(--measure)] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
+              AI agents, automation and training tailored to the sectors most
+              small and medium businesses sit in. Plain-English for first-timers,
+              deep for technical teams.
+            </p>
+          </div>
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--color-w10)] bg-[#060606]">
+            <Image
+              src="/operateai_01_laptop_hero.webp"
+              alt="A laptop on a stone slab showing the OperateAI homepage with 'Automate. Delegate. Elevate.' headline."
+              fill
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
       </section>
 

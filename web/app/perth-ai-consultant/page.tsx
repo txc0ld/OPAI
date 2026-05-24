@@ -44,6 +44,10 @@ export default function Page() {
         title={TITLE}
         description={DESCRIPTION}
         h1="AI consultant in Perth for small and medium businesses"
+        heroImage={{
+          src: "/operateai_05_dark_building.webp",
+          alt: "A modern dark commercial building lit by a lime accent strip — OperateAI working with Perth and WA businesses.",
+        }}
         opening={
           <>
             <p>

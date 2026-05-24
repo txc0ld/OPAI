@@ -39,6 +39,10 @@ export default function Page() {
       title={TITLE}
       description={DESCRIPTION}
       h1="AI integration services for small and medium businesses"
+      heroImage={{
+        src: "/operateai_03_workflow_key.webp",
+        alt: "A keyboard key labelled WORKFLOW AUTOMATED in lime — symbolising AI plugged into the tools you already use.",
+      }}
       opening={
         <>
           <p>
