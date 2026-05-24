@@ -390,7 +390,10 @@ export default function Home() {
                   key={s.n}
                   className="reveal grid grid-cols-1 gap-2 border-b border-black/10 py-8 md:grid-cols-[90px_200px_1fr] md:items-baseline md:gap-8"
                 >
-                  <span className="font-mono text-[42px] font-medium tracking-[-0.02em] text-black/[0.18]">
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-[42px] font-medium tracking-[-0.02em] text-black/[0.18]"
+                  >
                     {s.n}
                   </span>
                   <h3 className="text-[22px] font-bold tracking-[-0.02em] text-[var(--color-ink)]">
