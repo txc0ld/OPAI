@@ -407,16 +407,9 @@ export function ParticleCanvas() {
     };
     document.addEventListener("visibilitychange", onVisibility);
 
-    // Render at 50% resolution on touch devices. CSS upscales the result
-    // back to full viewport size. Costs the GPU one cheap bilinear scale
-    // and saves ~75% of fill-rate per frame, which is the main reason the
-    // canvas was glitchy on iOS Safari during scroll.
-    const renderScale = coarsePointer ? 0.5 : 1;
     function sizeCanvas() {
-      W = canvas.width = Math.round(window.innerWidth * renderScale);
-      H = canvas.height = Math.round(window.innerHeight * renderScale);
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
     }
 
     function boot() {
