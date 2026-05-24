@@ -449,13 +449,18 @@ export function ParticleCanvas() {
       t0 = performance.now();
       rafId = requestAnimationFrame(frame);
     }
+    // Kick the canvas off. We try to preload Orbitron first so the first
+    // sampleText() renders in the right font, but we ALWAYS call boot() —
+    // success OR failure of the font load — so a font-load rejection (which
+    // can happen with next/font's hashed family name in some browsers)
+    // never leaves the canvas un-started.
     if (document.fonts && document.fonts.ready) {
       Promise.race([
         document.fonts
           .load(`900 100px ${orbitronFamily}`)
           .then(() => document.fonts.ready),
         new Promise((r) => setTimeout(r, 1000)),
-      ]).then(boot);
+      ]).then(boot, boot);
     } else {
       boot();
     }
