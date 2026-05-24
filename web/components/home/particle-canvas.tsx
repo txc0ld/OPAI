@@ -427,7 +427,7 @@ export function ParticleCanvas() {
         aria-hidden="true"
         className="pointer-events-none fixed bottom-[38px] left-1/2 z-[4] -translate-x-1/2 text-center"
       >
-        <small className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-w30)]">
+        <small className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-w50)]">
           Scroll
         </small>
         <svg viewBox="0 0 16 14" fill="none" className="mt-3 inline-block h-[14px] w-[16px] animate-[bob_2s_ease_infinite]">

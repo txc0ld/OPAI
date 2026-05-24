@@ -28,7 +28,7 @@ export function Prose({ children, className }: ProseProps) {
         "[&_code]:font-mono [&_code]:text-[0.875em] [&_code]:bg-[var(--color-w10)] [&_code]:px-[0.35em] [&_code]:py-[0.1em] [&_code]:rounded-[3px] [&_code]:text-[var(--color-fg)]",
         "[&_blockquote]:my-10 [&_blockquote]:pl-6 [&_blockquote]:border-l [&_blockquote]:border-[var(--color-accent)] [&_blockquote]:italic [&_blockquote]:text-[var(--color-fg)]",
         "[&_blockquote_p]:my-2",
-        "[&_.footnote]:font-mono [&_.footnote]:text-[0.8125rem] [&_.footnote]:leading-[1.5] [&_.footnote]:text-[var(--color-w30)] [&_.footnote]:mt-12 [&_.footnote]:pt-6 [&_.footnote]:border-t [&_.footnote]:border-[var(--color-w10)]",
+        "[&_.footnote]:font-mono [&_.footnote]:text-[0.8125rem] [&_.footnote]:leading-[1.5] [&_.footnote]:text-[var(--color-w50)] [&_.footnote]:mt-12 [&_.footnote]:pt-6 [&_.footnote]:border-t [&_.footnote]:border-[var(--color-w10)]",
         className,
       )}
     >

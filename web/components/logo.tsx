@@ -11,7 +11,8 @@ export function Logo({ className }: LogoProps) {
         "inline-flex items-center gap-2 font-bold text-[15px] leading-none tracking-[-0.02em]",
         className,
       )}
-      aria-label="OperateAI. AI for small business."
+      role="img"
+      aria-label="OperateAI"
     >
       <span className="power-dot" aria-hidden="true" />
       <span>OperateAI</span>

@@ -57,7 +57,7 @@ export function IndustryPageLayout({
           <ul className="mt-10 grid list-none gap-x-12 gap-y-3 sm:grid-cols-2">
             {useCases.map((u, i) => (
               <li key={u} className="reveal flex items-start gap-[14px] border-b border-[var(--color-w10)] py-[18px] text-[16px] text-[var(--color-w70)]">
-                <span className="min-w-[24px] font-mono text-[12px] text-[var(--color-w30)]">
+                <span className="min-w-[24px] font-mono text-[12px] text-[var(--color-w50)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span>{u}</span>

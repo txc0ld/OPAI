@@ -40,7 +40,7 @@ export function SiteHeader() {
         "lg:h-[62px] lg:px-10",
       )}
     >
-      <Link href="/" aria-label="OperateAI home" className="flex items-center">
+      <Link href="/" className="flex items-center">
         <Logo />
       </Link>
 
@@ -86,7 +86,11 @@ export function SiteHeader() {
 
       <div
         id="mobile-nav"
-        aria-hidden={!open}
+        // Use `inert` (not `aria-hidden`) when closed: this makes the entire
+        // subtree non-focusable AND inaccessible to assistive tech, which is
+        // what we want for a hidden off-canvas nav. aria-hidden with focusable
+        // children inside fails axe rule "aria-hidden-focus".
+        {...(!open ? { inert: "" as unknown as undefined } : {})}
         className={cn(
           "fixed inset-x-0 top-[58px] z-40 bg-black/95 backdrop-blur-[14px] lg:hidden",
           "origin-top transition-[opacity,transform] duration-200 ease-out",
