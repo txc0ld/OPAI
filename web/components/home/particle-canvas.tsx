@@ -13,6 +13,11 @@ import { useEffect } from "react";
  */
 export function ParticleCanvas() {
   useEffect(() => {
+    // Respect prefers-reduced-motion. Skip the animation entirely and let the
+    // CSS fallback (visible H1 on the hero stage) carry the visual.
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;
@@ -20,6 +25,12 @@ export function ParticleCanvas() {
     const ctx = canvasEl.getContext("2d", { alpha: false });
     if (!ctx) return;
     const canvas = canvasEl;
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    // Hide the OS cursor only on fine pointers (the stir circle replaces it).
+    // On touch screens the stir is meaningless and cursor:none is inert anyway.
+    if (!coarsePointer) {
+      canvas.style.cursor = "none";
+    }
 
     const HERO_Y = 0.42;
     const TITLE_Y = 0.42;
@@ -349,10 +360,25 @@ export function ParticleCanvas() {
       }, 160);
     };
 
-    addEventListener("pointermove", onPointerMove);
-    addEventListener("pointerleave", onPointerLeave);
+    // Skip stir physics entirely on touch devices.
+    if (!coarsePointer) {
+      addEventListener("pointermove", onPointerMove);
+      addEventListener("pointerleave", onPointerLeave);
+    }
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
+
+    // Pause the RAF loop when the tab is hidden (battery + CPU saver).
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+      } else {
+        // Re-anchor t0 so animation timing doesn't jump after returning.
+        t0 = performance.now() - 0;
+        rafId = requestAnimationFrame(frame);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     function boot() {
       W = canvas.width = window.innerWidth;
@@ -374,10 +400,13 @@ export function ParticleCanvas() {
     return () => {
       cancelAnimationFrame(rafId);
       if (resizeTimer) clearTimeout(resizeTimer);
-      removeEventListener("pointermove", onPointerMove);
-      removeEventListener("pointerleave", onPointerLeave);
+      if (!coarsePointer) {
+        removeEventListener("pointermove", onPointerMove);
+        removeEventListener("pointerleave", onPointerLeave);
+      }
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
@@ -387,7 +416,6 @@ export function ParticleCanvas() {
         id="particle-canvas"
         aria-hidden="true"
         className="pointer-events-auto fixed inset-0 z-[2] block"
-        style={{ cursor: "none" }}
       />
       <div
         id="particle-stir"

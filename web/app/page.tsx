@@ -138,7 +138,12 @@ export default function Home() {
 
       {/* Stage 1: hero */}
       <StageShell stageId="stage-top" bodyId="body-top">
-        <h1 className="sr-only">AI agents and automation for small businesses.</h1>
+        {/* sr-only by default (visible title is rendered by the particle canvas);
+            unhidden as a real display heading when prefers-reduced-motion is set
+            and the canvas is skipped. */}
+        <h1 className="sr-only motion-reduce:not-sr-only motion-reduce:mb-8 motion-reduce:block motion-reduce:max-w-[18ch] motion-reduce:text-[clamp(40px,7vw,88px)] motion-reduce:font-extrabold motion-reduce:leading-[1] motion-reduce:tracking-[-0.04em]">
+          AI agents and automation for small businesses.
+        </h1>
         <span className="eyebrow mb-[22px]">OperateAI · For small businesses</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           Curious about using AI in your business but not sure where to start? We help small and

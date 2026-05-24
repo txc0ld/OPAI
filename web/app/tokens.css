@@ -34,7 +34,6 @@
   --font-sans: var(--font-jakarta);
   --font-heading: var(--font-jakarta);
   --font-mono: var(--font-jetbrains);
-  --font-grotesk: var(--font-grotesk);
 
   /* Typographic scale */
   --text-display: clamp(48px, 9vw, 132px);

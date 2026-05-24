@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans, Schibsted_Grotesk } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StructuredData } from "@/components/structured-data";
@@ -13,16 +13,11 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const grotesk = Schibsted_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-grotesk",
-  display: "swap",
-});
-
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
   display: "swap",
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -87,7 +82,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU" className={`${jakarta.variable} ${grotesk.variable} ${mono.variable}`}>
+    <html lang="en-AU" className={`${jakarta.variable} ${mono.variable}`}>
       <body>
         <StructuredData />
         <ScrollReveal />
