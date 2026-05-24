@@ -13,10 +13,11 @@ import { useEffect } from "react";
  */
 export function ParticleCanvas() {
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    // a11y: still honour prefers-reduced-motion.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    // Respect prefers-reduced-motion. Skip the animation entirely and let the
+    // CSS fallback (visible H1 on the hero stage) carry the visual.
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;
@@ -24,25 +25,12 @@ export function ParticleCanvas() {
     const ctx = canvasEl.getContext("2d", { alpha: false });
     if (!ctx) return;
     const canvas = canvasEl;
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    // Hide the OS cursor only on fine pointers (the stir circle replaces it).
+    // On touch screens the stir is meaningless and cursor:none is inert anyway.
     if (!coarsePointer) {
-      // Desktop: hide OS cursor, stir circle replaces it. Don't set transform
-      // or will-change here — they're an iOS-only fix and can interact badly
-      // with desktop compositor layout.
       canvas.style.cursor = "none";
-    } else {
-      // Touch/iOS path: pointer-events:none so scrolling passes through, and
-      // GPU layer promotion so iOS Safari keeps painting the canvas during
-      // the touch scroll gesture instead of freezing it on the compositor.
-      canvas.style.pointerEvents = "none";
-      canvas.style.transform = "translateZ(0)";
-      canvas.style.willChange = "transform";
     }
-    // Read the next/font-generated Orbitron family name so the canvas can
-    // draw the big "Ai" title in the same typeface as the rest of the brand.
-    const orbitronFamily =
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--font-orbitron")
-        .trim() || "Orbitron";
 
     const HERO_Y = 0.42;
     const TITLE_Y = 0.42;
@@ -115,7 +103,7 @@ export function ParticleCanvas() {
       const lh = fontSize * 1.04;
       ctx!.fillStyle = "#000";
       ctx!.fillRect(0, 0, W, H);
-      ctx!.font = `900 ${fontSize}px ${orbitronFamily}, "Orbitron", sans-serif`;
+      ctx!.font = `800 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
       ctx!.textBaseline = "middle";
       const top = cy - ((lines.length - 1) * lh) / 2;
       const dotBoxes: { x: number; y: number; w: number; h: number }[] = [];
@@ -231,48 +219,20 @@ export function ParticleCanvas() {
       }
     }
 
-    // iOS Safari does not update window.scrollY during a touch-scroll gesture
-    // (only after it ends). visualViewport.pageTop DOES update live, so we
-    // read it on touch. Desktop uses window.scrollY directly because some
-    // desktop browsers can produce non-numeric pageTop values in edge cases.
-    function getScrollY(): number {
-      if (coarsePointer && window.visualViewport) {
-        return window.visualViewport.pageTop;
+    function onScroll() {
+      let act = 0;
+      for (let i = 0; i < stages.length; i++) {
+        if (window.scrollY + window.innerHeight * 0.5 >= stages[i].top) act = i;
       }
-      return window.scrollY;
-    }
-
-    // Scroll handler coalesces its DOM writes onto the next animation frame.
-    // Multiple scroll events that fire within a single frame share one
-    // style update; layout writes only happen inside an rAF tick.
-    let pendingScrollUpdate = false;
-    function applyScrollStyles() {
-      const y = getScrollY();
+      activeIdx = act;
       for (const s of stages) {
-        const lp = clamp01((y - s.top) / s.range);
-        const asm = s.kind === "hero"
-          ? smoother(clamp01((lp - 0.62) / 0.34))
-          : smoother(clamp01((lp - 0.64) / 0.32));
+        const lp = clamp01((window.scrollY - s.top) / s.range);
+        const asm = s.kind === "hero" ? smoother(clamp01((lp - 0.62) / 0.34)) : smoother(clamp01((lp - 0.64) / 0.32));
         s.body.style.opacity = asm.toFixed(3);
         s.body.style.transform = `translateY(${((1 - asm) * 60).toFixed(1)}px)`;
       }
       if (stages[0]) {
-        scrollcue!.style.opacity = (1 - clamp01((y / stages[0].range) / 0.1)).toFixed(3);
-      }
-    }
-    function onScroll() {
-      const y = getScrollY();
-      let act = 0;
-      for (let i = 0; i < stages.length; i++) {
-        if (y + window.innerHeight * 0.5 >= stages[i].top) act = i;
-      }
-      activeIdx = act;
-      if (!pendingScrollUpdate) {
-        pendingScrollUpdate = true;
-        requestAnimationFrame(() => {
-          applyScrollStyles();
-          pendingScrollUpdate = false;
-        });
+        scrollcue!.style.opacity = (1 - clamp01((window.scrollY / stages[0].range) / 0.1)).toFixed(3);
       }
     }
 
@@ -300,18 +260,8 @@ export function ParticleCanvas() {
           }
           if (elapsed > p.delay + FORM_DUR) p.done = true;
         } else if (morph > 0.001) {
-          // On coarse pointers (iOS), bypass the 0.5-per-frame ease and set
-          // positions directly from the scroll-driven morph. iOS Safari
-          // drops frames during touch scroll; with easing, particles fall
-          // behind the morph target and then snap visibly when frames
-          // resume. Direct-set gives renderFlow-style 1:1 scroll tracking.
-          if (coarsePointer) {
-            p.x = hx;
-            p.y = hy;
-          } else {
-            p.x += (hx - p.x) * 0.5;
-            p.y += (hy - p.y) * 0.5;
-          }
+          p.x += (hx - p.x) * 0.5;
+          p.y += (hy - p.y) * 0.5;
           p.vx = 0;
           p.vy = 0;
         } else {
@@ -375,10 +325,7 @@ export function ParticleCanvas() {
     function frame(now: number) {
       const elapsed = (now - t0) / 1000;
       const s = stages[activeIdx];
-      // Use visualViewport-aware scroll position so the canvas matches what
-      // the user sees during iOS touch scroll (window.scrollY is stale until
-      // the gesture ends, which is the root cause of the post-scroll flash).
-      const lp = s ? clamp01((getScrollY() - s.top) / s.range) : 0;
+      const lp = s ? clamp01((window.scrollY - s.top) / s.range) : 0;
       const resting = activeIdx === 0 && lp < 0.02;
       const fade = resting ? TRAIL : 0.85;
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
@@ -406,24 +353,20 @@ export function ParticleCanvas() {
     const onResize = () => {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        sizeCanvas();
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
         buildStages();
         onScroll();
       }, 160);
     };
 
-    // Stir physics only makes sense for fine pointers.
+    // Skip stir physics entirely on touch devices.
     if (!coarsePointer) {
       addEventListener("pointermove", onPointerMove);
       addEventListener("pointerleave", onPointerLeave);
     }
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
-    // Touch-only: also listen on visualViewport so iOS fires our scroll
-    // handler at touch-frequency instead of only at gesture end.
-    if (coarsePointer && window.visualViewport) {
-      window.visualViewport.addEventListener("scroll", onScroll, { passive: true });
-    }
 
     // Pause the RAF loop when the tab is hidden (battery + CPU saver).
     const onVisibility = () => {
@@ -437,30 +380,19 @@ export function ParticleCanvas() {
     };
     document.addEventListener("visibilitychange", onVisibility);
 
-    function sizeCanvas() {
+    function boot() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
-    }
-
-    function boot() {
-      sizeCanvas();
       buildStages();
       onScroll();
       t0 = performance.now();
       rafId = requestAnimationFrame(frame);
     }
-    // Kick the canvas off. We try to preload Orbitron first so the first
-    // sampleText() renders in the right font, but we ALWAYS call boot() —
-    // success OR failure of the font load — so a font-load rejection (which
-    // can happen with next/font's hashed family name in some browsers)
-    // never leaves the canvas un-started.
     if (document.fonts && document.fonts.ready) {
       Promise.race([
-        document.fonts
-          .load(`900 100px ${orbitronFamily}`)
-          .then(() => document.fonts.ready),
+        document.fonts.load('800 100px "Plus Jakarta Sans"').then(() => document.fonts.ready),
         new Promise((r) => setTimeout(r, 1000)),
-      ]).then(boot, boot);
+      ]).then(boot);
     } else {
       boot();
     }
@@ -474,9 +406,6 @@ export function ParticleCanvas() {
       }
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
-      if (coarsePointer && window.visualViewport) {
-        window.visualViewport.removeEventListener("scroll", onScroll);
-      }
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
@@ -498,7 +427,7 @@ export function ParticleCanvas() {
         aria-hidden="true"
         className="pointer-events-none fixed bottom-[38px] left-1/2 z-[4] -translate-x-1/2 text-center"
       >
-        <small className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-w50)]">
+        <small className="block font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-w30)]">
           Scroll
         </small>
         <svg viewBox="0 0 16 14" fill="none" className="mt-3 inline-block h-[14px] w-[16px] animate-[bob_2s_ease_infinite]">
