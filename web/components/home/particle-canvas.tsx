@@ -30,7 +30,18 @@ export function ParticleCanvas() {
     // On touch screens the stir is meaningless and cursor:none is inert anyway.
     if (!coarsePointer) {
       canvas.style.cursor = "none";
+    } else {
+      // On touch, let the canvas be invisible to pointer events so swipes go
+      // straight to the scroller. Without this, iOS Safari can pick the canvas
+      // up as the "scroll target" and produce visible jank/rubber-banding.
+      canvas.style.pointerEvents = "none";
     }
+    // Read the next/font-generated Orbitron family name so the canvas can
+    // draw the big "Ai" title in the same typeface as the rest of the brand.
+    const orbitronFamily =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--font-orbitron")
+        .trim() || "Orbitron";
 
     const HERO_Y = 0.42;
     const TITLE_Y = 0.42;
@@ -103,7 +114,7 @@ export function ParticleCanvas() {
       const lh = fontSize * 1.04;
       ctx!.fillStyle = "#000";
       ctx!.fillRect(0, 0, W, H);
-      ctx!.font = `800 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
+      ctx!.font = `900 ${fontSize}px ${orbitronFamily}, "Orbitron", sans-serif`;
       ctx!.textBaseline = "middle";
       const top = cy - ((lines.length - 1) * lh) / 2;
       const dotBoxes: { x: number; y: number; w: number; h: number }[] = [];
@@ -219,20 +230,30 @@ export function ParticleCanvas() {
       }
     }
 
+    // Lightweight scroll handler: only recompute the active stage index.
+    // All DOM style writes (body opacity/transform, scrollcue fade) happen
+    // inside the RAF loop in applyScrollStyles() to avoid layout thrashing
+    // and the iOS Safari scroll-jank pattern of style-writes-from-scroll.
     function onScroll() {
       let act = 0;
       for (let i = 0; i < stages.length; i++) {
         if (window.scrollY + window.innerHeight * 0.5 >= stages[i].top) act = i;
       }
       activeIdx = act;
+    }
+
+    function applyScrollStyles() {
+      const y = window.scrollY;
       for (const s of stages) {
-        const lp = clamp01((window.scrollY - s.top) / s.range);
-        const asm = s.kind === "hero" ? smoother(clamp01((lp - 0.62) / 0.34)) : smoother(clamp01((lp - 0.64) / 0.32));
+        const lp = clamp01((y - s.top) / s.range);
+        const asm = s.kind === "hero"
+          ? smoother(clamp01((lp - 0.62) / 0.34))
+          : smoother(clamp01((lp - 0.64) / 0.32));
         s.body.style.opacity = asm.toFixed(3);
         s.body.style.transform = `translateY(${((1 - asm) * 60).toFixed(1)}px)`;
       }
       if (stages[0]) {
-        scrollcue!.style.opacity = (1 - clamp01((window.scrollY / stages[0].range) / 0.1)).toFixed(3);
+        scrollcue!.style.opacity = (1 - clamp01((y / stages[0].range) / 0.1)).toFixed(3);
       }
     }
 
@@ -324,6 +345,10 @@ export function ParticleCanvas() {
 
     function frame(now: number) {
       const elapsed = (now - t0) / 1000;
+      // Apply scroll-driven body fades inside the rAF tick so we never write
+      // to layout from inside the scroll event itself (the source of the
+      // mobile jank).
+      applyScrollStyles();
       const s = stages[activeIdx];
       const lp = s ? clamp01((window.scrollY - s.top) / s.range) : 0;
       const resting = activeIdx === 0 && lp < 0.02;
@@ -390,7 +415,9 @@ export function ParticleCanvas() {
     }
     if (document.fonts && document.fonts.ready) {
       Promise.race([
-        document.fonts.load('800 100px "Plus Jakarta Sans"').then(() => document.fonts.ready),
+        document.fonts
+          .load(`900 100px ${orbitronFamily}`)
+          .then(() => document.fonts.ready),
         new Promise((r) => setTimeout(r, 1000)),
       ]).then(boot);
     } else {
