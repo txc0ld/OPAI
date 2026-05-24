@@ -60,7 +60,7 @@ export default function TermsPage() {
 
           <h2>Contact</h2>
           <p>
-            Commercial and contractual queries: <strong>team@operateai.com.au</strong>.
+            Commercial and contractual queries: <strong>legal@operateai.com.au</strong>.
           </p>
 
           <p className="footnote">Last updated: 24 May 2026 (placeholder).</p>

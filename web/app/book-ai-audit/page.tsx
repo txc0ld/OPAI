@@ -48,7 +48,7 @@ const FAQS = [
   },
 ];
 
-const BOOKING_HREF = "mailto:team@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry";
+const BOOKING_HREF = "mailto:hello@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry";
 
 export default function Page() {
   return (

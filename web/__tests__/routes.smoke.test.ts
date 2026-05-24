@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: { path: string; needle: RegExp }[] = [
-  { path: "/", needle: /AI agents and automation for small businesses/i },
+  // Homepage H1 is visually rendered via canvas + an sr-only fallback for screen readers.
+  // The smoke test looks for the hero lead paragraph which IS in the DOM as visible text.
+  { path: "/", needle: /Curious about using AI in your business/i },
   { path: "/ai-integration-services/", needle: /AI integration services for small and medium businesses/i },
   { path: "/ai-agents-for-business/", needle: /Custom AI agents for business workflows/i },
   { path: "/ai-agent-hosting/", needle: /Managed AI agent hosting and support/i },
