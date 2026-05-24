@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Section } from "@/components/section";
-import { SectionHeading } from "@/components/section-heading";
 import { Prose } from "@/components/prose";
 
 export const metadata: Metadata = {
@@ -11,14 +9,20 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <Section>
-        <SectionHeading
-          eyebrow="Legal"
-          title="Privacy"
-          lede="This is a placeholder. The final privacy policy will be drafted by counsel before public launch."
-        />
-      </Section>
-      <Section>
+      <section className="bg-[var(--color-bg)] px-6 pt-[140px] pb-16 lg:px-12 lg:pt-[180px] lg:pb-24">
+        <div className="mx-auto w-full max-w-[1200px]">
+          <span className="eyebrow">Legal</span>
+          <h1 className="mt-6 text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
+            Privacy
+          </h1>
+          <p className="mt-8 max-w-[var(--measure)] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
+            This is a placeholder. The final privacy policy will be drafted by counsel before public
+            launch.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-t border-[var(--color-w10)] bg-[var(--color-bg)] px-6 py-20 lg:px-12 lg:py-28">
         <Prose>
           <p>
             OperateAI operates in compliance with the Australian Privacy Principles under the
@@ -60,9 +64,9 @@ export default function PrivacyPage() {
             and published on this page with an effective date.
           </p>
 
-          <p className="footnote">Last updated: 25 April 2026 (placeholder).</p>
+          <p className="footnote">Last updated: 24 May 2026 (placeholder).</p>
         </Prose>
-      </Section>
+      </section>
     </>
   );
 }

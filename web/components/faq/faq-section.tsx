@@ -1,57 +1,44 @@
 import { JsonLd } from "@/components/json-ld";
-import { Section } from "@/components/section";
-import { SectionHeading } from "@/components/section-heading";
 import { buildFaqPage, type FaqItem } from "@/lib/schema";
 
 type FaqSectionProps = {
   heading?: string;
   eyebrow?: string;
   items: FaqItem[];
-  tone?: "paper" | "ink";
   emitSchema?: boolean;
 };
 
 export function FaqSection({
   heading = "Frequently asked questions",
-  eyebrow,
+  eyebrow = "FAQ",
   items,
-  tone = "paper",
   emitSchema = true,
 }: FaqSectionProps) {
   return (
-    <Section tone={tone} aria-labelledby="faq-heading">
-      <SectionHeading
-        eyebrow={eyebrow}
-        title={heading}
-        as="h2"
-        className="mb-10"
-      />
-      <dl className="border-[3px] border-black">
-        {items.map((item, i) => (
-          <div
-            key={item.question}
-            className={i === 0 ? "" : "border-t-[3px] border-black"}
-          >
-            <dt>
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-5 py-5 font-heading text-[1.0625rem] font-bold uppercase tracking-[-0.01em] hover:bg-[var(--color-primary-container)]">
-                  <span>{item.question}</span>
-                  <span
-                    aria-hidden="true"
-                    className="font-mono text-[1.25rem] leading-none transition-transform group-open:rotate-45"
-                  >
-                    +
-                  </span>
-                </summary>
-                <dd className="border-t-[3px] border-black px-5 py-5 text-[0.9375rem] leading-[1.6] text-[var(--color-muted)]">
-                  {item.answer}
-                </dd>
-              </details>
-            </dt>
-          </div>
-        ))}
-      </dl>
+    <section className="bg-[var(--color-bg)] px-6 py-24 lg:px-12 lg:py-32">
+      <div className="mx-auto w-full max-w-[1200px]">
+        <span className="eyebrow">{eyebrow}</span>
+        <h2 className="reveal mt-6 text-[clamp(28px,4vw,44px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
+          {heading}
+        </h2>
+        <div className="reveal mt-12 max-w-[860px]">
+          {items.map((f) => (
+            <details key={f.question} className="group border-b border-[var(--color-w10)]">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-[18px] font-semibold tracking-[-0.01em] transition-colors hover:text-[var(--color-fg)] [&::-webkit-details-marker]:hidden">
+                <span>{f.question}</span>
+                <span className="relative h-[18px] w-[18px] shrink-0">
+                  <span className="absolute left-1/2 top-1/2 h-[1.5px] w-[14px] -translate-x-1/2 -translate-y-1/2 bg-[var(--color-w50)]" />
+                  <span className="absolute left-1/2 top-1/2 h-[14px] w-[1.5px] -translate-x-1/2 -translate-y-1/2 bg-[var(--color-w50)] transition-transform duration-300 group-open:scale-y-0" />
+                </span>
+              </summary>
+              <div className="overflow-hidden pb-6 text-[15px] leading-[1.65] text-[var(--color-w70)]">
+                <p className="max-w-[760px]">{f.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
       {emitSchema ? <JsonLd schema={buildFaqPage(items)} /> : null}
-    </Section>
+    </section>
   );
 }

@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Section } from "@/components/section";
-import { SectionHeading } from "@/components/section-heading";
-import { Button } from "@/components/button";
-import { Reveal } from "@/components/reveal";
+import Link from "next/link";
 import { JsonLd } from "@/components/json-ld";
 import { buildService, buildWebPage, wrapGraph } from "@/lib/schema";
 import { FaqSection } from "@/components/faq/faq-section";
@@ -46,6 +43,8 @@ const FAQS = [
   },
 ];
 
+const BOOKING_HREF = "mailto:hello@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry";
+
 export default function Page() {
   return (
     <>
@@ -61,81 +60,79 @@ export default function Page() {
         ])}
       />
 
-      <Section tone="paper">
-        <Reveal>
-          <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-muted)]">
-            Entry offer · Audit
-          </p>
-          <h1 className="mt-5 max-w-[20ch] font-heading text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] tracking-[-0.04em]">
+      <section className="bg-[var(--color-bg)] px-6 pt-[140px] pb-24 lg:px-12 lg:pt-[180px] lg:pb-32">
+        <div className="mx-auto w-full max-w-[1200px]">
+          <span className="eyebrow">Entry offer · Audit</span>
+          <h1 className="mt-6 max-w-[20ch] text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
             Book an AI Business Audit
           </h1>
-          <div className="mt-8 max-w-[var(--measure)] space-y-5 text-[1.0625rem] leading-[1.65] text-[var(--color-muted)]">
+          <div className="mt-8 max-w-[var(--measure)] space-y-5 text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
             <p>
-              A focused review of your business workflows, tools, risks and AI
-              opportunities. Best for businesses that want a clear starting
-              point before investing in AI implementation.
+              A focused review of your business workflows, tools, risks and AI opportunities. Best for
+              businesses that want a clear starting point before investing in AI implementation.
             </p>
-            <p>
-              You will leave with a prioritised implementation roadmap instead
-              of vague AI ideas.
-            </p>
+            <p>You will leave with a prioritised implementation roadmap instead of vague AI ideas.</p>
           </div>
-          <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
-            {/*
-              TODO(operator): replace data-booking-url placeholder with the real
-              Cal.com / Calendly URL, then wire this Button to <a href={...}>
-              or swap in the booking embed component.
-            */}
-            <Button
-              as="a"
-              href="mailto:hello@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry"
+          <div className="mt-10 flex flex-wrap gap-[14px]">
+            {/* TODO(operator): replace mailto + data-booking-url placeholder with the real
+                Cal.com / Calendly URL pre-launch. */}
+            <Link
+              href={BOOKING_HREF}
               data-booking-url="TODO(operator): https://cal.com/operateai/audit"
-              size="lg"
+              className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Book a call
-            </Button>
-            <Button as="a" href="/ai-integration-services/" variant="outline" size="lg">
+              Book a call →
+            </Link>
+            <Link
+              href="/ai-integration-services/"
+              className="inline-flex items-center gap-2 rounded-[7px] border border-[var(--color-w30)] px-6 py-3.5 text-[15px] font-semibold text-[var(--color-fg)] transition-colors duration-300 hover:border-[var(--color-fg)] hover:bg-[var(--color-w10)]"
+            >
               See what comes after
-            </Button>
+            </Link>
           </div>
-        </Reveal>
-      </Section>
+        </div>
+      </section>
 
-      <Section tone="paper" className="border-t-[3px] border-black">
-        <SectionHeading title="What you receive" as="h2" className="mb-8" />
-        <ul className="grid gap-x-10 gap-y-3 sm:grid-cols-2">
-          {DELIVERABLES.map((d) => (
-            <li key={d} className="flex gap-3 text-[1rem] leading-[1.5]">
-              <span className="mt-2 h-2 w-2 shrink-0 bg-[var(--color-primary-container)] ring-2 ring-black" />
-              <span>{d}</span>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      <section className="border-t border-[var(--color-w10)] bg-[var(--color-bg)] px-6 py-24 lg:px-12 lg:py-32">
+        <div className="mx-auto w-full max-w-[1200px]">
+          <span className="eyebrow">What you receive</span>
+          <h2 className="reveal mt-6 text-[clamp(28px,4vw,44px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
+            Six deliverables
+          </h2>
+          <ul className="mt-10 grid list-none gap-x-12 gap-y-3 sm:grid-cols-2">
+            {DELIVERABLES.map((d) => (
+              <li key={d} className="reveal flex items-start gap-3 text-[15px] leading-[1.5] text-[var(--color-w70)]">
+                <span className="mt-[7px] h-[7px] w-[7px] shrink-0 rounded-full bg-[var(--color-accent)]" />
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-      <FaqSection items={FAQS} />
+      <div className="border-t border-[var(--color-w10)]">
+        <FaqSection items={FAQS} />
+      </div>
 
-      <Section tone="ink" className="border-t-[3px] border-black">
-        <Reveal>
-          <h2 className="font-heading text-[clamp(2rem,4.5vw,3rem)] font-bold uppercase leading-[1] tracking-[-0.035em] text-white">
+      <section className="border-t border-[var(--color-w10)] bg-[var(--color-bg)] px-6 py-24 text-center lg:px-12 lg:py-32">
+        <div className="mx-auto w-full max-w-[820px]">
+          <h2 className="reveal text-[clamp(32px,5vw,56px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
             Ready when you are.
           </h2>
-          <p className="mt-6 max-w-[var(--measure)] text-[1.0625rem] leading-[1.6] text-white/75">
-            We will identify the best opportunities, the risks to avoid, and
-            the clearest next steps for implementation.
+          <p className="reveal mt-[22px] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
+            We will identify the best opportunities, the risks to avoid, and the clearest next steps
+            for implementation.
           </p>
-          <div className="mt-8">
-            <Button
-              as="a"
-              href="mailto:hello@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry"
-              variant="inverse"
-              size="lg"
+          <div className="reveal mt-10 flex justify-center">
+            <Link
+              href={BOOKING_HREF}
+              className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Email us to book
-            </Button>
+              Email us to book →
+            </Link>
           </div>
-        </Reveal>
-      </Section>
+        </div>
+      </section>
     </>
   );
 }
