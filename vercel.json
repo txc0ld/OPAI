@@ -1,8 +1,31 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "installCommand": "cd web && npx -y pnpm@10.28.2 install && cd .. && ln -sfn web/node_modules node_modules",
-  "buildCommand": "cd web && npx -y pnpm@10.28.2 build",
+  "installCommand": "cd web && corepack enable && corepack prepare pnpm@10.28.2 --activate && pnpm install && cd .. && ln -sfn web/node_modules node_modules",
+  "buildCommand": "cd web && pnpm build",
   "outputDirectory": "web/.next",
-  "regions": ["syd1"]
+  "regions": ["syd1"],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self' mailto:; upgrade-insecure-requests"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        }
+      ]
+    }
+  ]
 }
