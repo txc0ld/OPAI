@@ -354,18 +354,6 @@ export function ParticleCanvas() {
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
 
-    const io = new IntersectionObserver(
-      (es) =>
-        es.forEach((en) => {
-          if (en.isIntersecting) {
-            en.target.classList.add("show");
-            io.unobserve(en.target);
-          }
-        }),
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
-    );
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-
     function boot() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
@@ -390,7 +378,6 @@ export function ParticleCanvas() {
       removeEventListener("pointerleave", onPointerLeave);
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
-      io.disconnect();
     };
   }, []);
 

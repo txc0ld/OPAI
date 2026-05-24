@@ -3,6 +3,7 @@ import { JetBrains_Mono, Plus_Jakarta_Sans, Schibsted_Grotesk } from "next/font/
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StructuredData } from "@/components/structured-data";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { BUSINESS } from "@/lib/business";
 import "./globals.css";
 
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-AU" className={`${jakarta.variable} ${grotesk.variable} ${mono.variable}`}>
       <body>
         <StructuredData />
+        <ScrollReveal />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
