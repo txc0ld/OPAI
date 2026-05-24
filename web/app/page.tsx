@@ -392,7 +392,7 @@ export default function Home() {
                 >
                   <span
                     aria-hidden="true"
-                    className="font-mono text-[42px] font-medium tracking-[-0.02em] text-black/[0.18]"
+                    className="font-mono text-[42px] font-light tracking-[-0.02em] text-black/45"
                   >
                     {s.n}
                   </span>
