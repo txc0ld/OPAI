@@ -14,15 +14,9 @@ import { useEffect } from "react";
 export function ParticleCanvas() {
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // Skip the canvas entirely on:
-    //  - prefers-reduced-motion (a11y)
-    //  - coarse pointer / touch devices (iOS Safari pauses canvas paints
-    //    during scroll gestures, producing a "flash to full canvas" once
-    //    the gesture ends — no rAF tuning fixes that).
-    // CSS in globals.css collapses the StageShell to a static section and
-    // surfaces the hero H1 as a visible display heading in both cases.
+    // a11y: still honour prefers-reduced-motion.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
     const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;
@@ -30,8 +24,17 @@ export function ParticleCanvas() {
     const ctx = canvasEl.getContext("2d", { alpha: false });
     if (!ctx) return;
     const canvas = canvasEl;
-    // Fine-pointer path only. Hide the OS cursor; the stir circle replaces it.
-    canvas.style.cursor = "none";
+    // GPU layer promotion. Forces the canvas onto its own compositor layer
+    // so iOS Safari can keep painting it during the scroll compositor thread
+    // instead of freezing the layer until the touch gesture completes.
+    canvas.style.transform = "translateZ(0)";
+    canvas.style.willChange = "transform";
+    if (!coarsePointer) {
+      canvas.style.cursor = "none";
+    } else {
+      // Pointer events would only intercept scroll on touch. Let them through.
+      canvas.style.pointerEvents = "none";
+    }
     // Read the next/font-generated Orbitron family name so the canvas can
     // draw the big "Ai" title in the same typeface as the rest of the brand.
     const orbitronFamily =
@@ -226,13 +229,20 @@ export function ParticleCanvas() {
       }
     }
 
+    // iOS Safari does not update window.scrollY during a touch-scroll gesture
+    // (only after it ends). visualViewport.pageTop DOES update in real-time
+    // and is what we want. Falls back to window.scrollY on browsers without
+    // visualViewport.
+    function getScrollY(): number {
+      return window.visualViewport ? window.visualViewport.pageTop : window.scrollY;
+    }
+
     // Scroll handler coalesces its DOM writes onto the next animation frame.
     // Multiple scroll events that fire within a single frame share one
-    // style-update, and we never write to layout outside an rAF tick (the
-    // pattern iOS Safari handles best).
+    // style update; layout writes only happen inside an rAF tick.
     let pendingScrollUpdate = false;
     function applyScrollStyles() {
-      const y = window.scrollY;
+      const y = getScrollY();
       for (const s of stages) {
         const lp = clamp01((y - s.top) / s.range);
         const asm = s.kind === "hero"
@@ -246,9 +256,10 @@ export function ParticleCanvas() {
       }
     }
     function onScroll() {
+      const y = getScrollY();
       let act = 0;
       for (let i = 0; i < stages.length; i++) {
-        if (window.scrollY + window.innerHeight * 0.5 >= stages[i].top) act = i;
+        if (y + window.innerHeight * 0.5 >= stages[i].top) act = i;
       }
       activeIdx = act;
       if (!pendingScrollUpdate) {
@@ -349,7 +360,10 @@ export function ParticleCanvas() {
     function frame(now: number) {
       const elapsed = (now - t0) / 1000;
       const s = stages[activeIdx];
-      const lp = s ? clamp01((window.scrollY - s.top) / s.range) : 0;
+      // Use visualViewport-aware scroll position so the canvas matches what
+      // the user sees during iOS touch scroll (window.scrollY is stale until
+      // the gesture ends, which is the root cause of the post-scroll flash).
+      const lp = s ? clamp01((getScrollY() - s.top) / s.range) : 0;
       const resting = activeIdx === 0 && lp < 0.02;
       const fade = resting ? TRAIL : 0.85;
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
@@ -383,10 +397,21 @@ export function ParticleCanvas() {
       }, 160);
     };
 
-    addEventListener("pointermove", onPointerMove);
-    addEventListener("pointerleave", onPointerLeave);
+    // Stir physics only makes sense for fine pointers.
+    if (!coarsePointer) {
+      addEventListener("pointermove", onPointerMove);
+      addEventListener("pointerleave", onPointerLeave);
+    }
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
+    // iOS Safari does not always update window.scrollY in real-time during
+    // touch scroll, but the visualViewport scroll event does fire each frame.
+    // Reading scrollY from the rAF loop already handles desktop; the visual-
+    // viewport listener gives us a parallel signal that the user is mid-scroll
+    // on iOS so the next frame still triggers immediately.
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("scroll", onScroll, { passive: true });
+    }
 
     // Pause the RAF loop when the tab is hidden (battery + CPU saver).
     const onVisibility = () => {
@@ -426,10 +451,15 @@ export function ParticleCanvas() {
     return () => {
       cancelAnimationFrame(rafId);
       if (resizeTimer) clearTimeout(resizeTimer);
-      removeEventListener("pointermove", onPointerMove);
-      removeEventListener("pointerleave", onPointerLeave);
+      if (!coarsePointer) {
+        removeEventListener("pointermove", onPointerMove);
+        removeEventListener("pointerleave", onPointerLeave);
+      }
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener("scroll", onScroll);
+      }
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
