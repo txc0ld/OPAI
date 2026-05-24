@@ -13,11 +13,16 @@ import { useEffect } from "react";
  */
 export function ParticleCanvas() {
   useEffect(() => {
-    // Respect prefers-reduced-motion. Skip the animation entirely and let the
-    // CSS fallback (visible H1 on the hero stage) carry the visual.
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
+    if (typeof window === "undefined") return;
+    // Skip the canvas entirely on:
+    //  - prefers-reduced-motion (a11y)
+    //  - coarse pointer / touch devices (iOS Safari pauses canvas paints
+    //    during scroll gestures, producing a "flash to full canvas" once
+    //    the gesture ends — no rAF tuning fixes that).
+    // CSS in globals.css collapses the StageShell to a static section and
+    // surfaces the hero H1 as a visible display heading in both cases.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;
@@ -25,17 +30,8 @@ export function ParticleCanvas() {
     const ctx = canvasEl.getContext("2d", { alpha: false });
     if (!ctx) return;
     const canvas = canvasEl;
-    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
-    // Hide the OS cursor only on fine pointers (the stir circle replaces it).
-    // On touch screens the stir is meaningless and cursor:none is inert anyway.
-    if (!coarsePointer) {
-      canvas.style.cursor = "none";
-    } else {
-      // On touch, let the canvas be invisible to pointer events so swipes go
-      // straight to the scroller. Without this, iOS Safari can pick the canvas
-      // up as the "scroll target" and produce visible jank/rubber-banding.
-      canvas.style.pointerEvents = "none";
-    }
+    // Fine-pointer path only. Hide the OS cursor; the stir circle replaces it.
+    canvas.style.cursor = "none";
     // Read the next/font-generated Orbitron family name so the canvas can
     // draw the big "Ai" title in the same typeface as the rest of the brand.
     const orbitronFamily =
@@ -387,11 +383,8 @@ export function ParticleCanvas() {
       }, 160);
     };
 
-    // Skip stir physics entirely on touch devices.
-    if (!coarsePointer) {
-      addEventListener("pointermove", onPointerMove);
-      addEventListener("pointerleave", onPointerLeave);
-    }
+    addEventListener("pointermove", onPointerMove);
+    addEventListener("pointerleave", onPointerLeave);
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
 
@@ -433,10 +426,8 @@ export function ParticleCanvas() {
     return () => {
       cancelAnimationFrame(rafId);
       if (resizeTimer) clearTimeout(resizeTimer);
-      if (!coarsePointer) {
-        removeEventListener("pointermove", onPointerMove);
-        removeEventListener("pointerleave", onPointerLeave);
-      }
+      removeEventListener("pointermove", onPointerMove);
+      removeEventListener("pointerleave", onPointerLeave);
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);

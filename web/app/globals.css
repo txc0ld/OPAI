@@ -86,4 +86,47 @@
     .reveal { opacity: 1; transform: none; transition: none; }
     .paint-in { opacity: 1; animation: none !important; }
   }
+
+  /*
+   * Touch / coarse-pointer mode.
+   * iOS Safari pauses canvas paints during scroll gestures, so we disable
+   * the particle canvas entirely on touch devices and render each
+   * StageShell as a normal static section instead.
+   */
+  @media (pointer: coarse) {
+    #particle-canvas,
+    #particle-stir,
+    #particle-scrollcue {
+      display: none !important;
+    }
+    .stage-shell {
+      height: auto !important;
+    }
+    .stage-shell-pin {
+      position: static !important;
+      height: auto !important;
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+    .stage-shell-body {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    /* Surface the hero stage H1 as a visible display heading when the
+       canvas is not running. */
+    #body-top h1 {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+      margin-bottom: 2rem;
+      max-width: 18ch;
+      font-size: clamp(40px, 7vw, 88px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+  }
 }
