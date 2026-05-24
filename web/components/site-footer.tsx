@@ -2,86 +2,72 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { FOOTER_LEGAL, PRIMARY_NAV } from "@/lib/nav";
 import { BUSINESS } from "@/lib/business";
-import { cn } from "@/lib/cn";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t-[3px] border-black bg-black text-white">
-      <div className="mx-auto w-full max-w-[var(--container-max)] px-[clamp(1.5rem,4vw,3rem)] py-12">
-        <div className="grid grid-cols-1 border-[3px] border-white md:grid-cols-12">
-          <div className="border-b-[3px] border-white p-6 md:col-span-5 md:border-b-0 md:border-r-[3px]">
-            <Link href="/" aria-label="OperateAI home" className="inline-block hover:text-[var(--color-primary-container)]">
-              <Logo variant="stacked" tone="paper" />
-            </Link>
-            <p className="mt-8 max-w-[28ch] font-heading text-[2rem] font-bold uppercase leading-[0.95] tracking-[-0.04em]">
-              AI agents, automation, hosting and training for Australian small and medium businesses.
-            </p>
-            <p className="mt-6 max-w-[36ch] font-sans text-[0.9375rem] leading-[1.55] text-white/70">
-              Based in Perth, Western Australia. Supporting businesses across Australia and online worldwide.
-            </p>
-          </div>
+    <footer className="border-t border-[var(--color-w10)] bg-[#060606] px-6 pt-20 pb-10 lg:px-12 lg:pt-24 lg:pb-12">
+      <div className="mx-auto grid w-full max-w-[1200px] gap-12 md:grid-cols-[2fr_1fr_1fr]">
+        <div>
+          <Link href="/" aria-label="OperateAI home" className="inline-flex">
+            <Logo showPerth={false} />
+          </Link>
+          <p className="mt-4 max-w-[340px] text-sm leading-[1.6] text-[var(--color-w50)]">
+            AI agents, automation, hosting and training for Australian small and medium businesses.
+            Based in Perth, Western Australia — supporting businesses across Australia and online
+            worldwide.
+          </p>
+        </div>
 
-          <div className="border-b-[3px] border-white p-6 md:col-span-4 md:border-b-0 md:border-r-[3px]">
-            <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-primary-container)]">
-              Navigate
-            </p>
-            <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {PRIMARY_NAV.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="font-heading text-[0.8125rem] font-bold uppercase tracking-[0.06em] underline-offset-[6px] hover:text-[var(--color-primary-container)] hover:underline"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
+        <div>
+          <h4 className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-w30)]">
+            Navigate
+          </h4>
+          <ul className="grid gap-[11px]">
+            {PRIMARY_NAV.map((item) => (
+              <li key={item.href}>
                 <Link
-                  href="/book-ai-audit/"
-                  className="font-heading text-[0.8125rem] font-bold uppercase tracking-[0.06em] underline-offset-[6px] hover:text-[var(--color-primary-container)] hover:underline"
+                  href={item.href}
+                  className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
                 >
-                  Book audit
+                  {item.label}
                 </Link>
               </li>
-            </ul>
-          </div>
-
-          <div className="p-6 md:col-span-3">
-            <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-primary-container)]">
-              Legal
-            </p>
-            <ul className="mt-6 flex flex-col gap-3">
-              {FOOTER_LEGAL.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="font-heading text-[0.8125rem] font-bold uppercase tracking-[0.06em] underline-offset-[6px] hover:text-[var(--color-primary-container)] hover:underline"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-8 font-mono text-[0.75rem] tracking-[0.04em] text-white/70">
-              {BUSINESS.abn}
-            </p>
-          </div>
+            ))}
+            <li>
+              <Link
+                href="/book-ai-audit/"
+                className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
+              >
+                Book audit
+              </Link>
+            </li>
+          </ul>
         </div>
 
-        <div
-          className={cn(
-            "mt-8 flex flex-col gap-3 border-t-[3px] border-white pt-5",
-            "md:flex-row md:items-center md:justify-between",
-          )}
-        >
-          <p className="font-mono text-[0.75rem] tracking-[0.04em] text-white/70">
-            &copy; {BUSINESS.copyrightYear} {BUSINESS.legalName}. All rights reserved.
-          </p>
-          <p className="font-heading text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[var(--color-primary-container)]">
-            Built in Perth · Delivered worldwide
-          </p>
+        <div>
+          <h4 className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-w30)]">
+            Legal
+          </h4>
+          <ul className="grid gap-[11px]">
+            {FOOTER_LEGAL.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
+      </div>
+
+      <div className="mx-auto mt-16 flex w-full max-w-[1200px] flex-wrap justify-between gap-2 border-t border-[var(--color-w10)] pt-7 font-mono text-[11px] tracking-[0.04em] text-[var(--color-w30)]">
+        <span>
+          {BUSINESS.abn} · © {BUSINESS.copyrightYear} {BUSINESS.legalName}
+        </span>
+        <span>Built in Perth · Delivered worldwide</span>
       </div>
     </footer>
   );

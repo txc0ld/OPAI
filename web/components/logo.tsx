@@ -1,51 +1,24 @@
-import { BrandMark } from "@/components/brand-mark";
 import { cn } from "@/lib/cn";
 
 type LogoProps = {
-  variant?: "stacked" | "compact";
-  tone?: "ink" | "paper";
+  showPerth?: boolean;
   className?: string;
 };
 
-export function Logo({ variant = "stacked", tone = "ink", className }: LogoProps) {
-  const fg = tone === "ink" ? "text-[var(--color-ink)]" : "text-[var(--color-paper)]";
-  const muted = tone === "ink" ? "text-[var(--color-muted)]" : "text-[rgb(246_244_238_/_0.55)]";
-  const rule = tone === "ink" ? "border-[var(--color-ink)]" : "border-[var(--color-paper)]";
-  const ariaLabel = "OperateAI — AI for small business";
-
-  if (variant === "compact") {
-    return (
-      <span
-        className={cn("inline-flex items-baseline gap-3 leading-none", className)}
-        aria-label={ariaLabel}
-      >
-        <span className="font-sans text-[1.5rem] tracking-[-0.04em] leading-none">
-          <span className={cn("font-light", muted)}>[</span>
-          <span className={cn("font-semibold", fg)}>
-            opa<span className="inline-block rotate-180 text-[#a0ffdf]">i</span>
-          </span>
-          <span className={cn("font-light", muted)}>]</span>
-        </span>
-        <span className={cn("font-mono text-[0.625rem] uppercase tracking-[0.28em] translate-y-[-2px]", muted)}>
-          <BrandMark /> · Perth
-        </span>
-      </span>
-    );
-  }
-
+export function Logo({ showPerth = true, className }: LogoProps) {
   return (
     <span
-      className={cn("inline-flex flex-col leading-none", className)}
-      aria-label={ariaLabel}
+      className={cn(
+        "inline-flex items-center gap-2 font-bold text-[15px] leading-none tracking-[-0.02em]",
+        className,
+      )}
+      aria-label="OperateAI — AI for small business"
     >
-      <span className="font-sans text-[2rem] tracking-[-0.04em] leading-none">
-        <span className={cn("font-light", muted)}>[</span>
-        <span className={cn("font-semibold", fg)}>opai</span>
-        <span className={cn("font-light", muted)}>]</span>
-      </span>
-      <span className={cn("mt-2 pt-2 border-t font-mono text-[0.625rem] uppercase tracking-[0.32em]", rule, muted)}>
-        <BrandMark /> · AI for Small Business
-      </span>
+      <span className="power-dot" aria-hidden="true" />
+      <span>OperateAI</span>
+      {showPerth ? (
+        <span className="hidden font-normal text-[var(--color-w50)] sm:inline">· Perth</span>
+      ) : null}
     </span>
   );
 }

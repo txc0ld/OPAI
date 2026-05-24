@@ -2,120 +2,88 @@
 @import "./tokens.css";
 
 @layer base {
-  html { font-family: var(--font-sans); color: var(--color-ink); background: var(--color-paper); -webkit-font-smoothing: antialiased; }
-  body { font-size: 17px; line-height: 1.6; }
-  ::selection { background: var(--color-ink); color: var(--color-paper); }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    color: var(--color-fg);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
   }
+  body {
+    font-size: 17px;
+    line-height: 1.6;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--color-accent); color: var(--color-bg); }
 }
 
 @layer utilities {
-  /* Scroll reveal — opacity + lift, runs once */
-  .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1), transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
+  /* Mono caps eyebrow with lime dot */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-w50);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
   }
-  .reveal-in {
-    opacity: 1;
-    transform: none;
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex: 0 0 auto;
+  }
+  .eyebrow.light-mode { color: #6b6b6b; }
+  .eyebrow.light-mode::before {
+    box-shadow: 0 0 0 1px var(--color-ink);
   }
 
-  /* Initial paint stagger for hero / first-fold content */
+  /* Scroll-reveal — opacity + lift, runs once */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    will-change: opacity, transform;
+  }
+  .reveal.show { opacity: 1; transform: none; }
+  .reveal[data-d="1"] { transition-delay: 0.08s; }
+  .reveal[data-d="2"] { transition-delay: 0.16s; }
+  .reveal[data-d="3"] { transition-delay: 0.24s; }
+  .reveal[data-d="4"] { transition-delay: 0.32s; }
+
+  /* Initial paint stagger — kept for non-canvas chrome */
   @keyframes paint-in {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: none; }
   }
-  .paint-in {
-    opacity: 0;
-    animation: paint-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
+  .paint-in { opacity: 0; animation: paint-in 700ms var(--ease) both; }
   .paint-delay-1 { animation-delay: 80ms; }
   .paint-delay-2 { animation-delay: 180ms; }
   .paint-delay-3 { animation-delay: 300ms; }
   .paint-delay-4 { animation-delay: 440ms; }
   .paint-delay-5 { animation-delay: 600ms; }
 
-  /* Card hover — hairline darkening + tiny content nudge */
-  .card-hover {
-    transition: border-color 220ms ease-out, background-color 220ms ease-out;
-  }
-  .card-hover:hover {
-    border-color: var(--color-ink) !important;
-    background-color: var(--color-paper-3) !important;
-  }
-  .card-hover .card-arrow {
-    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .card-hover:hover .card-arrow {
-    transform: translateX(4px);
-  }
-
-  /* Underline grow for editorial inline links */
-  .link-grow {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0% 1px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    transition: background-size 280ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .link-grow:hover {
-    background-size: 100% 1px;
-  }
-
-  /* Approval queue band — subtle confidence pulse on enter */
-  @keyframes wedge-pulse {
-    0%, 100% { box-shadow: inset 0 0 0 0 transparent; }
-    40% { box-shadow: inset 0 0 0 1px rgb(10 14 20 / 0.3); }
-  }
-  .reveal-in .wedge-pulse {
-    animation: wedge-pulse 1400ms ease-out 200ms 1;
-  }
-
-  /* Demo routes hide global site chrome via body class set by /demo layout */
-  body.demo-mode > header,
-  body.demo-mode > footer { display: none !important; }
-  body.demo-mode > main { padding: 0 !important; }
-
-  /* Operator dashboard hides global site chrome via body class set by /operator layout */
-  body.operator-mode > header,
-  body.operator-mode > footer { display: none !important; }
-  body.operator-mode > main { padding: 0 !important; }
-  body.operator-mode { font-size: 14px; line-height: 1.5; }
-
-  /* Demo: typed-text caret + step transition */
-  @keyframes demo-caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .demo-caret::after {
-    content: "";
+  /* Power dot — lime, used in hero eyebrow and logo */
+  .power-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex: 0 0 auto;
     display: inline-block;
-    width: 0.5ch;
-    height: 1em;
-    margin-left: 2px;
-    background: currentColor;
-    vertical-align: -0.15em;
-    animation: demo-caret 900ms steps(2, end) infinite;
-  }
-  @keyframes demo-fade-up {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: none; }
-  }
-  .demo-enter { animation: demo-fade-up 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-  @media (prefers-reduced-motion: reduce) {
-    .demo-enter { animation: none !important; }
-    .demo-caret::after { animation: none !important; opacity: 1 !important; }
   }
 
-  /* View Transitions cross-fade */
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: 280ms;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  }
   @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-    .paint-in { opacity: 1 !important; animation: none !important; }
-    .wedge-pulse { animation: none !important; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .paint-in { opacity: 1; animation: none !important; }
   }
 }
