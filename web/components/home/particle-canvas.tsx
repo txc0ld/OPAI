@@ -230,18 +230,11 @@ export function ParticleCanvas() {
       }
     }
 
-    // Lightweight scroll handler: only recompute the active stage index.
-    // All DOM style writes (body opacity/transform, scrollcue fade) happen
-    // inside the RAF loop in applyScrollStyles() to avoid layout thrashing
-    // and the iOS Safari scroll-jank pattern of style-writes-from-scroll.
-    function onScroll() {
-      let act = 0;
-      for (let i = 0; i < stages.length; i++) {
-        if (window.scrollY + window.innerHeight * 0.5 >= stages[i].top) act = i;
-      }
-      activeIdx = act;
-    }
-
+    // Scroll handler coalesces its DOM writes onto the next animation frame.
+    // Multiple scroll events that fire within a single frame share one
+    // style-update, and we never write to layout outside an rAF tick (the
+    // pattern iOS Safari handles best).
+    let pendingScrollUpdate = false;
     function applyScrollStyles() {
       const y = window.scrollY;
       for (const s of stages) {
@@ -254,6 +247,20 @@ export function ParticleCanvas() {
       }
       if (stages[0]) {
         scrollcue!.style.opacity = (1 - clamp01((y / stages[0].range) / 0.1)).toFixed(3);
+      }
+    }
+    function onScroll() {
+      let act = 0;
+      for (let i = 0; i < stages.length; i++) {
+        if (window.scrollY + window.innerHeight * 0.5 >= stages[i].top) act = i;
+      }
+      activeIdx = act;
+      if (!pendingScrollUpdate) {
+        pendingScrollUpdate = true;
+        requestAnimationFrame(() => {
+          applyScrollStyles();
+          pendingScrollUpdate = false;
+        });
       }
     }
 
@@ -345,10 +352,6 @@ export function ParticleCanvas() {
 
     function frame(now: number) {
       const elapsed = (now - t0) / 1000;
-      // Apply scroll-driven body fades inside the rAF tick so we never write
-      // to layout from inside the scroll event itself (the source of the
-      // mobile jank).
-      applyScrollStyles();
       const s = stages[activeIdx];
       const lp = s ? clamp01((window.scrollY - s.top) / s.range) : 0;
       const resting = activeIdx === 0 && lp < 0.02;
