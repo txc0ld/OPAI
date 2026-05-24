@@ -295,8 +295,18 @@ export function ParticleCanvas() {
           }
           if (elapsed > p.delay + FORM_DUR) p.done = true;
         } else if (morph > 0.001) {
-          p.x += (hx - p.x) * 0.5;
-          p.y += (hy - p.y) * 0.5;
+          // On coarse pointers (iOS), bypass the 0.5-per-frame ease and set
+          // positions directly from the scroll-driven morph. iOS Safari
+          // drops frames during touch scroll; with easing, particles fall
+          // behind the morph target and then snap visibly when frames
+          // resume. Direct-set gives renderFlow-style 1:1 scroll tracking.
+          if (coarsePointer) {
+            p.x = hx;
+            p.y = hy;
+          } else {
+            p.x += (hx - p.x) * 0.5;
+            p.y += (hy - p.y) * 0.5;
+          }
           p.vx = 0;
           p.vy = 0;
         } else {
