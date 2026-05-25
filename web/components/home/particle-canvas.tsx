@@ -315,11 +315,13 @@ export function ParticleCanvas() {
       ctx!.globalAlpha = 1;
     }
 
-    function renderIntro(s: StageRuntime, lp: number, elapsed: number) {
+    function renderIntro(s: StageRuntime, scrollProgress: number, elapsed: number) {
       // Brand intro: particles form up automatically on page load (time-based),
-      // then disperse downward when the user starts scrolling (scroll-based),
-      // matching the visual rhythm of the other flow stages.
-      const disperse = smoother(clamp01((lp - 0.05) / 0.4));
+      // then disperse downward across one viewport of scroll. scrollProgress is
+      // y / window.innerHeight clamped 0..1 — driven directly off raw scrollY
+      // so the disperse spans the full viewport-height of scroll, with no
+      // dead air between the brand fading out and the next stage forming in.
+      const disperse = smoother(clamp01((scrollProgress - 0.02) / 0.9));
       if (disperse >= 0.999) return;
       const formRaw = clamp01(elapsed / 2.2);
       for (let i = 0; i < s.P.length; i++) {
@@ -356,18 +358,29 @@ export function ParticleCanvas() {
 
     function frame(now: number) {
       const elapsed = (now - t0) / 1000;
+      const y = getScrollY();
       const s = stages[activeIdx];
       // visualViewport-aware read so the canvas matches what the user sees
       // mid-touch-scroll on iOS (window.scrollY is stale until the gesture
       // ends, which is the source of the post-scroll flash).
-      const lp = s ? clamp01((getScrollY() - s.top) / s.range) : 0;
-      const resting = activeIdx === 0 && lp < 0.02;
+      const lp = s ? clamp01((y - s.top) / s.range) : 0;
+      const introScrollProgress = clamp01(y / H);
+      const brand = stages[0];
+      const inIntroWindow = brand && brand.kind === "intro" && introScrollProgress < 0.99;
+      const resting = inIntroWindow && introScrollProgress < 0.02;
       const fade = resting ? TRAIL : 0.85;
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
       ctx!.fillRect(0, 0, W, H);
-      if (s) {
-        if (s.kind === "intro") renderIntro(s, lp, elapsed);
-        else renderFlow(s, lp);
+      // Always render the brand intro until scrolled past its viewport — its
+      // disperse uses raw scrollY, not stage lp, so it bridges any gap to the
+      // next stage without an empty-canvas window in between.
+      if (inIntroWindow) {
+        renderIntro(brand, introScrollProgress, elapsed);
+      }
+      // Render the active stage normally, unless it IS the brand (which we
+      // just handled above on its own scroll-driven path).
+      if (s && s !== brand) {
+        renderFlow(s, lp);
       }
       rafId = requestAnimationFrame(frame);
     }
