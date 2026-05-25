@@ -83,7 +83,8 @@ export function ParticleCanvas() {
     // (especially mobile) get crisp particles instead of an upscaled blur.
     // ctx is scaled by dpr so all drawing keeps using CSS-pixel coordinates.
     function sizeCanvas() {
-      dpr = Math.min(typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1, 2);
+      const deviceDpr = typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1;
+      dpr = Math.min(deviceDpr, coarsePointer ? 3 : 2);
       W = window.innerWidth;
       H = window.innerHeight;
       canvas.width = Math.round(W * dpr);
@@ -122,6 +123,11 @@ export function ParticleCanvas() {
     const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
     const jit = () => (Math.random() - 0.5) * JITTER * 2;
     const titleFont = (fontSize: number) => `900 ${fontSize}px ${orbitronFamily}, sans-serif`;
+    const snap = (v: number) => Math.round(v * dpr) / dpr;
+    function drawParticle(p: FlowParticle, x: number, y: number) {
+      ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
+      ctx!.fillRect(snap(x), snap(y), Math.max(1 / dpr, snap(p.size)), Math.max(1 / dpr, snap(p.size)));
+    }
     const BODY_REVEAL_START = 0.66;
     const BODY_REVEAL_DUR = 0.16;
     const FLOW_DISPERSE_START = 0.42;
@@ -449,8 +455,7 @@ export function ParticleCanvas() {
         const stirWeight = (1 - disperse) * local;
         stir(p, bx, by, stirWeight, elapsed);
         ctx!.globalAlpha = Math.min(1, local * 1.6) * (1 - disperse);
-        ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
-        ctx!.fillRect(bx + p.cdx, by + p.cdy, p.size, p.size);
+        drawParticle(p, bx + p.cdx, by + p.cdy);
       }
       ctx!.globalAlpha = 1;
     }
@@ -482,8 +487,7 @@ export function ParticleCanvas() {
         const stirWeight = exitAlpha * local;
         stir(p, bx, by, stirWeight, elapsed);
         ctx!.globalAlpha = Math.min(1, local * 1.6) * exitAlpha;
-        ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
-        ctx!.fillRect(bx + p.cdx, by + p.cdy, p.size, p.size);
+        drawParticle(p, bx + p.cdx, by + p.cdy);
       }
       ctx!.globalAlpha = 1;
     }

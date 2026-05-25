@@ -80,6 +80,7 @@ test("mobile particle title clears before stage body fades in", async ({ browser
   const context = await browser.newContext({
     hasTouch: true,
     isMobile: true,
+    deviceScaleFactor: 3,
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
@@ -100,6 +101,7 @@ test("mobile particle title rises from bottom to center then fades upward", asyn
   const context = await browser.newContext({
     hasTouch: true,
     isMobile: true,
+    deviceScaleFactor: 3,
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
@@ -132,6 +134,7 @@ test("mobile revealed stage bodies fit inside the viewport", async ({ browser })
   const context = await browser.newContext({
     hasTouch: true,
     isMobile: true,
+    deviceScaleFactor: 3,
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
@@ -158,6 +161,7 @@ test("mobile stage body has scroll leeway after reveal", async ({ browser }) => 
   const context = await browser.newContext({
     hasTouch: true,
     isMobile: true,
+    deviceScaleFactor: 3,
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
@@ -168,6 +172,46 @@ test("mobile stage body has scroll leeway after reveal", async ({ browser }) => 
 
   const afterSmallScroll = await scrollStageTo(page, "stage-training", "body-training", 0.94);
   expect(afterSmallScroll.bodyOpacity).toBeGreaterThan(0.9);
+
+  await context.close();
+});
+
+test("mobile particle canvas uses high-DPR backing pixels", async ({ browser }) => {
+  const context = await browser.newContext({
+    hasTouch: true,
+    isMobile: true,
+    deviceScaleFactor: 3,
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(page.locator("#particle-canvas")).toBeVisible();
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const canvas = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
+        if (!canvas) throw new Error("particle canvas missing");
+        return canvas.width;
+      }),
+    )
+    .toBe(1170);
+
+  const canvasSize = await page.evaluate(() => {
+    const canvas = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
+    if (!canvas) throw new Error("particle canvas missing");
+    return {
+      width: canvas.width,
+      height: canvas.height,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+      dpr: window.devicePixelRatio,
+    };
+  });
+
+  expect(canvasSize.dpr).toBe(3);
+  expect(canvasSize.width).toBe(canvasSize.innerWidth * 3);
+  expect(canvasSize.height).toBe(canvasSize.innerHeight * 3);
 
   await context.close();
 });
