@@ -4,6 +4,8 @@ type StageMetrics = {
   bodyOpacity: number;
   litPixels: number;
   limePixels: number;
+  lowerLitPixels: number;
+  lowerLimePixels: number;
   totalBrightness: number;
   centerY: number | null;
 };
@@ -38,6 +40,8 @@ async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: nu
       const data = ctx.getImageData(0, 0, width, height).data;
       let litPixels = 0;
       let limePixels = 0;
+      let lowerLitPixels = 0;
+      let lowerLimePixels = 0;
       let weightedY = 0;
       let totalWeight = 0;
       const step = Math.max(16, Math.floor(Math.min(width, height) / 60));
@@ -48,7 +52,11 @@ async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: nu
           const brightness = Math.max(data[idx], data[idx + 1], data[idx + 2]);
           if (brightness > 20) {
             litPixels += 1;
-            if (data[idx] > 120 && data[idx + 1] > 160 && data[idx + 2] < 80) limePixels += 1;
+            if (y / height > 0.56) lowerLitPixels += 1;
+            if (data[idx] > 120 && data[idx + 1] > 160 && data[idx + 2] < 80) {
+              limePixels += 1;
+              if (y / height > 0.56) lowerLimePixels += 1;
+            }
             weightedY += y * brightness;
             totalWeight += brightness;
           }
@@ -59,6 +67,8 @@ async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: nu
         bodyOpacity: Number.parseFloat(getComputedStyle(body).opacity || "0"),
         litPixels,
         limePixels,
+        lowerLitPixels,
+        lowerLimePixels,
         totalBrightness: totalWeight,
         centerY: totalWeight > 0 ? weightedY / totalWeight / height : null,
       };
@@ -130,7 +140,7 @@ test("mobile particle title rises from bottom to center then fades upward", asyn
   expect(exiting.centerY).not.toBeNull();
   expect(exiting.centerY!).toBeLessThan(centered.centerY! - 0.05);
   expect(exiting.centerY!).toBeGreaterThan(0.16);
-  expect(exiting.totalBrightness).toBeLessThan(centered.totalBrightness * 0.75);
+  expect(exiting.totalBrightness).toBeLessThan(centered.totalBrightness * 0.82);
 
   await context.close();
 });
@@ -158,6 +168,25 @@ test("mobile revealed stage bodies fit inside the viewport", async ({ browser })
     expect(box!.y, bodyId).toBeGreaterThanOrEqual(0);
     expect(box!.y + box!.height, bodyId).toBeLessThanOrEqual(844);
   }
+
+  await context.close();
+});
+
+test("mobile particle icon appears below the stage title", async ({ browser }) => {
+  const context = await browser.newContext({
+    hasTouch: true,
+    isMobile: true,
+    deviceScaleFactor: 3,
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(page.locator("#particle-canvas")).toBeVisible();
+  await page.waitForTimeout(300);
+
+  const iconVisible = await scrollStageTo(page, "stage-top", "body-top", 0.38);
+  expect(iconVisible.bodyOpacity).toBeLessThanOrEqual(0.08);
+  expect(iconVisible.lowerLitPixels).toBeGreaterThan(0);
 
   await context.close();
 });

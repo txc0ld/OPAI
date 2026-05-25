@@ -43,12 +43,13 @@ export function ParticleCanvas() {
       // morphed straight from OPERATE Ai to "Ai AGENTS & AUTOMATiON"
       // which felt inconsistent with the other stages.
       { stageId: "stage-brand", kind: "intro" as const, titleLines: ["OPERATE", "Ai"], bodyId: "body-brand" },
-      { stageId: "stage-top", kind: "flow" as const, titleLines: ["Ai AGENTS &", "AUTOMATiON"], bodyId: "body-top" },
-      { stageId: "stage-integration", kind: "flow" as const, titleLines: ["Ai iNTEGRATiON", "SERViCES"], bodyId: "body-integration" },
-      { stageId: "stage-hosting", kind: "flow" as const, titleLines: ["Ai AGENT", "HOSTiNG"], bodyId: "body-hosting" },
-      { stageId: "stage-training", kind: "flow" as const, titleLines: ["Ai", "TRAiNiNG"], bodyId: "body-training" },
-      { stageId: "stage-industries", kind: "flow" as const, titleLines: ["Ai BY", "iNDUSTRY"], bodyId: "body-industries" },
+      { stageId: "stage-top", kind: "flow" as const, titleLines: ["Ai AGENTS &", "AUTOMATiON"], bodyId: "body-top", icon: "automation" as const },
+      { stageId: "stage-integration", kind: "flow" as const, titleLines: ["Ai iNTEGRATiON", "SERViCES"], bodyId: "body-integration", icon: "integration" as const },
+      { stageId: "stage-hosting", kind: "flow" as const, titleLines: ["Ai AGENT", "HOSTiNG"], bodyId: "body-hosting", icon: "hosting" as const },
+      { stageId: "stage-training", kind: "flow" as const, titleLines: ["Ai", "TRAiNiNG"], bodyId: "body-training", icon: "training" as const },
+      { stageId: "stage-industries", kind: "flow" as const, titleLines: ["Ai BY", "iNDUSTRY"], bodyId: "body-industries", icon: "industries" as const },
     ];
+    type FlowIcon = NonNullable<(typeof STAGE_DEFS)[number]["icon"]>;
 
     // Fluid mouse-over tunings. Adopted from the reference snippet:
     //   easedMouse follows the cursor at 0.05 (lazy/fluid),
@@ -174,6 +175,105 @@ export function ParticleCanvas() {
           if (r > 128 || g > 128) {
             const lime = g > 140 && b < 120 && r > 120;
             pts.push({ x: x / dpr, y: y / dpr, lime });
+          }
+        }
+      }
+      ctx!.fillStyle = "#000";
+      ctx!.fillRect(0, 0, W, H);
+      return pts;
+    }
+
+    function sampleIcon(icon: FlowIcon, cx: number, cy: number, size: number) {
+      ctx!.fillStyle = "#000";
+      ctx!.fillRect(0, 0, W, H);
+      ctx!.save();
+      ctx!.translate(cx, cy);
+      ctx!.strokeStyle = "#fff";
+      ctx!.fillStyle = "#fff";
+      ctx!.lineWidth = Math.max(3, size * 0.07);
+      ctx!.lineCap = "round";
+      ctx!.lineJoin = "round";
+
+      const s = size / 2;
+      if (icon === "automation") {
+        ctx!.beginPath();
+        ctx!.arc(0, 0, s * 0.42, 0, Math.PI * 2);
+        ctx!.stroke();
+        for (let i = 0; i < 6; i++) {
+          const a = (Math.PI * 2 * i) / 6;
+          const x1 = Math.cos(a) * s * 0.62;
+          const y1 = Math.sin(a) * s * 0.62;
+          const x2 = Math.cos(a) * s * 0.9;
+          const y2 = Math.sin(a) * s * 0.9;
+          ctx!.beginPath();
+          ctx!.moveTo(x1, y1);
+          ctx!.lineTo(x2, y2);
+          ctx!.stroke();
+        }
+        ctx!.fillStyle = "#ccff00";
+        ctx!.beginPath();
+        ctx!.arc(0, 0, s * 0.12, 0, Math.PI * 2);
+        ctx!.fill();
+      } else if (icon === "integration") {
+        ctx!.beginPath();
+        ctx!.moveTo(-s * 0.78, -s * 0.2);
+        ctx!.lineTo(-s * 0.15, -s * 0.2);
+        ctx!.lineTo(s * 0.15, s * 0.2);
+        ctx!.lineTo(s * 0.78, s * 0.2);
+        ctx!.stroke();
+        ctx!.strokeRect(-s * 0.95, -s * 0.42, s * 0.28, s * 0.44);
+        ctx!.strokeRect(s * 0.67, -s * 0.02, s * 0.28, s * 0.44);
+        ctx!.fillStyle = "#ccff00";
+        ctx!.fillRect(-s * 0.07, -s * 0.07, s * 0.14, s * 0.14);
+      } else if (icon === "hosting") {
+        ctx!.strokeRect(-s * 0.78, -s * 0.52, s * 1.56, s * 0.42);
+        ctx!.strokeRect(-s * 0.78, s * 0.1, s * 1.56, s * 0.42);
+        ctx!.fillStyle = "#ccff00";
+        ctx!.fillRect(-s * 0.58, -s * 0.31, s * 0.16, s * 0.08);
+        ctx!.fillRect(-s * 0.58, s * 0.31, s * 0.16, s * 0.08);
+      } else if (icon === "training") {
+        ctx!.beginPath();
+        ctx!.moveTo(0, -s * 0.72);
+        ctx!.lineTo(s * 0.9, -s * 0.25);
+        ctx!.lineTo(0, s * 0.22);
+        ctx!.lineTo(-s * 0.9, -s * 0.25);
+        ctx!.closePath();
+        ctx!.stroke();
+        ctx!.beginPath();
+        ctx!.moveTo(-s * 0.48, s * 0.04);
+        ctx!.lineTo(-s * 0.48, s * 0.44);
+        ctx!.quadraticCurveTo(0, s * 0.72, s * 0.48, s * 0.44);
+        ctx!.lineTo(s * 0.48, s * 0.04);
+        ctx!.stroke();
+        ctx!.fillStyle = "#ccff00";
+        ctx!.beginPath();
+        ctx!.arc(s * 0.84, s * 0.32, s * 0.1, 0, Math.PI * 2);
+        ctx!.fill();
+      } else {
+        for (let y = -1; y <= 1; y++) {
+          for (let x = -1; x <= 1; x++) {
+            ctx!.strokeRect(x * s * 0.52 - s * 0.16, y * s * 0.52 - s * 0.16, s * 0.32, s * 0.32);
+          }
+        }
+        ctx!.fillStyle = "#ccff00";
+        ctx!.fillRect(-s * 0.11, -s * 0.11, s * 0.22, s * 0.22);
+      }
+      ctx!.restore();
+
+      const Wbs = canvas.width;
+      const Hbs = canvas.height;
+      const d = ctx!.getImageData(0, 0, Wbs, Hbs).data;
+      const pts: { x: number; y: number; lime: boolean }[] = [];
+      const bsStep = Math.max(1, Math.round(STEP * dpr));
+      for (let yy = 0; yy < Hbs; yy += bsStep) {
+        for (let xx = 0; xx < Wbs; xx += bsStep) {
+          const idx = (yy * Wbs + xx) * 4;
+          const r = d[idx];
+          const g = d[idx + 1];
+          const b = d[idx + 2];
+          if (r > 128 || g > 128) {
+            const lime = g > 140 && b < 120 && r > 120;
+            pts.push({ x: xx / dpr, y: yy / dpr, lime });
           }
         }
       }
@@ -328,6 +428,12 @@ export function ParticleCanvas() {
         } else {
           const B = shuffle(sampleText(def.titleLines, titleSize, H * titleYFrac));
           P = B.map((b) => makeFlowParticle(b, 0, "below"));
+          if (def.icon) {
+            const iconSize = Math.max(44, Math.min(W * 0.18, titleSize * 0.82));
+            const iconY = H * titleYFrac + titleSize * 1.55;
+            const iconPts = shuffle(sampleIcon(def.icon, W / 2, iconY, iconSize));
+            for (const b of iconPts) P.push(makeFlowParticle(b, 0, "below"));
+          }
         }
         stages.push({ def, el, body, P, kind: def.kind, top: 0, range: 1 });
       }
