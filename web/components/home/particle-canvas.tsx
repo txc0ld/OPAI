@@ -270,7 +270,9 @@ export function ParticleCanvas() {
         lime: b.lime,
         formDelay: Math.random() * 0.35,
         dispX: bx + (Math.random() - 0.5) * 80,
-        dispY: by + H * (0.7 + Math.random() * 0.4),
+        // Disperse upward — particles drift above the viewport so each stage
+        // exits through the top of the screen instead of falling out the bottom.
+        dispY: by - H * (0.7 + Math.random() * 0.3) - 30,
         cdx: 0, cdy: 0, vx: 0, vy: 0, hitAt: 0,
         tier,
       };
@@ -333,7 +335,7 @@ export function ParticleCanvas() {
           }
         } else {
           const B = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
-          P = B.map((b) => makeFlowParticle(b, 0, "above"));
+          P = B.map((b) => makeFlowParticle(b, 0, "below"));
         }
         stages.push({ def, el, body, P, kind: def.kind, top: 0, range: 1 });
       }
@@ -541,9 +543,13 @@ export function ParticleCanvas() {
     }
 
     function renderFlow(s: StageRuntime, lp: number, elapsed: number) {
-      const disperse = smoother(clamp01((lp - 0.55) / 0.4));
+      // Form-in starts well before the pin (lp -0.5) so particles can already
+      // be rising from below while the previous stage is still dispersing
+      // upward. Disperse stretches past lp 1.0 (up to ~1.5) so the outgoing
+      // stage keeps exiting through the top while the next one forms.
+      const disperse = smoother(clamp01((lp - 0.55) / 0.95));
       if (disperse >= 0.999) return;
-      const formRaw = clamp01(lp / 0.46);
+      const formRaw = clamp01((lp + 0.5) / 0.6);
       for (let i = 0; i < s.P.length; i++) {
         const p = s.P[i] as FlowParticle;
         const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
@@ -602,6 +608,26 @@ export function ParticleCanvas() {
       // just handled above on its own scroll-driven path).
       if (s && s !== brand) {
         renderFlow(s, lp, elapsed);
+      }
+      // Cross-fade: render the next stage early (negative lp = below screen,
+      // rising up) so its particles enter from the bottom while the active
+      // stage is still in its hold/disperse phase.
+      const sn = stages[activeIdx + 1];
+      if (sn && sn !== brand && sn.kind === "flow") {
+        const lpn = (y - sn.top) / sn.range;
+        if (lpn > -0.4 && lpn <= 0) {
+          renderFlow(sn, lpn, elapsed);
+        }
+      }
+      // Cross-fade: keep rendering the previous stage past its natural lp 1.0
+      // so its particles continue rising out the top while the new active
+      // stage forms. Disperse caps at lp ~1.5 inside renderFlow.
+      const sp = stages[activeIdx - 1];
+      if (sp && sp !== brand && sp.kind === "flow") {
+        const lpp = (y - sp.top) / sp.range;
+        if (lpp > 1.0 && lpp < 1.6) {
+          renderFlow(sp, lpp, elapsed);
+        }
       }
       rafId = requestAnimationFrame(frame);
     }
