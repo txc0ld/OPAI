@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ParticleCanvas } from "@/components/home/particle-canvas";
 import { StageShell } from "@/components/home/stage-shell";
@@ -144,6 +145,7 @@ export default function Home() {
 
       {/* Stage 1: hero */}
       <StageShell stageId="stage-top" bodyId="body-top" mobileTitleLines={["Ai AGENTS &", "AUTOMATiON"]}>
+        <StageBodyMedia image="/agents.png" alt="AI agents and automation interface preview" width={1122} height={1402}>
         <h1 className="sr-only">AI agents and automation for small businesses.</h1>
         <span className="eyebrow mb-[22px]">OperateAI · For small businesses</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
@@ -165,10 +167,12 @@ export default function Home() {
           <BtnLine href="/ai-integration-services/">Explore AI services</BtnLine>
         </CtaRow>
         <Footnote>Working with businesses across Australia and online worldwide.</Footnote>
+        </StageBodyMedia>
       </StageShell>
 
       {/* Stage 2: integration */}
       <StageShell stageId="stage-integration" bodyId="body-integration" mobileTitleLines={["Ai iNTEGRATiON", "SERViCES"]}>
+        <StageBodyMedia image="/integrate.png" alt="AI integration workflow preview" width={1003} height={1568}>
         <span className="eyebrow mb-[22px]">OperateAI · Service</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           AI is most useful when it fits the tools you already use. We plug AI into your email, your
@@ -193,10 +197,12 @@ export default function Home() {
           <BtnLine href="/ai-agents-for-business/">Custom AI agents</BtnLine>
         </CtaRow>
         <Footnote>Useful systems, not gimmicks. A single workflow usually ships in 2 to 4 weeks.</Footnote>
+        </StageBodyMedia>
       </StageShell>
 
       {/* Stage 3: hosting */}
       <StageShell stageId="stage-hosting" bodyId="body-hosting" mobileTitleLines={["Ai AGENT", "HOSTiNG"]}>
+        <StageBodyMedia image="/hosting.png" alt="Managed AI agent hosting preview" width={1122} height={1402}>
         <span className="eyebrow mb-[22px]">OperateAI · Service</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           An AI agent is only useful when it keeps working. We host it, watch it, keep its knowledge
@@ -221,10 +227,12 @@ export default function Home() {
           <BtnLine href="/ai-integration-services/">AI integration</BtnLine>
         </CtaRow>
         <Footnote>Month-to-month after setup. Full handover on cancellation.</Footnote>
+        </StageBodyMedia>
       </StageShell>
 
       {/* Stage 4: training */}
       <StageShell stageId="stage-training" bodyId="body-training" mobileTitleLines={["Ai", "TRAiNiNG"]}>
+        <StageBodyMedia image="/training.png" alt="AI training session preview" width={1122} height={1402}>
         <span className="eyebrow mb-[22px]">OperateAI · Service</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           AI training should be practical, not buzzword soup. We teach owners, managers and staff
@@ -249,10 +257,12 @@ export default function Home() {
           <BtnLine href="/ai-agents-for-business/">Custom AI agents</BtnLine>
         </CtaRow>
         <Footnote>Three levels: beginner, intermediate, advanced. Built around your team and tools.</Footnote>
+        </StageBodyMedia>
       </StageShell>
 
       {/* Stage 5: industries */}
       <StageShell stageId="stage-industries" bodyId="body-industries" mobileTitleLines={["Ai BY", "iNDUSTRY"]}>
+        <StageBodyMedia image="/industries.png" alt="Industry-specific AI use cases preview" width={1122} height={1402}>
         <span className="eyebrow mb-[22px]">OperateAI · Industries</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           We tailor AI for the sectors most Australian small and medium businesses sit in. Do not
@@ -272,6 +282,7 @@ export default function Home() {
           <BtnFill href="/book-ai-audit/">Send an enquiry →</BtnFill>
         </CtaRow>
         <Footnote>Built around your sector&apos;s admin, compliance and customer workflows.</Footnote>
+        </StageBodyMedia>
       </StageShell>
 
       {/* Main content sections */}
@@ -473,6 +484,36 @@ export default function Home() {
 }
 
 // Local UI primitives
+
+function StageBodyMedia({
+  children,
+  image,
+  alt,
+  width,
+  height,
+}: {
+  children: React.ReactNode;
+  image: string;
+  alt: string;
+  width: number;
+  height: number;
+}) {
+  return (
+    <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(240px,340px)] lg:gap-10">
+      <div className="min-w-0">{children}</div>
+      <div className="relative mx-auto w-full max-w-[180px] overflow-hidden rounded-[8px] border border-[var(--color-w10)] bg-white/[0.04] sm:max-w-[220px] lg:max-w-none">
+        <Image
+          src={image}
+          alt={alt}
+          width={width}
+          height={height}
+          sizes="(max-width: 640px) 180px, (max-width: 1024px) 220px, 340px"
+          className="h-auto w-full object-cover"
+        />
+      </div>
+    </div>
+  );
+}
 
 function Ticks({ items, twoCol = false }: { items: string[]; twoCol?: boolean }) {
   return (

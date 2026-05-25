@@ -39,6 +39,15 @@ test("home page has no console errors", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test("home page renders particle stage body images", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByAltText("AI agents and automation interface preview")).toHaveCount(1);
+  await expect(page.getByAltText("AI integration workflow preview")).toHaveCount(1);
+  await expect(page.getByAltText("Managed AI agent hosting preview")).toHaveCount(1);
+  await expect(page.getByAltText("AI training session preview")).toHaveCount(1);
+  await expect(page.getByAltText("Industry-specific AI use cases preview")).toHaveCount(1);
+});
+
 test("audit contact page renders the enquiry form", async ({ page }) => {
   await page.goto("/book-ai-audit/");
   await expect(page.getByLabel("Name")).toBeVisible();
