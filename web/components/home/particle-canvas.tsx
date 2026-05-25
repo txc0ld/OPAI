@@ -83,6 +83,10 @@ export function ParticleCanvas() {
       bx: number; by: number; ox: number; oy: number;
       size: number; lime: boolean; formDelay: number;
       dispX: number; dispY: number;
+      // Stir physics: per-particle displacement from target + velocity.
+      // Mouse proximity pushes velocity; spring force pulls displacement
+      // back to (0,0). All zero when no mouse interaction has happened.
+      cdx: number; cdy: number; vx: number; vy: number; hitAt: number;
     };
     type StageRuntime = {
       def: (typeof STAGE_DEFS)[number];
@@ -127,6 +131,26 @@ export function ParticleCanvas() {
           const w = ctx!.measureText(ch).width;
           ctx!.fillStyle = ch === "i" ? "#ccff00" : "#fff";
           ctx!.fillText(ch, x, yc);
+          if (ch === "i") {
+            // Tighten the gap between Orbitron's tittle and the stem so the
+            // dot reads clearly as a dot of an i. Erase the natural tittle
+            // area in black, then repaint a compact lime square sitting just
+            // above the stem top.
+            const m = ctx!.measureText("i");
+            const ascent = m.actualBoundingBoxAscent || fontSize * 0.78;
+            const inkL = m.actualBoundingBoxLeft || 0;
+            const inkR = m.actualBoundingBoxRight || w;
+            const stemCenter = x + (inkR - inkL) / 2;
+            const eraseTop = yc - ascent - 1;
+            const eraseH = fontSize * 0.22;
+            ctx!.fillStyle = "#000";
+            ctx!.fillRect(x - 3, eraseTop, w + 6, eraseH);
+            const dotSize = fontSize * 0.13;
+            const stemTopApprox = yc - fontSize * 0.46;
+            const newGap = fontSize * 0.05;
+            ctx!.fillStyle = "#ccff00";
+            ctx!.fillRect(stemCenter - dotSize / 2, stemTopApprox - newGap - dotSize, dotSize, dotSize);
+          }
           x += w;
         }
       });
@@ -193,6 +217,7 @@ export function ParticleCanvas() {
               formDelay: Math.random() * 0.35,
               dispX: bx + (Math.random() - 0.5) * 80,
               dispY: by + H * (0.7 + Math.random() * 0.4),
+              cdx: 0, cdy: 0, vx: 0, vy: 0, hitAt: 0,
             } satisfies FlowParticle;
           });
         }
@@ -315,6 +340,42 @@ export function ParticleCanvas() {
       ctx!.globalAlpha = 1;
     }
 
+    const SPRING = 0.05;
+    const DAMP = 0.88;
+
+    // Apply mouse stir physics to a single flow particle in place. Pushes
+    // velocity when the mouse is within radius, springs displacement back to
+    // (0,0) otherwise. No-op when no mouse interaction has happened or on
+    // touch (mouse.active never flips true).
+    function stir(p: FlowParticle, baseX: number, baseY: number, weight: number, elapsed: number) {
+      if (mouse.active && weight > 0) {
+        const cx = baseX + p.cdx;
+        const cy = baseY + p.cdy;
+        const dxm = cx - mx;
+        const dym = cy - my;
+        const dist = Math.hypot(dxm, dym);
+        if (dist < radius && dist > 0.5) {
+          const f = smoothstep(1 - dist / radius);
+          const dirX = dxm / dist;
+          const dirY = dym / dist;
+          const push = f * PUSH;
+          const sw = f * SWIRL;
+          p.vx += (dirX * push + (-dirY) * push * sw) * weight;
+          p.vy += (dirY * push + dirX * push * sw) * weight;
+          p.hitAt = elapsed;
+        }
+      }
+      // Spring back to target
+      p.vx -= p.cdx * SPRING;
+      p.vy -= p.cdy * SPRING;
+      p.vx *= DAMP;
+      p.vy *= DAMP;
+      const sp = Math.hypot(p.vx, p.vy);
+      if (sp > VMAX) { p.vx *= VMAX / sp; p.vy *= VMAX / sp; }
+      p.cdx += p.vx;
+      p.cdy += p.vy;
+    }
+
     function renderIntro(s: StageRuntime, scrollProgress: number, elapsed: number) {
       // Brand intro: particles form up automatically on page load (time-based),
       // then disperse downward across one viewport of scroll. scrollProgress is
@@ -329,16 +390,18 @@ export function ParticleCanvas() {
         const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
         const fx = p.ox + (p.bx - p.ox) * local;
         const fy = p.oy + (p.by - p.oy) * local;
-        const rx = disperse > 0 ? fx + (p.dispX - fx) * disperse : fx;
-        const ry = disperse > 0 ? fy + (p.dispY - fy) * disperse : fy;
+        const bx = disperse > 0 ? fx + (p.dispX - fx) * disperse : fx;
+        const by = disperse > 0 ? fy + (p.dispY - fy) * disperse : fy;
+        const stirWeight = (1 - disperse) * local;
+        stir(p, bx, by, stirWeight, elapsed);
         ctx!.globalAlpha = Math.min(1, local * 1.6) * (1 - disperse);
         ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
-        ctx!.fillRect(rx, ry, p.size, p.size);
+        ctx!.fillRect(bx + p.cdx, by + p.cdy, p.size, p.size);
       }
       ctx!.globalAlpha = 1;
     }
 
-    function renderFlow(s: StageRuntime, lp: number) {
+    function renderFlow(s: StageRuntime, lp: number, elapsed: number) {
       const disperse = smoother(clamp01((lp - 0.55) / 0.4));
       if (disperse >= 0.999) return;
       const formRaw = clamp01(lp / 0.46);
@@ -347,17 +410,26 @@ export function ParticleCanvas() {
         const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
         const fx = p.ox + (p.bx - p.ox) * local;
         const fy = p.oy + (p.by - p.oy) * local;
-        const rx = disperse > 0 ? fx + (p.dispX - fx) * disperse : fx;
-        const ry = disperse > 0 ? fy + (p.dispY - fy) * disperse : fy;
+        const bx = disperse > 0 ? fx + (p.dispX - fx) * disperse : fx;
+        const by = disperse > 0 ? fy + (p.dispY - fy) * disperse : fy;
+        const stirWeight = (1 - disperse) * local;
+        stir(p, bx, by, stirWeight, elapsed);
         ctx!.globalAlpha = Math.min(1, local * 1.6) * (1 - disperse);
         ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
-        ctx!.fillRect(rx, ry, p.size, p.size);
+        ctx!.fillRect(bx + p.cdx, by + p.cdy, p.size, p.size);
       }
       ctx!.globalAlpha = 1;
     }
 
     function frame(now: number) {
       const elapsed = (now - t0) / 1000;
+      // Ease the mouse position toward the latest cursor coords so the stir
+      // feels smooth rather than snapping per-frame to raw pointer movement.
+      if (mouse.active) {
+        if (mx < -9000) { mx = mouse.x; my = mouse.y; }
+        mx += (mouse.x - mx) * EASE;
+        my += (mouse.y - my) * EASE;
+      }
       const y = getScrollY();
       const s = stages[activeIdx];
       // visualViewport-aware read so the canvas matches what the user sees
@@ -380,10 +452,11 @@ export function ParticleCanvas() {
       // Render the active stage normally, unless it IS the brand (which we
       // just handled above on its own scroll-driven path).
       if (s && s !== brand) {
-        renderFlow(s, lp);
+        renderFlow(s, lp, elapsed);
       }
       rafId = requestAnimationFrame(frame);
     }
+
 
     function moveCursor(cx: number, cy: number) {
       mouse.x = cx;
