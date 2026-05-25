@@ -43,13 +43,13 @@ export default function Page() {
               deep for technical teams.
             </p>
           </div>
-          <div className="relative aspect-[4/5] w-full">
+          <div className="relative aspect-[4/5] w-full overflow-hidden">
             <Image
               src="/operateai_industries_4x5.webp"
               alt="INDUSTRIES — Solutions for every industry. 3D lime icons on plinths: shopping cart (ecommerce), heart-rate (health), factory (manufacturing), crane (construction), truck (trades)."
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-contain"
+              className="scale-[1.08] object-cover"
               priority
             />
           </div>

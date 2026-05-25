@@ -97,13 +97,16 @@ export function ServicePageLayout({
             </div>
           </div>
           {heroImage ? (
-            <div className="relative aspect-[4/5] w-full">
+            <div className="relative aspect-[4/5] w-full overflow-hidden">
+              {/* The source images have a faint rounded card-frame baked
+                  in. Slight scale + overflow-hidden crops that framing so
+                  the visible result is just the artwork + caption. */}
               <Image
                 src={heroImage.src}
                 alt={heroImage.alt}
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-contain"
+                className="scale-[1.08] object-cover"
                 priority
               />
             </div>
