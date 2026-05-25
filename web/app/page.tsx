@@ -138,7 +138,7 @@ export default function Home() {
 
       {/* Stage 0: brand intro — OPERATE Ai pours in and fades down on its
           own, matching the flow of every other stage. */}
-      <StageShell stageId="stage-brand" bodyId="body-brand" mobileTitleLines={["OPERATE", "Ai", "AUTOMATE · DELEGATE · ELEVATE"]} heightClass="h-[160vh]">
+      <StageShell stageId="stage-brand" bodyId="body-brand" mobileTitleLines={["OPERATE", "Ai", "AUTOMATE · DELEGATE · ELEVATE"]} heightClass="h-[140vh] sm:h-[160vh]">
         <span className="sr-only">OperateAI. Automate. Delegate. Elevate.</span>
       </StageShell>
 

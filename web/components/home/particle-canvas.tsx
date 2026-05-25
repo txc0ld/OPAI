@@ -290,22 +290,25 @@ export function ParticleCanvas() {
           // Tier 0: OPERATE / Ai (main title) at TITLE_Y.
           const mainPts = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
           P = mainPts.map((b) => makeFlowParticle(b, 0, "outside"));
-          // Tiers 1..5: AUTOMATE · DELEGATE · ELEVATE.
-          const segs = ["AUTOMATE", "•", "DELEGATE", "•", "ELEVATE"];
           if (isNarrow) {
-            // Stack vertically on narrow viewports so the words can't get
-            // cut off horizontally. Each word/dot is its own line.
-            const stackSize = Math.max(18, Math.min(W * 0.085, titleSize * 0.52));
-            const lh = stackSize * 1.05;
-            const totalH = lh * segs.length;
+            // Narrow viewports: drop the · separators, stack 3 words
+            // vertically. Tiers [1, 3, 5] keep the same staggered reveal
+            // pacing as desktop so the rhythm feels consistent across
+            // devices — the missing dot tiers just aren't rendered.
+            const stackSegs = ["AUTOMATE", "DELEGATE", "ELEVATE"];
+            const stackTiers = [1, 3, 5];
+            const stackSize = Math.max(20, Math.min(W * 0.10, titleSize * 0.6));
+            const lh = stackSize * 1.10;
+            const totalH = lh * stackSegs.length;
             const startY = H * 0.66 - totalH / 2 + lh / 2;
             const cx = W / 2;
-            segs.forEach((seg, i) => {
-              const tier = i + 1;
+            stackSegs.forEach((seg, i) => {
+              const tier = stackTiers[i];
               const segPts = sampleSegment(seg, stackSize, cx, startY + i * lh);
               for (const b of segPts) P.push(makeFlowParticle(b, tier, "below"));
             });
           } else {
+            const segs = ["AUTOMATE", "•", "DELEGATE", "•", "ELEVATE"];
             // Wide layout: single horizontal row. Shrink-to-fit if the
             // measured row would exceed 92% of the viewport width.
             const maxRow = W * 0.92;
