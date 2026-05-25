@@ -13,11 +13,6 @@ import { useEffect } from "react";
  */
 export function ParticleCanvas() {
   useEffect(() => {
-    // Skip the canvas entirely on coarse-pointer (touch) devices. iOS Safari
-    // pauses canvas paints during scroll gestures, producing the "flash to
-    // full canvas" glitch — no JS tuning fully fixes that. Touch users see a
-    // clean per-stage Orbitron heading instead (see StageShell + globals.css).
-    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;

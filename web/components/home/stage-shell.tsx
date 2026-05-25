@@ -11,6 +11,13 @@ type StageShellProps = {
    * stage already has its own H1).
    */
   mobileTitleLines?: string[];
+  /**
+   * Tailwind height class for the outer stage. Defaults to "h-[300vh]" which
+   * gives the canvas room for a full form-in / hold / disperse arc. Use a
+   * smaller value (e.g. "h-[140vh]") for short intros that only need a
+   * form-in + disperse pass.
+   */
+  heightClass?: string;
   children: ReactNode;
 };
 
@@ -42,9 +49,9 @@ function colorizeLowercaseI(line: string): ReactNode[] {
  * "flash to full canvas" once the gesture ends, so we render a clean
  * Orbitron heading instead on touch.
  */
-export function StageShell({ stageId, bodyId, mobileTitleLines, children }: StageShellProps) {
+export function StageShell({ stageId, bodyId, mobileTitleLines, heightClass = "h-[300vh]", children }: StageShellProps) {
   return (
-    <div id={stageId} className="stage-shell relative z-[3] h-[300vh]">
+    <div id={stageId} className={`stage-shell relative z-[3] ${heightClass}`}>
       <div className="stage-shell-pin pointer-events-none sticky top-0 flex h-screen items-center justify-center px-6 lg:px-12">
         <div
           id={bodyId}
