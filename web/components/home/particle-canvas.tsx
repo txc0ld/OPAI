@@ -50,13 +50,23 @@ export function ParticleCanvas() {
       { stageId: "stage-industries", kind: "flow" as const, titleLines: ["Ai BY", "iNDUSTRY"], bodyId: "body-industries" },
     ];
 
-    const radius = 75;
-    const PUSH = 2.6;
-    const SWIRL = 1.0;
+    // Fluid mouse-over tunings. Adopted from the reference snippet:
+    //   easedMouse follows the cursor at 0.05 (lazy/fluid),
+    //   particles within FLUID_RADIUS get pushed away with a linear
+    //   force (FLUID_RADIUS - dist) / FLUID_RADIUS scaled by FLUID_PUSH,
+    //   friction FLUID_FRICTION leaves it feeling like liquid.
+    const FLUID_RADIUS = 150;
+    const FLUID_PUSH = 0.5;
+    const FLUID_FRICTION = 0.95;
     const RETAIN = 0.97;
-    const EASE = 0.09;
+    const EASE = 0.05;
     const TRAIL = 0.2;
     const VMAX = 4;
+    // Legacy hero constants — referenced by the (currently unused)
+    // renderHero path. Kept so the type checker stays happy if it's revived.
+    const radius = FLUID_RADIUS;
+    const PUSH = 2.6;
+    const SWIRL = 1.0;
     const RETURN_EASE = 0.06;
     const RETURN_DELAY = 1.0;
     const STEP = 1;
@@ -411,36 +421,33 @@ export function ParticleCanvas() {
       ctx!.globalAlpha = 1;
     }
 
-    const SPRING = 0.05;
-    const DAMP = 0.88;
+    // Gentle spring back to target so text stays formed once the cursor
+    // moves away. Lower than the reference (which has no spring at all)
+    // because our particles must return to letter positions, not drift.
+    const SPRING = 0.035;
 
-    // Apply mouse stir physics to a single flow particle in place. Pushes
-    // velocity when the mouse is within radius, springs displacement back to
-    // (0,0) otherwise. No-op when no mouse interaction has happened or on
-    // touch (mouse.active never flips true).
+    // Fluid mouse-over stir for a single particle. Matches the reference
+    // snippet's linear push within FLUID_RADIUS with FLUID_FRICTION damping,
+    // plus a spring back to the particle's letter-position target so the
+    // word re-forms after the cursor leaves.
     function stir(p: FlowParticle, baseX: number, baseY: number, weight: number, elapsed: number) {
       if (mouse.active && weight > 0) {
         const cx = baseX + p.cdx;
         const cy = baseY + p.cdy;
-        const dxm = cx - mx;
-        const dym = cy - my;
-        const dist = Math.hypot(dxm, dym);
-        if (dist < radius && dist > 0.5) {
-          const f = smoothstep(1 - dist / radius);
-          const dirX = dxm / dist;
-          const dirY = dym / dist;
-          const push = f * PUSH;
-          const sw = f * SWIRL;
-          p.vx += (dirX * push + (-dirY) * push * sw) * weight;
-          p.vy += (dirY * push + dirX * push * sw) * weight;
+        const dx = cx - mx;
+        const dy = cy - my;
+        const dist = Math.hypot(dx, dy);
+        if (dist < FLUID_RADIUS && dist > 0.5) {
+          const force = (FLUID_RADIUS - dist) / FLUID_RADIUS;
+          p.vx += (dx / dist) * force * FLUID_PUSH * weight;
+          p.vy += (dy / dist) * force * FLUID_PUSH * weight;
           p.hitAt = elapsed;
         }
       }
-      // Spring back to target
       p.vx -= p.cdx * SPRING;
       p.vy -= p.cdy * SPRING;
-      p.vx *= DAMP;
-      p.vy *= DAMP;
+      p.vx *= FLUID_FRICTION;
+      p.vy *= FLUID_FRICTION;
       const sp = Math.hypot(p.vx, p.vy);
       if (sp > VMAX) { p.vx *= VMAX / sp; p.vy *= VMAX / sp; }
       p.cdx += p.vx;
