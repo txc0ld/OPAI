@@ -53,7 +53,7 @@ export function IndustryPageLayout({
                 href="/book-ai-audit/"
                 className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
               >
-                Discuss AI for your {industry} business →
+                Contact us about AI for {industry} →
               </Link>
             </div>
           </div>
@@ -105,7 +105,7 @@ export function IndustryPageLayout({
               href="/book-ai-audit/"
               className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Book an AI Business Audit →
+              Contact us →
             </Link>
           </div>
         </div>

@@ -69,7 +69,7 @@ export function SiteHeader() {
             "hover:text-[var(--color-accent)] hover:before:w-4 hover:before:bg-[var(--color-accent)]",
           )}
         >
-          Book audit
+          Contact
         </Link>
       </nav>
 
@@ -90,7 +90,7 @@ export function SiteHeader() {
         // subtree non-focusable AND inaccessible to assistive tech, which is
         // what we want for a hidden off-canvas nav. aria-hidden with focusable
         // children inside fails axe rule "aria-hidden-focus".
-        {...(!open ? { inert: "" as unknown as undefined } : {})}
+        inert={!open ? true : undefined}
         className={cn(
           "fixed inset-x-0 top-[58px] z-40 bg-black/95 backdrop-blur-[14px] lg:hidden",
           "origin-top transition-[opacity,transform] duration-200 ease-out",
@@ -123,7 +123,7 @@ export function SiteHeader() {
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center gap-2 rounded-md bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black"
               >
-                Book audit →
+                Contact us →
               </Link>
             </li>
           </ul>

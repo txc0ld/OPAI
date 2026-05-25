@@ -57,7 +57,7 @@ const SERVICES = [
     href: "/book-ai-audit/",
     title: "AI Business Audit",
     body: "A simple, structured look at your tools, your workflows, and where AI could actually help. You leave with a plain-English plan, not a slide deck.",
-    cta: "Book an audit →",
+    cta: "Start enquiry →",
   },
   {
     n: "02",
@@ -161,7 +161,7 @@ export default function Home() {
           ]}
         />
         <CtaRow>
-          <BtnFill href="/book-ai-audit/">Book an AI Business Audit →</BtnFill>
+          <BtnFill href="/book-ai-audit/">Send an enquiry →</BtnFill>
           <BtnLine href="/ai-integration-services/">Explore AI services</BtnLine>
         </CtaRow>
         <Footnote>Working with businesses across Australia and online worldwide.</Footnote>
@@ -189,7 +189,7 @@ export default function Home() {
           ]}
         />
         <CtaRow>
-          <BtnFill href="/book-ai-audit/">Book a chat →</BtnFill>
+          <BtnFill href="/book-ai-audit/">Send an enquiry →</BtnFill>
           <BtnLine href="/ai-agents-for-business/">Custom AI agents</BtnLine>
         </CtaRow>
         <Footnote>Useful systems, not gimmicks. A single workflow usually ships in 2 to 4 weeks.</Footnote>
@@ -245,7 +245,7 @@ export default function Home() {
           ]}
         />
         <CtaRow>
-          <BtnFill href="/book-ai-audit/">Book AI training →</BtnFill>
+          <BtnFill href="/book-ai-audit/">Ask about AI training →</BtnFill>
           <BtnLine href="/ai-agents-for-business/">Custom AI agents</BtnLine>
         </CtaRow>
         <Footnote>Three levels: beginner, intermediate, advanced. Built around your team and tools.</Footnote>
@@ -256,7 +256,7 @@ export default function Home() {
         <span className="eyebrow mb-[22px]">OperateAI · Industries</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           We tailor AI for the sectors most Australian small and medium businesses sit in. Do not
-          see yours? Book an audit and we will work out whether AI fits your situation.
+          see yours? Send an enquiry and we will work out whether AI fits your situation.
         </p>
         <ul className="mt-[34px] grid max-w-[680px] list-none gap-3 sm:grid-cols-2 sm:gap-x-[34px]">
           {INDUSTRIES.map((i) => (
@@ -269,7 +269,7 @@ export default function Home() {
           ))}
         </ul>
         <CtaRow>
-          <BtnFill href="/book-ai-audit/">Book an AI Business Audit →</BtnFill>
+          <BtnFill href="/book-ai-audit/">Send an enquiry →</BtnFill>
         </CtaRow>
         <Footnote>Built around your sector&apos;s admin, compliance and customer workflows.</Footnote>
       </StageShell>
@@ -420,7 +420,7 @@ export default function Home() {
               where it is not worth the effort yet. You leave with a clear plan, not vague ideas.
             </p>
             <div className="reveal mt-10 flex justify-center" data-d="2">
-              <BtnFill href="/book-ai-audit/">Book an AI Business Audit →</BtnFill>
+              <BtnFill href="/book-ai-audit/">Send an enquiry →</BtnFill>
             </div>
           </div>
         </Section>
@@ -463,7 +463,7 @@ export default function Home() {
               to avoid, and what to do first.
             </p>
             <div className="reveal mt-10 flex justify-center" data-d="2">
-              <BtnFill href="/book-ai-audit/">Book an AI Business Audit →</BtnFill>
+              <BtnFill href="/book-ai-audit/">Send an enquiry →</BtnFill>
             </div>
           </div>
         </Section>

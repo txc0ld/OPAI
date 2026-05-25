@@ -90,12 +90,12 @@ export default function Page() {
             "Ongoing improvement and support",
           ],
         }}
-        ctaLabel="Book a Perth AI consultation"
+        ctaLabel="Contact a Perth AI consultant"
         relatedLinks={[
           { href: "/ai-integration-services/", label: "AI Integration" },
           { href: "/ai-agents-for-business/", label: "Custom AI Agents" },
           { href: "/ai-training-for-business/", label: "AI Training" },
-          { href: "/book-ai-audit/", label: "Book an AI Business Audit" },
+          { href: "/book-ai-audit/", label: "Contact OperateAI" },
         ]}
         faq={<FaqSection items={FAQS} emitSchema={false} />}
         faqItems={FAQS}

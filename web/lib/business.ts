@@ -1,12 +1,12 @@
 // Single source of truth for brand and contact details.
-// All TODO(operator) markers must be filled before public launch.
+// Optional fields are omitted from schema until the operator supplies them.
 
 export const BUSINESS = {
   name: "OperateAI",
   legalName: "Operate AI - by Fantom Labs Tech",
   url: "https://www.operateai.com.au",
   email: "hello@operateai.com.au",
-  telephone: "TODO(operator): +61 ...",
+  telephone: undefined as string | undefined,
   abn: "ABN 51 559 921 362",
   tagline:
     "AI agents, automation, hosting and training for Australian businesses. Delivered online worldwide.",
@@ -23,10 +23,7 @@ export const BUSINESS = {
     "Australia",
     "Worldwide (online)",
   ],
-  sameAs: [
-    "TODO(operator): https://www.linkedin.com/company/operateai",
-    "TODO(operator): https://x.com/operateai",
-  ],
+  sameAs: [] as string[],
   founded: "2026",
   copyrightYear: 2026,
 } as const;
@@ -35,5 +32,5 @@ export const NAV_LABELS = {
   services: "Services",
   industries: "Industries",
   perth: "Perth",
-  bookAudit: "Book audit",
+  bookAudit: "Contact",
 } as const;

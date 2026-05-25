@@ -10,7 +10,7 @@ export function buildOrganization(): SchemaNode {
     legalName: BUSINESS.legalName,
     url: BUSINESS.url,
     email: BUSINESS.email,
-    telephone: BUSINESS.telephone,
+    ...(BUSINESS.telephone ? { telephone: BUSINESS.telephone } : {}),
     taxID: BUSINESS.abn,
     description: BUSINESS.description,
     foundingDate: BUSINESS.founded,
@@ -20,7 +20,7 @@ export function buildOrganization(): SchemaNode {
       addressRegion: BUSINESS.address.addressRegion,
       addressCountry: BUSINESS.address.addressCountry,
     },
-    sameAs: BUSINESS.sameAs,
+    ...(BUSINESS.sameAs.length > 0 ? { sameAs: BUSINESS.sameAs } : {}),
   };
 }
 
@@ -44,7 +44,7 @@ export function buildLocalBusiness(): SchemaNode {
     name: BUSINESS.name,
     url: BUSINESS.url,
     email: BUSINESS.email,
-    telephone: BUSINESS.telephone,
+    ...(BUSINESS.telephone ? { telephone: BUSINESS.telephone } : {}),
     description: BUSINESS.description,
     parentOrganization: { "@id": `${BUSINESS.url}/#organization` },
     address: {

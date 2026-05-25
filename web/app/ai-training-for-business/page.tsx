@@ -101,11 +101,11 @@ export default function Page() {
           "Getting your team onboard",
         ],
       }}
-      ctaLabel="Book AI training"
+      ctaLabel="Ask about AI training"
       relatedLinks={[
         { href: "/ai-integration-services/", label: "AI Integration" },
         { href: "/ai-agents-for-business/", label: "Custom AI Agents" },
-        { href: "/book-ai-audit/", label: "Book an AI Business Audit" },
+        { href: "/book-ai-audit/", label: "Contact OperateAI" },
       ]}
       faq={<FaqSection items={FAQS} emitSchema={false} />}
       faqItems={FAQS}

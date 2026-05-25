@@ -87,7 +87,7 @@ export default function Page() {
             Don&apos;t see your industry?
           </h2>
           <p className="reveal mt-[22px] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            That does not mean we cannot help. Book an audit and we will work
+            That does not mean we cannot help. Send an enquiry and we will work
             out whether AI fits your situation.
           </p>
           <div className="reveal mt-10 flex justify-center">
@@ -95,7 +95,7 @@ export default function Page() {
               href="/book-ai-audit/"
               className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Book an AI Business Audit →
+              Contact us →
             </Link>
           </div>
         </div>

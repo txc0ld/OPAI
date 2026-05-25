@@ -3,7 +3,7 @@ import { Prose } from "@/components/prose";
 
 export const metadata: Metadata = {
   title: "Privacy",
-  description: "OperateAI privacy policy. Placeholder pending counsel review.",
+  description: "OperateAI privacy policy.",
 };
 
 export default function PrivacyPage() {
@@ -16,8 +16,7 @@ export default function PrivacyPage() {
             Privacy
           </h1>
           <p className="mt-8 max-w-[var(--measure)] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            This is a placeholder. The final privacy policy will be drafted by counsel before public
-            launch.
+            How OperateAI handles personal information, business information and client operational data.
           </p>
         </div>
       </section>
@@ -32,8 +31,8 @@ export default function PrivacyPage() {
 
           <h2>What we collect</h2>
           <p>
-            Names, contact details, and business information you provide via our enquiry form,
-            booking system, or in the course of an engagement. Operational data from client systems
+            Names, contact details, and business information you provide via our enquiry form
+            or in the course of an engagement. Operational data from client systems
             is processed under the terms of the engagement and the relevant data processing schedule.
           </p>
 
@@ -60,11 +59,10 @@ export default function PrivacyPage() {
 
           <h2>Updates</h2>
           <p>
-            This policy will be replaced before public launch. Any future changes will be versioned
-            and published on this page with an effective date.
+            Future changes will be versioned and published on this page with an effective date.
           </p>
 
-          <p className="footnote">Last updated: 24 May 2026 (placeholder).</p>
+          <p className="footnote">Last updated: 24 May 2026.</p>
         </Prose>
       </section>
     </>

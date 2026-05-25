@@ -37,7 +37,7 @@ export function SiteFooter() {
                 href="/book-ai-audit/"
                 className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
               >
-                Book audit
+                Contact
               </Link>
             </li>
           </ul>

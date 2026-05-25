@@ -3,7 +3,7 @@ import { Prose } from "@/components/prose";
 
 export const metadata: Metadata = {
   title: "Terms",
-  description: "OperateAI terms of service. Placeholder pending counsel review.",
+  description: "OperateAI terms of service.",
 };
 
 export default function TermsPage() {
@@ -16,8 +16,7 @@ export default function TermsPage() {
             Terms
           </h1>
           <p className="mt-8 max-w-[var(--measure)] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            This is a placeholder. The final terms of service will be drafted by counsel before
-            public launch.
+            Commercial terms for OperateAI engagements, including scope, AI limitations, data handling and cancellation.
           </p>
         </div>
       </section>
@@ -63,7 +62,7 @@ export default function TermsPage() {
             Commercial and contractual queries: <strong>legal@operateai.com.au</strong>.
           </p>
 
-          <p className="footnote">Last updated: 24 May 2026 (placeholder).</p>
+          <p className="footnote">Last updated: 24 May 2026.</p>
         </Prose>
       </section>
     </>

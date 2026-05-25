@@ -105,7 +105,7 @@ export default function Page() {
       relatedLinks={[
         { href: "/ai-agent-hosting/", label: "AI Agent Hosting" },
         { href: "/ai-integration-services/", label: "AI Integration" },
-        { href: "/book-ai-audit/", label: "Book an AI Business Audit" },
+        { href: "/book-ai-audit/", label: "Contact OperateAI" },
       ]}
       faq={<FaqSection items={FAQS} emitSchema={false} />}
       faqItems={FAQS}

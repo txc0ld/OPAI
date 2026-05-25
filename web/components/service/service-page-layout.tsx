@@ -92,7 +92,7 @@ export function ServicePageLayout({
                 href="/book-ai-audit/"
                 className="inline-flex items-center gap-2 rounded-[7px] border border-[var(--color-w30)] px-6 py-3.5 text-[15px] font-semibold text-[var(--color-fg)] transition-colors duration-300 hover:border-[var(--color-fg)] hover:bg-[var(--color-w10)]"
               >
-                Book an audit
+                Contact us
               </Link>
             </div>
           </div>
@@ -195,7 +195,7 @@ export function ServicePageLayout({
               href="/book-ai-audit/"
               className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Book an AI Business Audit →
+              Contact us →
             </Link>
           </div>
         </div>

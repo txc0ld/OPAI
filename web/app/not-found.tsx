@@ -28,7 +28,7 @@ export default function NotFound() {
             href="/book-ai-audit/"
             className="inline-flex items-center gap-2 rounded-[7px] border border-[var(--color-w30)] px-6 py-3.5 text-[15px] font-semibold text-[var(--color-fg)] transition-colors duration-300 hover:border-[var(--color-fg)] hover:bg-[var(--color-w10)]"
           >
-            Book an audit
+            Contact
           </Link>
         </div>
       </div>
