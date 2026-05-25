@@ -529,15 +529,18 @@ export function ParticleCanvas() {
     }
 
     function renderFlow(s: StageRuntime, lp: number, elapsed: number) {
-      // Timing aligned with the body fade-in (lp 0.64..0.96, set in onScroll)
-      // so the particle title cross-fades with the body copy instead of
-      // hanging around after the text is fully visible.
-      //   Form-in over lp -0.4..0.1 (rises from below into place by the time
-      //   the user has scrolled ~10% into the pin).
-      //   Hold over lp 0.1..0.55 (title in place, body still hidden).
-      //   Disperse over lp 0.55..0.95 (overlaps with body lp 0.64..0.96 — as
-      //   the body fades in, the particle title fades upward out the top).
-      const disperse = smoother(clamp01((lp - 0.55) / 0.4));
+      // Timed so the particle title clears the screen BEFORE the body copy
+      // fades in (body asm window is lp 0.64..0.96 in onScroll), preventing
+      // any visual overlap between title and body.
+      //   Form-in over lp -0.4..0.1 (rises in from below).
+      //   Hold over lp 0.1..0.45.
+      //   Disperse over lp 0.45..0.7 (almost entirely complete by the time
+      //   body fade-in begins at lp 0.64).
+      // The next stage's form-in (via sn branch) doesn't begin until lp >
+      // ~0.85 of the current stage, leaving roughly 80vh of "rest" where
+      // only the body copy is on screen — a real breathing gap, not an
+      // instant crossfade.
+      const disperse = smoother(clamp01((lp - 0.45) / 0.25));
       if (disperse >= 0.999) return;
       const formRaw = clamp01((lp + 0.4) / 0.5);
       if (formRaw <= 0.001) return;
