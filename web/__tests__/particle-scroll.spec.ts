@@ -3,6 +3,8 @@ import { expect, test, type Page } from "@playwright/test";
 type StageMetrics = {
   bodyOpacity: number;
   litPixels: number;
+  totalBrightness: number;
+  centerY: number | null;
 };
 
 async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: number): Promise<StageMetrics> {
@@ -34,18 +36,27 @@ async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: nu
       const height = canvas.height;
       const data = ctx.getImageData(0, 0, width, height).data;
       let litPixels = 0;
+      let weightedY = 0;
+      let totalWeight = 0;
       const step = Math.max(16, Math.floor(Math.min(width, height) / 60));
 
       for (let y = 0; y < height; y += step) {
         for (let x = 0; x < width; x += step) {
           const idx = (y * width + x) * 4;
-          if (data[idx] > 20 || data[idx + 1] > 20 || data[idx + 2] > 20) litPixels += 1;
+          const brightness = Math.max(data[idx], data[idx + 1], data[idx + 2]);
+          if (brightness > 20) {
+            litPixels += 1;
+            weightedY += y * brightness;
+            totalWeight += brightness;
+          }
         }
       }
 
       return {
         bodyOpacity: Number.parseFloat(getComputedStyle(body).opacity || "0"),
         litPixels,
+        totalBrightness: totalWeight,
+        centerY: totalWeight > 0 ? weightedY / totalWeight / height : null,
       };
     },
     { stageId, bodyId, lp },
@@ -81,6 +92,38 @@ test("mobile particle title clears before stage body fades in", async ({ browser
   const visible = await scrollStageTo(page, "stage-top", "body-top", 0.84);
   expect(visible.bodyOpacity).toBeGreaterThan(0.35);
   expect(visible.litPixels).toBeLessThanOrEqual(4);
+
+  await context.close();
+});
+
+test("mobile particle title rises from bottom to center then fades upward", async ({ browser }) => {
+  const context = await browser.newContext({
+    hasTouch: true,
+    isMobile: true,
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(page.locator("#particle-canvas")).toBeVisible();
+  await page.waitForTimeout(300);
+
+  const entering = await scrollStageTo(page, "stage-top", "body-top", -0.06);
+  expect(entering.litPixels).toBeGreaterThan(4);
+  expect(entering.centerY).not.toBeNull();
+  expect(entering.centerY!).toBeGreaterThan(0.56);
+
+  const centered = await scrollStageTo(page, "stage-top", "body-top", 0.18);
+  expect(centered.litPixels).toBeGreaterThan(4);
+  expect(centered.centerY).not.toBeNull();
+  expect(centered.centerY!).toBeGreaterThan(0.42);
+  expect(centered.centerY!).toBeLessThan(0.58);
+
+  const exiting = await scrollStageTo(page, "stage-top", "body-top", 0.58);
+  expect(exiting.bodyOpacity).toBeLessThanOrEqual(0.08);
+  expect(exiting.centerY).not.toBeNull();
+  expect(exiting.centerY!).toBeLessThan(centered.centerY! - 0.05);
+  expect(exiting.centerY!).toBeGreaterThan(0.16);
+  expect(exiting.totalBrightness).toBeLessThan(centered.totalBrightness * 0.75);
 
   await context.close();
 });

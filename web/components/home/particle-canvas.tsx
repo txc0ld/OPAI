@@ -35,6 +35,7 @@ export function ParticleCanvas() {
     }
 
     const TITLE_Y = 0.42;
+    const MOBILE_TITLE_Y = 0.5;
 
     const STAGE_DEFS = [
       // Brand intro: "OPERATE Ai" pours in and fades down on its own,
@@ -95,7 +96,7 @@ export function ParticleCanvas() {
     type FlowParticle = {
       bx: number; by: number; ox: number; oy: number;
       size: number; lime: boolean; formDelay: number;
-      dispX: number; dispY: number;
+      dispX: number; dispY: number; mobileDispY: number;
       // Stir physics: per-particle displacement from target + velocity.
       cdx: number; cdy: number; vx: number; vy: number; hitAt: number;
       // Tier 0 = main title, time-based form-in on page load.
@@ -254,9 +255,10 @@ export function ParticleCanvas() {
         lime: b.lime,
         formDelay: Math.random() * 0.35,
         dispX: bx + (Math.random() - 0.5) * 80,
-        // Disperse upward — particles drift above the viewport so each stage
-        // exits through the top of the screen instead of falling out the bottom.
+        // Desktop disperses fully out of frame. Mobile fades during travel to
+        // the upper band so titles do not finish at the top before disappearing.
         dispY: by - H * (0.7 + Math.random() * 0.3) - 30,
+        mobileDispY: by - H * (0.38 + Math.random() * 0.16) - 12,
         cdx: 0, cdy: 0, vx: 0, vy: 0, hitAt: 0,
         tier,
       };
@@ -266,7 +268,7 @@ export function ParticleCanvas() {
       stages.length = 0;
       const titleSize = Math.min(W / 9, H / 7, 92);
       const isNarrow = W < 640;
-      const titleYFrac = TITLE_Y;
+      const titleYFrac = isNarrow ? MOBILE_TITLE_Y : TITLE_Y;
       const taglineYFrac = 0.66;
       for (const def of STAGE_DEFS) {
         const el = document.getElementById(def.stageId);
@@ -456,7 +458,11 @@ export function ParticleCanvas() {
       //   Form-in over lp -0.4..0.1 (rises in from below).
       //   Hold over lp 0.1..0.45.
       //   Disperse over lp 0.42..0.64, then the body reveal begins at 0.74.
-      const disperse = smoother(clamp01((lp - FLOW_DISPERSE_START) / FLOW_DISPERSE_DUR));
+      // Mobile gives the centered title a beat before fading it while it
+      // travels upward; it should not remain visible until it reaches the top.
+      const disperseStart = coarsePointer ? 0.48 : FLOW_DISPERSE_START;
+      const disperseDur = coarsePointer ? 0.24 : FLOW_DISPERSE_DUR;
+      const disperse = smoother(clamp01((lp - disperseStart) / disperseDur));
       if (disperse >= 0.999) return;
       const formRaw = clamp01((lp + 0.4) / 0.5);
       if (formRaw <= 0.001) return;
@@ -465,11 +471,13 @@ export function ParticleCanvas() {
         const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
         const fx = p.ox + (p.bx - p.ox) * local;
         const fy = p.oy + (p.by - p.oy) * local;
+        const exitY = coarsePointer ? p.mobileDispY : p.dispY;
         const bx = disperse > 0 ? fx + (p.dispX - fx) * disperse : fx;
-        const by = disperse > 0 ? fy + (p.dispY - fy) * disperse : fy;
-        const stirWeight = (1 - disperse) * local;
+        const by = disperse > 0 ? fy + (exitY - fy) * disperse : fy;
+        const exitAlpha = coarsePointer ? clamp01(1 - disperse * 1.45) : 1 - disperse;
+        const stirWeight = exitAlpha * local;
         stir(p, bx, by, stirWeight, elapsed);
-        ctx!.globalAlpha = Math.min(1, local * 1.6) * (1 - disperse);
+        ctx!.globalAlpha = Math.min(1, local * 1.6) * exitAlpha;
         ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
         ctx!.fillRect(bx + p.cdx, by + p.cdy, p.size, p.size);
       }
