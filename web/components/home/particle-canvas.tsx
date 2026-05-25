@@ -495,7 +495,7 @@ export function ParticleCanvas() {
     const TIER_FORM_DUR = 0.18;
     // All tiers disperse together once the user scrolls past this threshold.
     const INTRO_DISPERSE_START = 0.7;
-    const INTRO_DISPERSE_DUR = 0.3;
+    const INTRO_DISPERSE_DUR = 0.5;
 
     function renderIntro(s: StageRuntime, scrollProgress: number, elapsed: number) {
       // Brand intro: tier 0 (OPERATE Ai) forms in on page load via elapsed
@@ -529,13 +529,18 @@ export function ParticleCanvas() {
     }
 
     function renderFlow(s: StageRuntime, lp: number, elapsed: number) {
-      // Form-in starts well before the pin (lp -0.5) so particles can already
-      // be rising from below while the previous stage is still dispersing
-      // upward. Disperse stretches past lp 1.0 (up to ~1.5) so the outgoing
-      // stage keeps exiting through the top while the next one forms.
-      const disperse = smoother(clamp01((lp - 0.55) / 0.95));
+      // Symmetric timing:
+      //   Form-in over lp -0.5..0 (100vh, fades up from below as the previous
+      //   stage's particles are dispersing upward).
+      //   Hold over lp 0..1 (the full pin window, particles in place).
+      //   Disperse over lp 1..1.5 (100vh, fades up out the top while the
+      //   next stage's particles are forming in from below).
+      // The previous stage's tail (lp 1..1.5) and the next stage's lead-in
+      // (lp -0.5..0) share the same 100vh of scroll, so the two stages
+      // cross-fade through each other symmetrically.
+      const disperse = smoother(clamp01((lp - 1.0) / 0.5));
       if (disperse >= 0.999) return;
-      const formRaw = clamp01((lp + 0.5) / 0.6);
+      const formRaw = clamp01((lp + 0.5) / 0.5);
       for (let i = 0; i < s.P.length; i++) {
         const p = s.P[i] as FlowParticle;
         const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
@@ -570,11 +575,14 @@ export function ParticleCanvas() {
       // ends, which is the source of the post-scroll flash).
       const lp = s ? clamp01((y - s.top) / s.range) : 0;
       const brand = stages[0];
-      // Scale brand intro progress so disperse completes right when the next
-      // stage starts pinning — no empty canvas window in between.
+      // Brand intro progress scaled against the next stage's pin position.
+      // Left unclamped on the high end so disperse can extend past 1.0 and
+      // overlap with stage-top forming in — symmetric cross-fade rather
+      // than a hard cut at the brand stage boundary.
       const introTransitionEnd = stages[1] ? stages[1].top : H;
-      const introScrollProgress = clamp01(y / Math.max(1, introTransitionEnd));
-      const inIntroWindow = brand && brand.kind === "intro" && introScrollProgress < 0.99;
+      const introScrollProgress = y / Math.max(1, introTransitionEnd);
+      const inIntroWindow =
+        brand && brand.kind === "intro" && introScrollProgress < INTRO_DISPERSE_START + INTRO_DISPERSE_DUR;
       const resting = inIntroWindow && introScrollProgress < 0.02;
       const fade = resting ? TRAIL : 0.85;
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
