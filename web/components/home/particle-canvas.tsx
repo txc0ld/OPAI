@@ -145,31 +145,8 @@ export function ParticleCanvas() {
         const yc = top + li * lh;
         for (const ch of line) {
           const w = ctx!.measureText(ch).width;
-          ctx!.fillStyle = ch === "i" ? "#ccff00" : "#fff";
+          ctx!.fillStyle = "#fff";
           ctx!.fillText(ch, x, yc);
-          if (ch === "i") {
-            // Tighten the gap between Orbitron's tittle and the stem so the
-            // dot reads clearly as a dot of an i. Erase the natural tittle
-            // area in black, then repaint a compact lime square sitting just
-            // above the stem top.
-            const m = ctx!.measureText("i");
-            const ascent = m.actualBoundingBoxAscent || fontSize * 0.78;
-            const inkL = m.actualBoundingBoxLeft || 0;
-            const inkR = m.actualBoundingBoxRight || w;
-            const stemCenter = x + (inkR - inkL) / 2;
-            const eraseTop = yc - ascent - 1;
-            // Erase only the natural tittle — height stops well above x-height
-            // so the original stem stays intact.
-            ctx!.fillStyle = "#000";
-            ctx!.fillRect(x - 3, eraseTop, w + 6, fontSize * 0.22);
-            const dotSize = fontSize * 0.13;
-            // stemTopApprox is the target sit-just-above point for the dot.
-            // Closer to yc = lower on screen = closer to the stem top.
-            const stemTopApprox = yc - fontSize * 0.27;
-            const newGap = fontSize * 0.005;
-            ctx!.fillStyle = "#ccff00";
-            ctx!.fillRect(stemCenter - dotSize / 2, stemTopApprox - newGap - dotSize, dotSize, dotSize);
-          }
           x += w;
         }
       });
@@ -221,23 +198,10 @@ export function ParticleCanvas() {
       let x = cx - totalW / 2;
       for (const ch of text) {
         const w = ctx!.measureText(ch).width;
-        const isAccent = ch === "•" || ch === "i";
-        ctx!.fillStyle = isAccent ? "#ccff00" : "#fff";
+        // Keep the lime treatment for the "•" separator only; "i" renders
+        // white like every other letter so it matches the body of the word.
+        ctx!.fillStyle = ch === "•" ? "#ccff00" : "#fff";
         ctx!.fillText(ch, x, cy);
-        if (ch === "i") {
-          const m = ctx!.measureText("i");
-          const ascent = m.actualBoundingBoxAscent || fontSize * 0.78;
-          const inkL = m.actualBoundingBoxLeft || 0;
-          const inkR = m.actualBoundingBoxRight || w;
-          const stemCenter = x + (inkR - inkL) / 2;
-          ctx!.fillStyle = "#000";
-          ctx!.fillRect(x - 3, cy - ascent - 1, w + 6, fontSize * 0.22);
-          const dotSize = fontSize * 0.13;
-          const stemTopApprox = cy - fontSize * 0.27;
-          const newGap = fontSize * 0.005;
-          ctx!.fillStyle = "#ccff00";
-          ctx!.fillRect(stemCenter - dotSize / 2, stemTopApprox - newGap - dotSize, dotSize, dotSize);
-        }
         x += w;
       }
       const Wbs = canvas.width;
