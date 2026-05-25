@@ -43,13 +43,13 @@ export default function Page() {
               deep for technical teams.
             </p>
           </div>
-          <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <div className="relative aspect-[4/5] w-full">
             <Image
               src="/operateai_industries_4x5.webp"
-              alt="INDUSTRIES — Solutions for every industry. 3D lime icons on plinths: shopping cart (ecommerce), heart-rate (health), factory (manufacturing), crane (construction), truck (trades)."
+              alt="INDUSTRIES. Built for every industry. Tailored AI solutions for the industries that drive Australia forward. A map of Australia with lime industry icons: real estate, retail, construction, healthcare and professional services."
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
-              className="scale-[1.08] object-cover"
+              className="object-contain"
               priority
             />
           </div>

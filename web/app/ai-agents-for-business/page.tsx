@@ -41,7 +41,7 @@ export default function Page() {
       h1="Custom AI agents for business workflows"
       heroImage={{
         src: "/operateai_ai_agents_4x5.webp",
-        alt: "AI AGENTS — Digital workers that get the job done. A glowing lime sphere floating above rippling water.",
+        alt: "AI AGENTS. Digital team members. AI agents that think, act and deliver results. A glowing lime sphere floating above tiered black plinths.",
       }}
       opening={
         <>

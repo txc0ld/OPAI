@@ -58,13 +58,13 @@ export function IndustryPageLayout({
             </div>
           </div>
           {heroImage ? (
-            <div className="relative aspect-[4/5] w-full overflow-hidden">
+            <div className="relative aspect-[4/5] w-full">
               <Image
                 src={heroImage.src}
                 alt={heroImage.alt}
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"
-                className="scale-[1.08] object-cover"
+                className="object-contain"
                 priority
               />
             </div>

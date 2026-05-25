@@ -41,7 +41,7 @@ export default function Page() {
       h1="Managed AI agent hosting and support"
       heroImage={{
         src: "/operateai_hosting_4x5.webp",
-        alt: "HOSTING — Secure. Reliable. Always on. A dark server hallway with a lime cloud icon and floor stripe.",
+        alt: "HOSTING. Secure. Reliable. Scalable. Enterprise grade hosting for performance and peace of mind. A dark server-room corridor with a glowing lime cloud icon and floor reflection.",
       }}
       opening={
         <>

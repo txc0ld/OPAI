@@ -41,7 +41,7 @@ export default function Page() {
       h1="Practical AI training for business owners and teams"
       heroImage={{
         src: "/operateai_training_4x5.webp",
-        alt: "TRAINING — Upskill your team. Drive real results. Laptop showing 'AI Training Built for Real Work' with practical / hands-on / business-focused checkpoints.",
+        alt: "TRAINING. Upskill your team. Practical, hands-on training to help you work smarter with AI. A laptop on a desk showing Module 03 — Prompt Engineering with a lime waveform.",
       }}
       opening={
         <>

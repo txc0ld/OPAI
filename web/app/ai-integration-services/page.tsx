@@ -41,7 +41,7 @@ export default function Page() {
       h1="AI integration services for small and medium businesses"
       heroImage={{
         src: "/operateai_integration_4x5.webp",
-        alt: "INTEGRATION — Connect what already works. App icons (Slack, Sheets, Notion, HubSpot, Gmail, Salesforce) connected by lime threads to a central OperateAI hub.",
+        alt: "INTEGRATION. Connect everything. Unify your systems and streamline your business. App icons (Salesforce, Slack, Google, Sheets, Notion, Shopify, HubSpot) wired into a central OperateAI hub.",
       }}
       opening={
         <>
