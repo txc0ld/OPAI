@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono, Orbitron, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StructuredData } from "@/components/structured-data";
@@ -18,6 +18,13 @@ const mono = JetBrains_Mono({
   variable: "--font-jetbrains",
   display: "swap",
   weight: ["400", "500"],
+});
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-orbitron",
+  display: "swap",
+  weight: "900",
 });
 
 export const metadata: Metadata = {
@@ -82,19 +89,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU" className={`${jakarta.variable} ${mono.variable}`}>
-      <head>
-        {/* Orbitron loaded directly from Google Fonts so the particle canvas
-            can reference it by its literal family name. next/font hashes
-            family names which made the canvas ctx.font reference unreliable
-            in an earlier iteration. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en-AU" className={`${jakarta.variable} ${mono.variable} ${orbitron.variable}`}>
       <body>
         <StructuredData />
         <ScrollReveal />

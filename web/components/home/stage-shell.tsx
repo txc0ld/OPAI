@@ -59,7 +59,7 @@ export function StageShell({ stageId, bodyId, mobileTitleLines, heightClass = "h
           style={{ transform: "translateY(70px)" }}
         >
           {mobileTitleLines && mobileTitleLines.length > 0 ? (
-            <h2 className="stage-shell-mobile-title hidden font-[family-name:Orbitron,sans-serif] text-[clamp(40px,12vw,80px)] font-black uppercase leading-[0.95] tracking-[-0.02em]">
+            <h2 className="stage-shell-mobile-title hidden font-[family-name:var(--font-orbitron),sans-serif] text-[clamp(40px,12vw,80px)] font-black uppercase leading-[0.95] tracking-[-0.02em]">
               {mobileTitleLines.map((line, idx) => (
                 <span key={idx} className="block">
                   {colorizeLowercaseI(line)}
