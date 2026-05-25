@@ -495,7 +495,7 @@ export function ParticleCanvas() {
     const TIER_FORM_DUR = 0.18;
     // All tiers disperse together once the user scrolls past this threshold.
     const INTRO_DISPERSE_START = 0.7;
-    const INTRO_DISPERSE_DUR = 0.5;
+    const INTRO_DISPERSE_DUR = 0.3;
 
     function renderIntro(s: StageRuntime, scrollProgress: number, elapsed: number) {
       // Brand intro: tier 0 (OPERATE Ai) forms in on page load via elapsed
@@ -529,18 +529,17 @@ export function ParticleCanvas() {
     }
 
     function renderFlow(s: StageRuntime, lp: number, elapsed: number) {
-      // Symmetric timing:
-      //   Form-in over lp -0.5..0 (100vh, fades up from below as the previous
-      //   stage's particles are dispersing upward).
-      //   Hold over lp 0..1 (the full pin window, particles in place).
-      //   Disperse over lp 1..1.5 (100vh, fades up out the top while the
-      //   next stage's particles are forming in from below).
-      // The previous stage's tail (lp 1..1.5) and the next stage's lead-in
-      // (lp -0.5..0) share the same 100vh of scroll, so the two stages
-      // cross-fade through each other symmetrically.
-      const disperse = smoother(clamp01((lp - 1.0) / 0.5));
+      // Timing aligned with the body fade-in (lp 0.64..0.96, set in onScroll)
+      // so the particle title cross-fades with the body copy instead of
+      // hanging around after the text is fully visible.
+      //   Form-in over lp -0.4..0.1 (rises from below into place by the time
+      //   the user has scrolled ~10% into the pin).
+      //   Hold over lp 0.1..0.55 (title in place, body still hidden).
+      //   Disperse over lp 0.55..0.95 (overlaps with body lp 0.64..0.96 — as
+      //   the body fades in, the particle title fades upward out the top).
+      const disperse = smoother(clamp01((lp - 0.55) / 0.4));
       if (disperse >= 0.999) return;
-      const formRaw = clamp01((lp + 0.5) / 0.5);
+      const formRaw = clamp01((lp + 0.4) / 0.5);
       if (formRaw <= 0.001) return;
       for (let i = 0; i < s.P.length; i++) {
         const p = s.P[i] as FlowParticle;
@@ -583,9 +582,8 @@ export function ParticleCanvas() {
       // overlap with stage-top forming in — symmetric cross-fade rather
       // than a hard cut at the brand stage boundary.
       const introTransitionEnd = stages[1] ? stages[1].top : H;
-      const introScrollProgress = y / Math.max(1, introTransitionEnd);
-      const inIntroWindow =
-        brand && brand.kind === "intro" && introScrollProgress < INTRO_DISPERSE_START + INTRO_DISPERSE_DUR;
+      const introScrollProgress = clamp01(y / Math.max(1, introTransitionEnd));
+      const inIntroWindow = brand && brand.kind === "intro" && introScrollProgress < 0.99;
       const resting = inIntroWindow && introScrollProgress < 0.02;
       const fade = resting ? TRAIL : 0.85;
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
@@ -602,23 +600,13 @@ export function ParticleCanvas() {
         renderFlow(s, lp, elapsed);
       }
       // Cross-fade: render the next stage early (negative lp = below screen,
-      // rising up) so its particles enter from the bottom while the active
-      // stage is still in its hold/disperse phase.
+      // rising up) so its particles begin forming while the active stage is
+      // dispersing/its body is fading in.
       const sn = stages[activeIdx + 1];
       if (sn && sn !== brand && sn.kind === "flow") {
         const lpn = (y - sn.top) / sn.range;
         if (lpn > -0.4 && lpn <= 0) {
           renderFlow(sn, lpn, elapsed);
-        }
-      }
-      // Cross-fade: keep rendering the previous stage past its natural lp 1.0
-      // so its particles continue rising out the top while the new active
-      // stage forms. Disperse caps at lp ~1.5 inside renderFlow.
-      const sp = stages[activeIdx - 1];
-      if (sp && sp !== brand && sp.kind === "flow") {
-        const lpp = (y - sp.top) / sp.range;
-        if (lpp > 1.0 && lpp < 1.6) {
-          renderFlow(sp, lpp, elapsed);
         }
       }
       rafId = requestAnimationFrame(frame);
