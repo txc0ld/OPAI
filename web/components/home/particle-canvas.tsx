@@ -13,16 +13,17 @@ import { useEffect } from "react";
  */
 export function ParticleCanvas() {
   useEffect(() => {
-    // Respect prefers-reduced-motion. Skip the animation entirely and let the
-    // CSS fallback (visible H1 on the hero stage) carry the visual.
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
+    // Diagnostic logging — paste console output if particles do not appear.
+    // Tagged [pc] so you can filter the console.
+    const log = (...a: unknown[]) => console.log("[pc]", ...a);
+    log("useEffect fired");
     const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;
+    log("elements", { canvas: !!canvasEl, stir: !!stirEl, scrollcue: !!scrollcue });
     if (!canvasEl || !stirEl || !scrollcue) return;
     const ctx = canvasEl.getContext("2d", { alpha: false });
+    log("ctx ok", !!ctx);
     if (!ctx) return;
     const canvas = canvasEl;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
@@ -381,19 +382,26 @@ export function ParticleCanvas() {
     document.addEventListener("visibilitychange", onVisibility);
 
     function boot() {
+      log("boot start", { iw: window.innerWidth, ih: window.innerHeight });
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
       buildStages();
+      log("stages built", stages.length, "particles in stage 0:", stages[0]?.P.length);
       onScroll();
       t0 = performance.now();
       rafId = requestAnimationFrame(frame);
     }
     if (document.fonts && document.fonts.ready) {
+      log("waiting for fonts");
       Promise.race([
         document.fonts.load('800 100px "Plus Jakarta Sans"').then(() => document.fonts.ready),
         new Promise((r) => setTimeout(r, 1000)),
-      ]).then(boot);
+      ]).then(
+        () => { log("fonts ok → boot"); boot(); },
+        (err) => { log("fonts rejected → boot anyway", err); boot(); },
+      );
     } else {
+      log("no document.fonts → boot");
       boot();
     }
 
