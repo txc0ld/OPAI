@@ -421,15 +421,14 @@ export function ParticleCanvas() {
       ctx!.globalAlpha = 1;
     }
 
-    // Gentle spring back to target so text stays formed once the cursor
-    // moves away. Lower than the reference (which has no spring at all)
-    // because our particles must return to letter positions, not drift.
-    const SPRING = 0.035;
+    // Seconds of no mouse interaction before a particle starts easing back
+    // to its letter-position target, and how quickly it eases per frame.
+    // Low FADE_BACK_EASE = slow drift back, "fades into place" rather than
+    // snapping. No spring during interaction — particles drift freely with
+    // friction like the reference snippet.
+    const FADE_BACK_DELAY = 0.8;
+    const FADE_BACK_EASE = 0.04;
 
-    // Fluid mouse-over stir for a single particle. Matches the reference
-    // snippet's linear push within FLUID_RADIUS with FLUID_FRICTION damping,
-    // plus a spring back to the particle's letter-position target so the
-    // word re-forms after the cursor leaves.
     function stir(p: FlowParticle, baseX: number, baseY: number, weight: number, elapsed: number) {
       if (mouse.active && weight > 0) {
         const cx = baseX + p.cdx;
@@ -444,14 +443,18 @@ export function ParticleCanvas() {
           p.hitAt = elapsed;
         }
       }
-      p.vx -= p.cdx * SPRING;
-      p.vy -= p.cdy * SPRING;
       p.vx *= FLUID_FRICTION;
       p.vy *= FLUID_FRICTION;
       const sp = Math.hypot(p.vx, p.vy);
       if (sp > VMAX) { p.vx *= VMAX / sp; p.vy *= VMAX / sp; }
       p.cdx += p.vx;
       p.cdy += p.vy;
+      // After enough quiet time, fade the displacement back to (0, 0) so
+      // the letter re-forms — without an active spring force during play.
+      if (elapsed - p.hitAt > FADE_BACK_DELAY) {
+        p.cdx -= p.cdx * FADE_BACK_EASE;
+        p.cdy -= p.cdy * FADE_BACK_EASE;
+      }
     }
 
     // Tier 1..5 scroll-based fade-in thresholds (relative to brand stage's
