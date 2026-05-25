@@ -119,9 +119,23 @@ export function ParticleCanvas() {
           const w = ctx!.measureText(ch).width;
           ctx!.fillText(ch, x, yc);
           if (ch === "i") {
-            const dotH = fontSize * 0.16;
-            const dotW = Math.max(w * 0.55, dotH);
-            dotBoxes.push({ x: x + w * 0.5 - dotW / 2, y: yc - fontSize * 0.42, w: dotW, h: dotH });
+            // Orbitron 900: letters fill the cap area so the dot needs to
+            // sit clearly above the cap line, not over the letter ink. Use
+            // the actual ink bounds for horizontal centering instead of the
+            // advance width — Orbitron pads narrow letters with side
+            // bearings that push the visual stem off the advance midpoint.
+            const m = ctx!.measureText(ch);
+            const inkLeft = (m.actualBoundingBoxLeft ?? 0);
+            const inkRight = (m.actualBoundingBoxRight ?? w);
+            const stemCenterX = x - inkLeft + (inkLeft + inkRight) / 2;
+            const dotH = fontSize * 0.14;
+            const dotW = dotH;
+            dotBoxes.push({
+              x: stemCenterX - dotW / 2,
+              y: yc - fontSize * 0.55,
+              w: dotW,
+              h: dotH,
+            });
           }
           x += w;
         }

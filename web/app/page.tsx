@@ -163,7 +163,7 @@ export default function Home() {
           <BtnFill href="/book-ai-audit/">Book an AI Business Audit →</BtnFill>
           <BtnLine href="/ai-integration-services/">Explore AI services</BtnLine>
         </CtaRow>
-        <Footnote>Based in Perth, Western Australia. Working with businesses across Australia and online worldwide.</Footnote>
+        <Footnote>Working with businesses across Australia and online worldwide.</Footnote>
       </StageShell>
 
       {/* Stage 2: integration */}

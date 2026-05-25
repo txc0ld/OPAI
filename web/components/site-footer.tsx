@@ -13,8 +13,7 @@ export function SiteFooter() {
           </Link>
           <p className="mt-4 max-w-[340px] text-sm leading-[1.6] text-[var(--color-w50)]">
             AI agents, automation, hosting and training for Australian small and medium businesses.
-            Based in Perth, Western Australia. Working with businesses across Australia and online
-            worldwide.
+            Working with businesses across Australia and online worldwide.
           </p>
         </div>
 
