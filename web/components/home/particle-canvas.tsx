@@ -47,7 +47,7 @@ export function ParticleCanvas() {
       // matching the flow style of the rest. Previously the hero stage
       // morphed straight from OPERATE Ai to "Ai AGENTS & AUTOMATiON"
       // which felt inconsistent with the other stages.
-      { stageId: "stage-brand", kind: "flow" as const, titleLines: ["OPERATE", "Ai"], bodyId: "body-brand" },
+      { stageId: "stage-brand", kind: "intro" as const, titleLines: ["OPERATE", "Ai"], bodyId: "body-brand" },
       { stageId: "stage-top", kind: "flow" as const, titleLines: ["Ai AGENTS &", "AUTOMATiON"], bodyId: "body-top" },
       { stageId: "stage-integration", kind: "flow" as const, titleLines: ["Ai iNTEGRATiON", "SERViCES"], bodyId: "body-integration" },
       { stageId: "stage-hosting", kind: "flow" as const, titleLines: ["Ai AGENT", "HOSTiNG"], bodyId: "body-hosting" },
@@ -94,7 +94,7 @@ export function ParticleCanvas() {
       el: HTMLElement;
       body: HTMLElement;
       P: (HeroParticle | FlowParticle)[];
-      kind: "flow";
+      kind: "flow" | "intro";
       top: number;
       range: number;
     };
@@ -308,6 +308,27 @@ export function ParticleCanvas() {
       ctx!.globalAlpha = 1;
     }
 
+    function renderIntro(s: StageRuntime, lp: number, elapsed: number) {
+      // Brand intro: particles form up automatically on page load (time-based),
+      // then disperse downward when the user starts scrolling (scroll-based),
+      // matching the visual rhythm of the other flow stages.
+      const disperse = smoother(clamp01((lp - 0.05) / 0.4));
+      if (disperse >= 0.999) return;
+      const formRaw = clamp01(elapsed / 1.8);
+      for (let i = 0; i < s.P.length; i++) {
+        const p = s.P[i] as FlowParticle;
+        const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
+        const fx = p.ox + (p.bx - p.ox) * local;
+        const fy = p.oy + (p.by - p.oy) * local;
+        const rx = disperse > 0 ? fx + (p.dispX - fx) * disperse : fx;
+        const ry = disperse > 0 ? fy + (p.dispY - fy) * disperse : fy;
+        ctx!.globalAlpha = Math.min(1, local * 1.6) * (1 - disperse);
+        ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
+        ctx!.fillRect(rx, ry, p.size, p.size);
+      }
+      ctx!.globalAlpha = 1;
+    }
+
     function renderFlow(s: StageRuntime, lp: number) {
       const disperse = smoother(clamp01((lp - 0.55) / 0.4));
       if (disperse >= 0.999) return;
@@ -338,7 +359,8 @@ export function ParticleCanvas() {
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
       ctx!.fillRect(0, 0, W, H);
       if (s) {
-        renderFlow(s, lp);
+        if (s.kind === "intro") renderIntro(s, lp, elapsed);
+        else renderFlow(s, lp);
       }
       rafId = requestAnimationFrame(frame);
     }
