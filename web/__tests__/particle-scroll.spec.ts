@@ -68,11 +68,11 @@ test("desktop particle title clears before stage body fades in", async ({ page }
   await page.goto("/");
   await expect(page.locator("#particle-canvas")).toBeVisible();
 
-  const clearing = await scrollStageTo(page, "stage-top", "body-top", 0.7);
+  const clearing = await scrollStageTo(page, "stage-top", "body-top", 0.64);
   expect(clearing.bodyOpacity).toBeLessThanOrEqual(0.08);
 
   const visible = await scrollStageTo(page, "stage-top", "body-top", 0.84);
-  expect(visible.bodyOpacity).toBeGreaterThan(0.35);
+  expect(visible.bodyOpacity).toBeGreaterThan(0.9);
   expect(visible.litPixels).toBeLessThanOrEqual(4);
 });
 
@@ -86,11 +86,11 @@ test("mobile particle title clears before stage body fades in", async ({ browser
   await page.goto("/");
   await expect(page.locator("#particle-canvas")).toBeVisible();
 
-  const clearing = await scrollStageTo(page, "stage-top", "body-top", 0.7);
+  const clearing = await scrollStageTo(page, "stage-top", "body-top", 0.64);
   expect(clearing.bodyOpacity).toBeLessThanOrEqual(0.08);
 
   const visible = await scrollStageTo(page, "stage-top", "body-top", 0.84);
-  expect(visible.bodyOpacity).toBeGreaterThan(0.35);
+  expect(visible.bodyOpacity).toBeGreaterThan(0.9);
   expect(visible.litPixels).toBeLessThanOrEqual(4);
 
   await context.close();
@@ -150,6 +150,24 @@ test("mobile revealed stage bodies fit inside the viewport", async ({ browser })
     expect(box!.y, bodyId).toBeGreaterThanOrEqual(0);
     expect(box!.y + box!.height, bodyId).toBeLessThanOrEqual(844);
   }
+
+  await context.close();
+});
+
+test("mobile stage body has scroll leeway after reveal", async ({ browser }) => {
+  const context = await browser.newContext({
+    hasTouch: true,
+    isMobile: true,
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+
+  const justReadable = await scrollStageTo(page, "stage-training", "body-training", 0.82);
+  expect(justReadable.bodyOpacity).toBeGreaterThan(0.9);
+
+  const afterSmallScroll = await scrollStageTo(page, "stage-training", "body-training", 0.94);
+  expect(afterSmallScroll.bodyOpacity).toBeGreaterThan(0.9);
 
   await context.close();
 });

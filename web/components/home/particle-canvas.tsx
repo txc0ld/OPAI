@@ -122,8 +122,8 @@ export function ParticleCanvas() {
     const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
     const jit = () => (Math.random() - 0.5) * JITTER * 2;
     const titleFont = (fontSize: number) => `900 ${fontSize}px ${orbitronFamily}, sans-serif`;
-    const BODY_REVEAL_START = 0.74;
-    const BODY_REVEAL_DUR = 0.22;
+    const BODY_REVEAL_START = 0.66;
+    const BODY_REVEAL_DUR = 0.16;
     const FLOW_DISPERSE_START = 0.42;
     const FLOW_DISPERSE_DUR = 0.22;
     const NEXT_STAGE_PREVIEW_START = -0.08;
