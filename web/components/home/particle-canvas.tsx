@@ -55,13 +55,13 @@ export function ParticleCanvas() {
     //   particles within FLUID_RADIUS get pushed away with a linear
     //   force (FLUID_RADIUS - dist) / FLUID_RADIUS scaled by FLUID_PUSH,
     //   friction FLUID_FRICTION leaves it feeling like liquid.
-    const FLUID_RADIUS = 95;
-    const FLUID_PUSH = 0.28;
-    // Tangential curl + drag-along-cursor make the stir feel like a finger
-    // through liquid rather than a bubble of repulsion.
-    const FLUID_SWIRL = 0.45;
-    const FLUID_DRAG = 0.09;
-    const FLUID_FRICTION = 0.95;
+    const FLUID_RADIUS = 150;
+    // Swirl perpendicular to the cursor->particle vector is the dominant
+    // force; outward push is half-strength. Matches the reference snippet.
+    const FLUID_SWIRL = 2.0;
+    const FLUID_PUSH = 1.5;
+    const FLUID_FRICTION = 0.92;
+    const FLUID_SPRING = 0.03;
     const RETAIN = 0.97;
     const EASE = 0.05;
     const TRAIL = 0.2;
@@ -134,9 +134,6 @@ export function ParticleCanvas() {
     let my = -9999;
     let pmx = -9999;
     let pmy = -9999;
-    // Eased-cursor velocity per frame, fed into the stir for drag-along.
-    let mvx = 0;
-    let mvy = 0;
 
     const smoothstep = (t: number) => t * t * (3 - 2 * t);
     const smoother = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
@@ -456,50 +453,36 @@ export function ParticleCanvas() {
       ctx!.globalAlpha = 1;
     }
 
-    // Seconds of no mouse interaction before a particle starts easing back
-    // to its letter-position target, and how quickly it eases per frame.
-    // Low FADE_BACK_EASE = slow drift back, "fades into place" rather than
-    // snapping. No spring during interaction — particles drift freely with
-    // friction like the reference snippet.
-    const FADE_BACK_DELAY = 0.8;
-    const FADE_BACK_EASE = 0.04;
-
-    function stir(p: FlowParticle, baseX: number, baseY: number, weight: number, elapsed: number) {
+    function stir(p: FlowParticle, baseX: number, baseY: number, weight: number, _elapsed: number) {
       if (mouse.active && weight > 0) {
         const cx = baseX + p.cdx;
         const cy = baseY + p.cdy;
-        const dx = cx - mx;
-        const dy = cy - my;
+        // dx/dy point FROM particle TO mouse, matching the reference.
+        const dx = mx - cx;
+        const dy = my - cy;
         const dist = Math.hypot(dx, dy);
         if (dist < FLUID_RADIUS && dist > 0.5) {
           const force = (FLUID_RADIUS - dist) / FLUID_RADIUS;
-          const dirX = dx / dist;
-          const dirY = dy / dist;
-          // Mild outward push so particles don't pile up under the cursor.
-          p.vx += dirX * force * FLUID_PUSH * weight;
-          p.vy += dirY * force * FLUID_PUSH * weight;
-          // Tangential curl (perpendicular to dir) — the rotational "stir".
-          p.vx += -dirY * force * FLUID_SWIRL * weight;
-          p.vy += dirX * force * FLUID_SWIRL * weight;
-          // Drag along the cursor's own velocity so particles get carried
-          // with the motion, like ink dragged through water.
-          p.vx += mvx * force * FLUID_DRAG * weight;
-          p.vy += mvy * force * FLUID_DRAG * weight;
-          p.hitAt = elapsed;
+          const angle = Math.atan2(dy, dx);
+          // Swirl: perpendicular to the cursor->particle vector (the "stir").
+          p.vx += Math.cos(angle + Math.PI / 2) * force * FLUID_SWIRL * weight;
+          p.vy += Math.sin(angle + Math.PI / 2) * force * FLUID_SWIRL * weight;
+          // Outward push: subtract the toward-mouse direction so particles
+          // drift away from the cursor instead of piling under it.
+          p.vx -= Math.cos(angle) * force * FLUID_PUSH * weight;
+          p.vy -= Math.sin(angle) * force * FLUID_PUSH * weight;
         }
       }
+      // Spring back to letter target every frame (always on). cdx/cdy is
+      // displacement from target, so spring force = -displacement * k.
+      p.vx -= p.cdx * FLUID_SPRING;
+      p.vy -= p.cdy * FLUID_SPRING;
       p.vx *= FLUID_FRICTION;
       p.vy *= FLUID_FRICTION;
       const sp = Math.hypot(p.vx, p.vy);
       if (sp > VMAX) { p.vx *= VMAX / sp; p.vy *= VMAX / sp; }
       p.cdx += p.vx;
       p.cdy += p.vy;
-      // After enough quiet time, fade the displacement back to (0, 0) so
-      // the letter re-forms — without an active spring force during play.
-      if (elapsed - p.hitAt > FADE_BACK_DELAY) {
-        p.cdx -= p.cdx * FADE_BACK_EASE;
-        p.cdy -= p.cdy * FADE_BACK_EASE;
-      }
     }
 
     // Tier 1..5 scroll-based fade-in thresholds (relative to brand stage's
@@ -574,13 +557,8 @@ export function ParticleCanvas() {
         if (mx < -9000) { mx = mouse.x; my = mouse.y; pmx = mx; pmy = my; }
         mx += (mouse.x - mx) * EASE;
         my += (mouse.y - my) * EASE;
-        mvx = mx - pmx;
-        mvy = my - pmy;
         pmx = mx;
         pmy = my;
-      } else {
-        mvx = 0;
-        mvy = 0;
       }
       const y = getScrollY();
       const s = stages[activeIdx];
