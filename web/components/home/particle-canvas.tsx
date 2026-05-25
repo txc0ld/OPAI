@@ -21,10 +21,17 @@ export function ParticleCanvas() {
     if (!ctx) return;
     const canvas = canvasEl;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
-    // Hide the OS cursor only on fine pointers (the stir circle replaces it).
-    // On touch screens the stir is meaningless and cursor:none is inert anyway.
     if (!coarsePointer) {
+      // Desktop: hide OS cursor; the stir circle replaces it.
       canvas.style.cursor = "none";
+    } else {
+      // Touch/iOS: let scroll gestures pass straight through the fixed canvas,
+      // and promote the canvas to its own GPU compositor layer so iOS Safari
+      // keeps painting it during the touch scroll thread instead of freezing
+      // the layer until the gesture ends.
+      canvas.style.pointerEvents = "none";
+      canvas.style.transform = "translateZ(0)";
+      canvas.style.willChange = "transform";
     }
 
     const HERO_Y = 0.42;
@@ -98,7 +105,7 @@ export function ParticleCanvas() {
       const lh = fontSize * 1.04;
       ctx!.fillStyle = "#000";
       ctx!.fillRect(0, 0, W, H);
-      ctx!.font = `800 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
+      ctx!.font = `900 ${fontSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
       ctx!.textBaseline = "middle";
       const top = cy - ((lines.length - 1) * lh) / 2;
       const dotBoxes: { x: number; y: number; w: number; h: number }[] = [];
@@ -214,20 +221,33 @@ export function ParticleCanvas() {
       }
     }
 
+    // iOS Safari does not update window.scrollY during a touch scroll
+    // gesture (only after it ends). visualViewport.pageTop DOES update
+    // live, so on touch we read from there. Desktop keeps window.scrollY
+    // because some desktop browsers return non-numeric pageTop in edge
+    // cases (broke desktop in an earlier iteration).
+    function getScrollY(): number {
+      if (coarsePointer && window.visualViewport) {
+        return window.visualViewport.pageTop;
+      }
+      return window.scrollY;
+    }
+
     function onScroll() {
+      const y = getScrollY();
       let act = 0;
       for (let i = 0; i < stages.length; i++) {
-        if (window.scrollY + window.innerHeight * 0.5 >= stages[i].top) act = i;
+        if (y + window.innerHeight * 0.5 >= stages[i].top) act = i;
       }
       activeIdx = act;
       for (const s of stages) {
-        const lp = clamp01((window.scrollY - s.top) / s.range);
+        const lp = clamp01((y - s.top) / s.range);
         const asm = s.kind === "hero" ? smoother(clamp01((lp - 0.62) / 0.34)) : smoother(clamp01((lp - 0.64) / 0.32));
         s.body.style.opacity = asm.toFixed(3);
         s.body.style.transform = `translateY(${((1 - asm) * 60).toFixed(1)}px)`;
       }
       if (stages[0]) {
-        scrollcue!.style.opacity = (1 - clamp01((window.scrollY / stages[0].range) / 0.1)).toFixed(3);
+        scrollcue!.style.opacity = (1 - clamp01((y / stages[0].range) / 0.1)).toFixed(3);
       }
     }
 
@@ -255,8 +275,17 @@ export function ParticleCanvas() {
           }
           if (elapsed > p.delay + FORM_DUR) p.done = true;
         } else if (morph > 0.001) {
-          p.x += (hx - p.x) * 0.5;
-          p.y += (hy - p.y) * 0.5;
+          // Touch: bypass per-frame easing during scroll-driven morph.
+          // iOS drops frames during touch scroll; with easing, particles
+          // fall behind the morph target and snap visibly. Direct-set
+          // gives renderFlow-style 1:1 scroll tracking.
+          if (coarsePointer) {
+            p.x = hx;
+            p.y = hy;
+          } else {
+            p.x += (hx - p.x) * 0.5;
+            p.y += (hy - p.y) * 0.5;
+          }
           p.vx = 0;
           p.vy = 0;
         } else {
@@ -320,7 +349,10 @@ export function ParticleCanvas() {
     function frame(now: number) {
       const elapsed = (now - t0) / 1000;
       const s = stages[activeIdx];
-      const lp = s ? clamp01((window.scrollY - s.top) / s.range) : 0;
+      // visualViewport-aware read so the canvas matches what the user sees
+      // mid-touch-scroll on iOS (window.scrollY is stale until the gesture
+      // ends, which is the source of the post-scroll flash).
+      const lp = s ? clamp01((getScrollY() - s.top) / s.range) : 0;
       const resting = activeIdx === 0 && lp < 0.02;
       const fade = resting ? TRAIL : 0.85;
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
@@ -362,6 +394,11 @@ export function ParticleCanvas() {
     }
     addEventListener("scroll", onScroll, { passive: true });
     addEventListener("resize", onResize);
+    // Touch-only: also listen on visualViewport so iOS fires our scroll
+    // handler at touch-frequency rather than only at gesture end.
+    if (coarsePointer && window.visualViewport) {
+      window.visualViewport.addEventListener("scroll", onScroll, { passive: true });
+    }
 
     // Pause the RAF loop when the tab is hidden (battery + CPU saver).
     const onVisibility = () => {
@@ -384,14 +421,18 @@ export function ParticleCanvas() {
       rafId = requestAnimationFrame(frame);
     }
     if (document.fonts && document.fonts.ready) {
+      // Preload Orbitron 900 so the first sampleText() uses it. Fall back
+      // (boot anyway) if the load rejects — Plus Jakarta Sans takes over
+      // via the font-family stack rather than leaving the canvas un-started.
       Promise.race([
-        document.fonts.load('800 100px "Plus Jakarta Sans"').then(() => document.fonts.ready),
+        document.fonts.load('900 100px "Orbitron"').then(() => document.fonts.ready),
         new Promise((r) => setTimeout(r, 1000)),
       ]).then(boot, boot);
     } else {
       boot();
     }
 
+    const visualViewportCleanup = coarsePointer && window.visualViewport ? window.visualViewport : null;
     return () => {
       cancelAnimationFrame(rafId);
       if (resizeTimer) clearTimeout(resizeTimer);
@@ -401,6 +442,7 @@ export function ParticleCanvas() {
       }
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
+      if (visualViewportCleanup) visualViewportCleanup.removeEventListener("scroll", onScroll);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
