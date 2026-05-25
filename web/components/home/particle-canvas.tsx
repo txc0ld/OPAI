@@ -541,6 +541,7 @@ export function ParticleCanvas() {
       const disperse = smoother(clamp01((lp - 1.0) / 0.5));
       if (disperse >= 0.999) return;
       const formRaw = clamp01((lp + 0.5) / 0.5);
+      if (formRaw <= 0.001) return;
       for (let i = 0; i < s.P.length; i++) {
         const p = s.P[i] as FlowParticle;
         const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
@@ -573,7 +574,9 @@ export function ParticleCanvas() {
       // visualViewport-aware read so the canvas matches what the user sees
       // mid-touch-scroll on iOS (window.scrollY is stale until the gesture
       // ends, which is the source of the post-scroll flash).
-      const lp = s ? clamp01((y - s.top) / s.range) : 0;
+      // lp is left UNCLAMPED so renderFlow can drive form-in (lp < 0) and
+      // disperse (lp > 1) for the active stage too — not just for sn/sp.
+      const lp = s ? (y - s.top) / s.range : 0;
       const brand = stages[0];
       // Brand intro progress scaled against the next stage's pin position.
       // Left unclamped on the high end so disperse can extend past 1.0 and
