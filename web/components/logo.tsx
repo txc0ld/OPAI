@@ -1,21 +1,25 @@
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 type LogoProps = {
   className?: string;
 };
 
+/**
+ * OperateAI brand mark. Source is web/public/opailogoblk.png — a 1536x1024
+ * raster containing the "OPAi" wordmark with the "AUTOMATE · DELEGATE ·
+ * ELEVATE" tagline beneath. next/image handles optimization/format.
+ */
 export function Logo({ className }: LogoProps) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 font-bold text-[15px] leading-none tracking-[-0.02em]",
-        className,
-      )}
-      role="img"
-      aria-label="OperateAI"
-    >
-      <span className="power-dot" aria-hidden="true" />
-      <span>OperateAI</span>
-    </span>
+    <Image
+      src="/opailogoblk.png"
+      alt="OperateAI"
+      width={1536}
+      height={1024}
+      priority
+      sizes="(min-width: 1024px) 90px, 72px"
+      className={cn("h-12 w-auto select-none lg:h-14", className)}
+    />
   );
 }
