@@ -364,8 +364,12 @@ export function ParticleCanvas() {
       for (const s of stages) {
         const lp = clamp01((y - s.top) / s.range);
         const asm = smoother(clamp01((lp - BODY_REVEAL_START) / BODY_REVEAL_DUR));
+        const availableBodyHeight = window.innerHeight * 0.88;
+        const bodyHeight = Math.max(1, s.body.scrollHeight);
+        const bodyScale = coarsePointer ? Math.min(1, availableBodyHeight / bodyHeight) : 1;
         s.body.style.opacity = asm.toFixed(3);
-        s.body.style.transform = `translateY(${((1 - asm) * 60).toFixed(1)}px)`;
+        s.body.style.setProperty("--stage-body-scale", bodyScale.toFixed(3));
+        s.body.style.transform = `translateY(${((1 - asm) * 60).toFixed(1)}px) scale(var(--stage-body-scale, 1))`;
       }
       if (stages[0]) {
         scrollcue!.style.opacity = (1 - clamp01((y / stages[0].range) / 0.1)).toFixed(3);

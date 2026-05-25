@@ -127,3 +127,29 @@ test("mobile particle title rises from bottom to center then fades upward", asyn
 
   await context.close();
 });
+
+test("mobile revealed stage bodies fit inside the viewport", async ({ browser }) => {
+  const context = await browser.newContext({
+    hasTouch: true,
+    isMobile: true,
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+
+  for (const [stageId, bodyId] of [
+    ["stage-top", "body-top"],
+    ["stage-integration", "body-integration"],
+    ["stage-hosting", "body-hosting"],
+    ["stage-training", "body-training"],
+    ["stage-industries", "body-industries"],
+  ] as const) {
+    await scrollStageTo(page, stageId, bodyId, 0.94);
+    const box = await page.locator(`#${bodyId}`).boundingBox();
+    expect(box, bodyId).not.toBeNull();
+    expect(box!.y, bodyId).toBeGreaterThanOrEqual(0);
+    expect(box!.y + box!.height, bodyId).toBeLessThanOrEqual(844);
+  }
+
+  await context.close();
+});

@@ -55,8 +55,8 @@ export function StageShell({ stageId, bodyId, mobileTitleLines, heightClass = "h
       <div className="stage-shell-pin pointer-events-none sticky top-0 flex h-screen items-center justify-center px-6 lg:px-12">
         <div
           id={bodyId}
-          className="stage-shell-body pointer-events-auto w-full max-w-[760px] opacity-0 will-change-[opacity,transform]"
-          style={{ transform: "translateY(70px)" }}
+          className="stage-shell-body pointer-events-auto w-full origin-center max-w-[760px] opacity-0 will-change-[opacity,transform]"
+          style={{ transform: "translateY(70px) scale(var(--stage-body-scale, 1))" }}
         >
           {mobileTitleLines && mobileTitleLines.length > 0 ? (
             <h2 className="stage-shell-mobile-title hidden font-[family-name:var(--font-orbitron),sans-serif] text-[clamp(40px,12vw,80px)] font-black uppercase leading-[0.95] tracking-[-0.02em]">
