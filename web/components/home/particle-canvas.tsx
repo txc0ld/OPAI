@@ -13,13 +13,13 @@ import { useEffect } from "react";
  */
 export function ParticleCanvas() {
   useEffect(() => {
-    const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
+    const canvasN = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;
-    if (!canvasEl || !stirEl || !scrollcue) return;
-    const ctx = canvasEl.getContext("2d", { alpha: false });
+    if (!canvasN || !stirEl || !scrollcue) return;
+    const ctx = canvasN.getContext("2d", { alpha: false });
     if (!ctx) return;
-    const canvas = canvasEl;
+    const canvas: HTMLCanvasElement = canvasN;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
     if (!coarsePointer) {
       // Desktop: hide OS cursor; the stir circle replaces it.
@@ -70,6 +70,21 @@ export function ParticleCanvas() {
     let activeIdx = 0;
     let rafId = 0;
     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    let dpr = 1;
+
+    // Size the canvas backing store to (cssSize * dpr) so high-DPI screens
+    // (especially mobile) get crisp particles instead of an upscaled blur.
+    // ctx is scaled by dpr so all drawing keeps using CSS-pixel coordinates.
+    function sizeCanvas() {
+      dpr = Math.min(typeof window !== "undefined" ? (window.devicePixelRatio || 1) : 1, 2);
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
 
     type HeroParticle = {
       ax: number; ay: number; bx: number; by: number;
@@ -156,17 +171,23 @@ export function ParticleCanvas() {
         }
       });
 
-      const d = ctx!.getImageData(0, 0, W, H).data;
+      // getImageData reads from the backing store (device pixels), not CSS
+      // pixels. Iterate in backing coords, but emit particle positions in
+      // CSS coords (x/dpr, y/dpr) so all rendering stays in CSS space.
+      const Wbs = canvas.width;
+      const Hbs = canvas.height;
+      const d = ctx!.getImageData(0, 0, Wbs, Hbs).data;
       const pts: { x: number; y: number; lime: boolean }[] = [];
-      for (let y = 0; y < H; y += STEP) {
-        for (let x = 0; x < W; x += STEP) {
-          const idx = (y * W + x) * 4;
+      const bsStep = Math.max(1, Math.round(STEP * dpr));
+      for (let y = 0; y < Hbs; y += bsStep) {
+        for (let x = 0; x < Wbs; x += bsStep) {
+          const idx = (y * Wbs + x) * 4;
           const r = d[idx];
           const g = d[idx + 1];
           const b = d[idx + 2];
           if (r > 128 || g > 128) {
             const lime = g > 140 && b < 120 && r > 120;
-            pts.push({ x, y, lime });
+            pts.push({ x: x / dpr, y: y / dpr, lime });
           }
         }
       }
@@ -216,17 +237,20 @@ export function ParticleCanvas() {
         }
         x += w;
       }
-      const d = ctx!.getImageData(0, 0, W, H).data;
+      const Wbs = canvas.width;
+      const Hbs = canvas.height;
+      const d = ctx!.getImageData(0, 0, Wbs, Hbs).data;
       const pts: { x: number; y: number; lime: boolean }[] = [];
-      for (let yy = 0; yy < H; yy += STEP) {
-        for (let xx = 0; xx < W; xx += STEP) {
-          const idx = (yy * W + xx) * 4;
+      const bsStep = Math.max(1, Math.round(STEP * dpr));
+      for (let yy = 0; yy < Hbs; yy += bsStep) {
+        for (let xx = 0; xx < Wbs; xx += bsStep) {
+          const idx = (yy * Wbs + xx) * 4;
           const r = d[idx];
           const g = d[idx + 1];
           const b = d[idx + 2];
           if (r > 128 || g > 128) {
             const lime = g > 140 && b < 120 && r > 120;
-            pts.push({ x: xx, y: yy, lime });
+            pts.push({ x: xx / dpr, y: yy / dpr, lime });
           }
         }
       }
@@ -572,8 +596,7 @@ export function ParticleCanvas() {
     const onResize = () => {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+        sizeCanvas();
         buildStages();
         onScroll();
       }, 160);
@@ -605,8 +628,7 @@ export function ParticleCanvas() {
     document.addEventListener("visibilitychange", onVisibility);
 
     function boot() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
+      sizeCanvas();
       buildStages();
       onScroll();
       t0 = performance.now();
