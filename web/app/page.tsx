@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ParticleCanvas } from "@/components/home/particle-canvas";
 import { StageShell } from "@/components/home/stage-shell";
-import { BrandTagline } from "@/components/home/brand-tagline";
 import { JsonLd } from "@/components/json-ld";
 import { buildLocalBusiness, buildWebPage, wrapGraph, buildFaqPage } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
@@ -139,12 +138,9 @@ export default function Home() {
 
       {/* Stage 0: brand intro — OPERATE Ai pours in and fades down on its
           own, matching the flow of every other stage. */}
-      <StageShell stageId="stage-brand" bodyId="body-brand" mobileTitleLines={["OPERATE", "Ai"]} heightClass="h-screen">
-        <span className="sr-only">OperateAI</span>
+      <StageShell stageId="stage-brand" bodyId="body-brand" mobileTitleLines={["OPERATE", "Ai", "AUTOMATE · DELEGATE · ELEVATE"]} heightClass="h-[200vh]">
+        <span className="sr-only">OperateAI. Automate. Delegate. Elevate.</span>
       </StageShell>
-
-      {/* Brand tagline — AUTOMATE · DELEGATE · ELEVATE reveals word by word on scroll */}
-      <BrandTagline />
 
       {/* Stage 1: hero */}
       <StageShell stageId="stage-top" bodyId="body-top" mobileTitleLines={["Ai AGENTS &", "AUTOMATiON"]}>

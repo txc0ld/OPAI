@@ -84,9 +84,10 @@ export function ParticleCanvas() {
       size: number; lime: boolean; formDelay: number;
       dispX: number; dispY: number;
       // Stir physics: per-particle displacement from target + velocity.
-      // Mouse proximity pushes velocity; spring force pulls displacement
-      // back to (0,0). All zero when no mouse interaction has happened.
       cdx: number; cdy: number; vx: number; vy: number; hitAt: number;
+      // Tier 0 = main title, time-based form-in on page load.
+      // Tier >= 1 = tagline word/dot, fades in on scroll at per-tier threshold.
+      tier: number;
     };
     type StageRuntime = {
       def: (typeof STAGE_DEFS)[number];
@@ -147,7 +148,7 @@ export function ParticleCanvas() {
             ctx!.fillRect(x - 3, eraseTop, w + 6, eraseH);
             const dotSize = fontSize * 0.13;
             const stemTopApprox = yc - fontSize * 0.46;
-            const newGap = fontSize * 0.05;
+            const newGap = fontSize * 0.012;
             ctx!.fillStyle = "#ccff00";
             ctx!.fillRect(stemCenter - dotSize / 2, stemTopApprox - newGap - dotSize, dotSize, dotSize);
           }
@@ -182,44 +183,123 @@ export function ParticleCanvas() {
       return a;
     }
 
+    // Sample a single text segment centered at (cx, cy). Used for the tagline
+    // word/dot pieces so each one is positioned independently from a shared
+    // baseline. White ink for letters, lime for "•" and "i" (with the same
+    // i-dot tightening sampleText applies).
+    function sampleSegment(text: string, fontSize: number, cx: number, cy: number) {
+      ctx!.fillStyle = "#000";
+      ctx!.fillRect(0, 0, W, H);
+      ctx!.font = `900 ${fontSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+      ctx!.textBaseline = "middle";
+      ctx!.textAlign = "left";
+      const totalW = ctx!.measureText(text).width;
+      let x = cx - totalW / 2;
+      for (const ch of text) {
+        const w = ctx!.measureText(ch).width;
+        const isAccent = ch === "•" || ch === "i";
+        ctx!.fillStyle = isAccent ? "#ccff00" : "#fff";
+        ctx!.fillText(ch, x, cy);
+        if (ch === "i") {
+          const m = ctx!.measureText("i");
+          const ascent = m.actualBoundingBoxAscent || fontSize * 0.78;
+          const inkL = m.actualBoundingBoxLeft || 0;
+          const inkR = m.actualBoundingBoxRight || w;
+          const stemCenter = x + (inkR - inkL) / 2;
+          ctx!.fillStyle = "#000";
+          ctx!.fillRect(x - 3, cy - ascent - 1, w + 6, fontSize * 0.22);
+          const dotSize = fontSize * 0.13;
+          const stemTopApprox = cy - fontSize * 0.46;
+          const newGap = fontSize * 0.012;
+          ctx!.fillStyle = "#ccff00";
+          ctx!.fillRect(stemCenter - dotSize / 2, stemTopApprox - newGap - dotSize, dotSize, dotSize);
+        }
+        x += w;
+      }
+      const d = ctx!.getImageData(0, 0, W, H).data;
+      const pts: { x: number; y: number; lime: boolean }[] = [];
+      for (let yy = 0; yy < H; yy += STEP) {
+        for (let xx = 0; xx < W; xx += STEP) {
+          const idx = (yy * W + xx) * 4;
+          const r = d[idx];
+          const g = d[idx + 1];
+          const b = d[idx + 2];
+          if (r > 128 || g > 128) {
+            const lime = g > 140 && b < 120 && r > 120;
+            pts.push({ x: xx, y: yy, lime });
+          }
+        }
+      }
+      ctx!.fillStyle = "#000";
+      ctx!.fillRect(0, 0, W, H);
+      return pts;
+    }
+
+    function makeFlowParticle(
+      b: { x: number; y: number; lime: boolean },
+      tier: number,
+      originFrom: "outside" | "below" | "above",
+    ): FlowParticle {
+      const bx = b.x + jit();
+      const by = b.y + jit();
+      let ox: number;
+      let oy: number;
+      if (originFrom === "outside") {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = Math.max(W, H) * (0.7 + Math.random() * 0.7);
+        ox = W / 2 + Math.cos(angle) * dist;
+        oy = H / 2 + Math.sin(angle) * dist;
+      } else if (originFrom === "below") {
+        ox = bx + (Math.random() - 0.5) * 30;
+        oy = H + Math.random() * H * 0.35 + 30;
+      } else {
+        ox = bx + (Math.random() - 0.5) * 40;
+        oy = -Math.random() * H * 0.5 - 30;
+      }
+      return {
+        bx, by, ox, oy,
+        size: Math.random() * 0.7 + 0.6,
+        lime: b.lime,
+        formDelay: Math.random() * 0.35,
+        dispX: bx + (Math.random() - 0.5) * 80,
+        dispY: by + H * (0.7 + Math.random() * 0.4),
+        cdx: 0, cdy: 0, vx: 0, vy: 0, hitAt: 0,
+        tier,
+      };
+    }
+
     function buildStages() {
       stages.length = 0;
-      const heroSize = Math.min(W / 6.5, H / 4.2, 150);
       const titleSize = Math.min(W / 9, H / 7, 92);
+      const taglineSize = Math.max(20, titleSize * 0.32);
       for (const def of STAGE_DEFS) {
         const el = document.getElementById(def.stageId);
         const body = document.getElementById(def.bodyId);
         if (!el || !body) continue;
         let P: FlowParticle[];
-        {
-          const B = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
-          P = B.map((b) => {
-            const bx = b.x + jit();
-            const by = b.y + jit();
-            let ox: number;
-            let oy: number;
-            if (def.kind === "intro") {
-              // Original hero feel: particles enter from random points well
-              // outside the viewport on all sides and converge to the text
-              // in the middle.
-              const angle = Math.random() * Math.PI * 2;
-              const dist = Math.max(W, H) * (0.7 + Math.random() * 0.7);
-              ox = W / 2 + Math.cos(angle) * dist;
-              oy = H / 2 + Math.sin(angle) * dist;
-            } else {
-              ox = bx + (Math.random() - 0.5) * 40;
-              oy = -Math.random() * H * 0.5 - 30;
-            }
-            return {
-              bx, by, ox, oy,
-              size: Math.random() * 0.7 + 0.6,
-              lime: b.lime,
-              formDelay: Math.random() * 0.35,
-              dispX: bx + (Math.random() - 0.5) * 80,
-              dispY: by + H * (0.7 + Math.random() * 0.4),
-              cdx: 0, cdy: 0, vx: 0, vy: 0, hitAt: 0,
-            } satisfies FlowParticle;
+        if (def.kind === "intro") {
+          // Tier 0: OPERATE / Ai (main title) at TITLE_Y.
+          const mainPts = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
+          P = mainPts.map((b) => makeFlowParticle(b, 0, "outside"));
+          // Tiers 1..5: AUTOMATE · DELEGATE · ELEVATE positioned below.
+          ctx!.font = `900 ${taglineSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+          const segs = ["AUTOMATE", "•", "DELEGATE", "•", "ELEVATE"];
+          const segW = segs.map((s) => ctx!.measureText(s).width);
+          const gap = taglineSize * 0.55;
+          const totalW = segW.reduce((a, b) => a + b, 0) + gap * (segs.length - 1);
+          const startX = W / 2 - totalW / 2;
+          const taglineY = H * 0.66;
+          let cursor = startX;
+          segs.forEach((seg, i) => {
+            const cx = cursor + segW[i] / 2;
+            const tier = i + 1;
+            const segPts = sampleSegment(seg, taglineSize, cx, taglineY);
+            for (const b of segPts) P.push(makeFlowParticle(b, tier, "below"));
+            cursor += segW[i] + gap;
           });
+        } else {
+          const B = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
+          P = B.map((b) => makeFlowParticle(b, 0, "above"));
         }
         stages.push({ def, el, body, P, kind: def.kind, top: 0, range: 1 });
       }
@@ -376,18 +456,33 @@ export function ParticleCanvas() {
       p.cdy += p.vy;
     }
 
+    // Tier 1..5 scroll-based fade-in thresholds (relative to brand stage's
+    // own scroll progress). AUTOMATE, ·, DELEGATE, ·, ELEVATE arrive one
+    // after another so the reveal feels word-by-word.
+    const TIER_FORM_START = [0, 0.10, 0.18, 0.27, 0.35, 0.43];
+    const TIER_FORM_DUR = 0.18;
+    // All tiers disperse together once the user scrolls past this threshold.
+    const INTRO_DISPERSE_START = 0.7;
+    const INTRO_DISPERSE_DUR = 0.3;
+
     function renderIntro(s: StageRuntime, scrollProgress: number, elapsed: number) {
-      // Brand intro: particles form up automatically on page load (time-based),
-      // then disperse downward across one viewport of scroll. scrollProgress is
-      // y / window.innerHeight clamped 0..1 — driven directly off raw scrollY
-      // so the disperse spans the full viewport-height of scroll, with no
-      // dead air between the brand fading out and the next stage forming in.
-      const disperse = smoother(clamp01((scrollProgress - 0.02) / 0.9));
+      // Brand intro: tier 0 (OPERATE Ai) forms in on page load via elapsed
+      // time. Tiers 1..5 (AUTOMATE · DELEGATE · ELEVATE) fade in on scroll
+      // at staggered thresholds. All tiers disperse together near the end
+      // of the brand scroll, just before AI AGENTS begins to form.
+      const disperse = smoother(clamp01((scrollProgress - INTRO_DISPERSE_START) / INTRO_DISPERSE_DUR));
       if (disperse >= 0.999) return;
-      const formRaw = clamp01(elapsed / 2.2);
+      const formRawTime = clamp01(elapsed / 2.2);
       for (let i = 0; i < s.P.length; i++) {
         const p = s.P[i] as FlowParticle;
-        const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
+        let local: number;
+        if (p.tier === 0) {
+          local = smoother(clamp01((formRawTime - p.formDelay) / (1 - p.formDelay)));
+        } else {
+          const start = TIER_FORM_START[p.tier];
+          local = smoother(clamp01((scrollProgress - start) / TIER_FORM_DUR));
+        }
+        if (local <= 0.001 && disperse <= 0.001) continue;
         const fx = p.ox + (p.bx - p.ox) * local;
         const fy = p.oy + (p.by - p.oy) * local;
         const bx = disperse > 0 ? fx + (p.dispX - fx) * disperse : fx;
@@ -436,8 +531,11 @@ export function ParticleCanvas() {
       // mid-touch-scroll on iOS (window.scrollY is stale until the gesture
       // ends, which is the source of the post-scroll flash).
       const lp = s ? clamp01((y - s.top) / s.range) : 0;
-      const introScrollProgress = clamp01(y / H);
       const brand = stages[0];
+      // Scale brand intro progress so disperse completes right when the next
+      // stage starts pinning — no empty canvas window in between.
+      const introTransitionEnd = stages[1] ? stages[1].top : H;
+      const introScrollProgress = clamp01(y / Math.max(1, introTransitionEnd));
       const inIntroWindow = brand && brand.kind === "intro" && introScrollProgress < 0.99;
       const resting = inIntroWindow && introScrollProgress < 0.02;
       const fade = resting ? TRAIL : 0.85;
