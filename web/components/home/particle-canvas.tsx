@@ -55,8 +55,12 @@ export function ParticleCanvas() {
     //   particles within FLUID_RADIUS get pushed away with a linear
     //   force (FLUID_RADIUS - dist) / FLUID_RADIUS scaled by FLUID_PUSH,
     //   friction FLUID_FRICTION leaves it feeling like liquid.
-    const FLUID_RADIUS = 150;
-    const FLUID_PUSH = 0.5;
+    const FLUID_RADIUS = 95;
+    const FLUID_PUSH = 0.28;
+    // Tangential curl + drag-along-cursor make the stir feel like a finger
+    // through liquid rather than a bubble of repulsion.
+    const FLUID_SWIRL = 0.45;
+    const FLUID_DRAG = 0.09;
     const FLUID_FRICTION = 0.95;
     const RETAIN = 0.97;
     const EASE = 0.05;
@@ -130,6 +134,9 @@ export function ParticleCanvas() {
     let my = -9999;
     let pmx = -9999;
     let pmy = -9999;
+    // Eased-cursor velocity per frame, fed into the stir for drag-along.
+    let mvx = 0;
+    let mvy = 0;
 
     const smoothstep = (t: number) => t * t * (3 - 2 * t);
     const smoother = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
@@ -438,8 +445,18 @@ export function ParticleCanvas() {
         const dist = Math.hypot(dx, dy);
         if (dist < FLUID_RADIUS && dist > 0.5) {
           const force = (FLUID_RADIUS - dist) / FLUID_RADIUS;
-          p.vx += (dx / dist) * force * FLUID_PUSH * weight;
-          p.vy += (dy / dist) * force * FLUID_PUSH * weight;
+          const dirX = dx / dist;
+          const dirY = dy / dist;
+          // Mild outward push so particles don't pile up under the cursor.
+          p.vx += dirX * force * FLUID_PUSH * weight;
+          p.vy += dirY * force * FLUID_PUSH * weight;
+          // Tangential curl (perpendicular to dir) — the rotational "stir".
+          p.vx += -dirY * force * FLUID_SWIRL * weight;
+          p.vy += dirX * force * FLUID_SWIRL * weight;
+          // Drag along the cursor's own velocity so particles get carried
+          // with the motion, like ink dragged through water.
+          p.vx += mvx * force * FLUID_DRAG * weight;
+          p.vy += mvy * force * FLUID_DRAG * weight;
           p.hitAt = elapsed;
         }
       }
@@ -522,9 +539,16 @@ export function ParticleCanvas() {
       // Ease the mouse position toward the latest cursor coords so the stir
       // feels smooth rather than snapping per-frame to raw pointer movement.
       if (mouse.active) {
-        if (mx < -9000) { mx = mouse.x; my = mouse.y; }
+        if (mx < -9000) { mx = mouse.x; my = mouse.y; pmx = mx; pmy = my; }
         mx += (mouse.x - mx) * EASE;
         my += (mouse.y - my) * EASE;
+        mvx = mx - pmx;
+        mvy = my - pmy;
+        pmx = mx;
+        pmy = my;
+      } else {
+        mvx = 0;
+        mvy = 0;
       }
       const y = getScrollY();
       const s = stages[activeIdx];
