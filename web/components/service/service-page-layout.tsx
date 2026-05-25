@@ -97,13 +97,13 @@ export function ServicePageLayout({
             </div>
           </div>
           {heroImage ? (
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--color-w10)] bg-[#060606]">
+            <div className="relative aspect-[4/5] w-full">
               <Image
                 src={heroImage.src}
                 alt={heroImage.alt}
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
+                className="object-contain"
                 priority
               />
             </div>
