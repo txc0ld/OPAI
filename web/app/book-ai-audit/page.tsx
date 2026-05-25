@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ContactForm } from "@/components/contact/contact-form";
+import { FaqSection } from "@/components/faq/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { buildService, buildWebPage, wrapGraph } from "@/lib/schema";
-import { FaqSection } from "@/components/faq/faq-section";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/book-ai-audit/`;
-const TITLE = "Book an AI Business Audit | OperateAI";
+const TITLE = "Contact OperateAI | AI Business Audit";
 const DESCRIPTION =
-  "Book an AI Business Audit. A simple, structured look at your tools, your workflows, and where AI could actually help. Plain-English plan, no slide deck.";
+  "Contact OperateAI about an AI Business Audit. Tell us about your tools, workflows and where AI might help.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -34,7 +35,7 @@ const FAQS = [
   {
     question: "What do we need to prepare?",
     answer:
-      "A quick overview of your business, a list of the tools and systems you use, the parts of your week that take the most time, and (if relevant) any AI tools your team has already played with.",
+      "A quick overview of your business, a list of the tools and systems you use, the parts of your week that take the most time, and any AI tools your team has already tried.",
   },
   {
     question: "What happens after the audit?",
@@ -47,8 +48,6 @@ const FAQS = [
       "Yes. The audit is just as useful if you have never used AI at all. We focus on the work, not the tech. You will leave with a plain-English plan you can act on, even if you have no technical staff.",
   },
 ];
-
-const BOOKING_HREF = "mailto:hello@operateai.com.au?subject=AI%20Business%20Audit%20Enquiry";
 
 export default function Page() {
   return (
@@ -67,32 +66,26 @@ export default function Page() {
 
       <section className="bg-[var(--color-bg)] px-6 pt-[140px] pb-24 lg:px-12 lg:pt-[180px] lg:pb-32">
         <div className="mx-auto w-full max-w-[1200px]">
-          <div>
-            <span className="eyebrow">Entry offer · Audit</span>
-            <h1 className="mt-6 max-w-[20ch] text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
-              Book an AI Business Audit
-            </h1>
-            <div className="mt-8 max-w-[var(--measure)] space-y-5 text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-              <p>
-                The fastest way to start. We look at your tools, your workflows
-                and where AI could actually help. You leave with a plain-English
-                plan, not vague ideas.
-              </p>
-              <p>
-                Best if you want a clear starting point before you commit to
-                anything bigger. Works the same whether you have never used AI
-                or you already have a few things running.
-              </p>
-            </div>
-            <div className="mt-10 flex flex-wrap gap-[14px]">
-            {/* TODO(operator): replace mailto + data-booking-url placeholder with the real
-                Cal.com / Calendly URL pre-launch. */}
+          <span className="eyebrow">Contact - Audit</span>
+          <h1 className="mt-6 max-w-[20ch] text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em]">
+            Contact us about an AI Business Audit
+          </h1>
+          <div className="mt-8 max-w-[var(--measure)] space-y-5 text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
+            <p>
+              Tell us what you are trying to improve. We will look at your
+              tools, your workflows and where AI could actually help.
+            </p>
+            <p>
+              This is the right starting point whether you have never used AI
+              or you already have a few automations running.
+            </p>
+          </div>
+          <div className="mt-10 flex flex-wrap gap-[14px]">
             <Link
-              href={BOOKING_HREF}
-              data-booking-url="TODO(operator): https://cal.com/operateai/audit"
+              href="#contact-form"
               className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Book a call →
+              Send an enquiry →
             </Link>
             <Link
               href="/ai-integration-services/"
@@ -100,8 +93,26 @@ export default function Page() {
             >
               See what comes after
             </Link>
-            </div>
           </div>
+        </div>
+      </section>
+
+      <section
+        id="contact-form"
+        className="border-t border-[var(--color-w10)] bg-[var(--color-bg)] px-6 py-24 lg:px-12 lg:py-32"
+      >
+        <div className="mx-auto grid w-full max-w-[1200px] gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+          <div>
+            <span className="eyebrow">Enquiry form</span>
+            <h2 className="reveal mt-6 text-[clamp(28px,4vw,44px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
+              Tell us what is going on
+            </h2>
+            <p className="reveal mt-5 text-[16px] leading-[1.65] text-[var(--color-w70)]">
+              Share the business, workflow or team problem you want to explore.
+              A short note is enough. We will reply by email.
+            </p>
+          </div>
+          <ContactForm defaultInterest="AI Business Audit" />
         </div>
       </section>
 
@@ -137,10 +148,10 @@ export default function Page() {
           </p>
           <div className="reveal mt-10 flex justify-center">
             <Link
-              href={BOOKING_HREF}
+              href="#contact-form"
               className="inline-flex items-center gap-2 rounded-[7px] bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black transition-transform duration-300 hover:-translate-y-0.5"
             >
-              Email us to book →
+              Send an enquiry →
             </Link>
           </div>
         </div>

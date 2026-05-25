@@ -6,7 +6,7 @@ Production marketing site for **OperateAI** at [operateai.com.au](https://operat
 
 - **Next.js 16** (App Router, `trailingSlash: true`) · TypeScript (strict) · Tailwind v4
 - **Plus Jakarta Sans** via `next/font/google`
-- **MDX** for editorial content (legal placeholders, insights archive)
+- **MDX** support for editorial content
 - **Playwright** smoke tests (route rendering + console errors)
 - **Vercel** deploy target (Sydney region)
 
@@ -43,7 +43,7 @@ web/
 │   ├── structured-data.tsx                    # Global Organization + WebSite
 │   └── …                                      # button, cta-band, section, etc.
 ├── content/insights/                          # MDX archive (no route)
-├── lib/business.ts                            # BUSINESS constants + placeholders
+├── lib/business.ts                            # BUSINESS constants
 ├── lib/schema.ts                              # JSON-LD builders
 ├── lib/cn.ts, lib/nav.ts
 ├── public/                                    # Static assets
@@ -69,7 +69,7 @@ pnpm start
 ## Test
 
 ```bash
-pnpm dlx playwright test
+pnpm exec playwright test
 ```
 
 Smoke suite covers every public route + a no-console-errors check on the homepage + a 404 check.
@@ -79,8 +79,9 @@ Smoke suite covers every public route + a no-console-errors check on the homepag
 Copy `.env.example` to `.env.local`:
 
 ```
-NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/operateai
 RESEND_API_KEY=
+RESEND_FROM_EMAIL="OperateAI <hello@operateai.com.au>"
+RESEND_TO_EMAIL=hello@operateai.com.au
 PLAUSIBLE_DOMAIN=operateai.com.au
 ```
 
@@ -97,10 +98,10 @@ Vercel project, region `syd1`. `main` deploys to production; preview deploys per
 - Service pages emit `Service` + `WebPage` + `FAQPage` JSON-LD via `ServicePageLayout`.
 - Industry pages emit `WebPage` JSON-LD via `IndustryPageLayout`.
 
-Single source of truth for brand + contact data is `lib/business.ts`. Pre-launch checklist: grep for `TODO(operator):` and fill in the remaining placeholders (email, telephone, social URLs).
+Single source of truth for brand + contact data is `lib/business.ts`. Optional phone and social fields are omitted from JSON-LD until supplied.
 
 ## Design discipline
 
-Pure monochrome. Tokens locked in `app/tokens.css`. The accent token `--color-signal` (#B8704A) is reserved exclusively for status pills — it is **not** decorative.
+Black-and-white base with lime accent. Tokens are locked in `app/tokens.css`; `--color-accent` is `#ccff00`.
 
 Voice: editorial and plain-English. Spelling: en-AU.

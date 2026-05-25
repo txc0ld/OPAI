@@ -9,7 +9,7 @@ const ROUTES: { path: string; needle: RegExp }[] = [
   { path: "/ai-agent-hosting/", needle: /Managed AI agent hosting and support/i },
   { path: "/ai-training-for-business/", needle: /Practical AI training for business owners and teams/i },
   { path: "/perth-ai-consultant/", needle: /AI consultant in Perth/i },
-  { path: "/book-ai-audit/", needle: /Book an AI Business Audit/i },
+  { path: "/book-ai-audit/", needle: /Contact us about an AI Business Audit/i },
   { path: "/industries/", needle: /AI by industry/i },
   { path: "/industries/ai-for-accounting-firms/", needle: /AI for accounting firms/i },
   { path: "/industries/ai-for-real-estate-agencies/", needle: /AI for real estate agencies/i },
@@ -37,6 +37,14 @@ test("home page has no console errors", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");
   expect(errors).toEqual([]);
+});
+
+test("audit contact page renders the enquiry form", async ({ page }) => {
+  await page.goto("/book-ai-audit/");
+  await expect(page.getByLabel("Name")).toBeVisible();
+  await expect(page.getByLabel("Email")).toBeVisible();
+  await expect(page.getByLabel("What do you need help with?")).toHaveValue("AI Business Audit");
+  await expect(page.getByRole("button", { name: /send enquiry/i })).toBeVisible();
 });
 
 test("404 page renders for unknown route", async ({ page }) => {
