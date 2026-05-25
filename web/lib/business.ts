@@ -9,7 +9,7 @@ export const BUSINESS = {
   telephone: "TODO(operator): +61 ...",
   abn: "ABN 51 559 921 362",
   tagline:
-    "AI agents, automation, hosting and training for Australian businesses. Built in Perth. Delivered online worldwide.",
+    "AI agents, automation, hosting and training for Australian businesses. Delivered online worldwide.",
   description:
     "OperateAI helps small and medium businesses try AI safely. From your first ChatGPT lesson to custom agents, automation, hosting and team training.",
   address: {

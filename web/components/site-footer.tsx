@@ -66,7 +66,7 @@ export function SiteFooter() {
         <span>
           {BUSINESS.abn} · © {BUSINESS.copyrightYear} {BUSINESS.legalName}
         </span>
-        <span>Built in Perth · Delivered worldwide</span>
+        <span>Delivered worldwide</span>
       </div>
     </footer>
   );

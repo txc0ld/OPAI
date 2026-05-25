@@ -136,14 +136,15 @@ export default function Home() {
 
       <ParticleCanvas />
 
+      {/* Stage 0: brand intro — OPERATE Ai pours in and fades down on its
+          own, matching the flow of every other stage. */}
+      <StageShell stageId="stage-brand" bodyId="body-brand" mobileTitleLines={["OPERATE", "Ai"]}>
+        <span className="sr-only">OperateAI</span>
+      </StageShell>
+
       {/* Stage 1: hero */}
-      <StageShell stageId="stage-top" bodyId="body-top">
-        {/* sr-only by default (visible title is rendered by the particle canvas);
-            unhidden as a real display heading when prefers-reduced-motion is set
-            and the canvas is skipped. */}
-        <h1 className="sr-only motion-reduce:not-sr-only motion-reduce:mb-8 motion-reduce:block motion-reduce:max-w-[18ch] motion-reduce:text-[clamp(40px,7vw,88px)] motion-reduce:font-extrabold motion-reduce:leading-[1] motion-reduce:tracking-[-0.04em]">
-          AI agents and automation for small businesses.
-        </h1>
+      <StageShell stageId="stage-top" bodyId="body-top" mobileTitleLines={["Ai AGENTS &", "AUTOMATiON"]}>
+        <h1 className="sr-only">AI agents and automation for small businesses.</h1>
         <span className="eyebrow mb-[22px]">OperateAI · For small businesses</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           Curious about using AI in your business but not sure where to start? We help small and
@@ -167,7 +168,7 @@ export default function Home() {
       </StageShell>
 
       {/* Stage 2: integration */}
-      <StageShell stageId="stage-integration" bodyId="body-integration">
+      <StageShell stageId="stage-integration" bodyId="body-integration" mobileTitleLines={["Ai iNTEGRATiON", "SERViCES"]}>
         <span className="eyebrow mb-[22px]">OperateAI · Service</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           AI is most useful when it fits the tools you already use. We plug AI into your email, your
@@ -195,7 +196,7 @@ export default function Home() {
       </StageShell>
 
       {/* Stage 3: hosting */}
-      <StageShell stageId="stage-hosting" bodyId="body-hosting">
+      <StageShell stageId="stage-hosting" bodyId="body-hosting" mobileTitleLines={["Ai AGENT", "HOSTiNG"]}>
         <span className="eyebrow mb-[22px]">OperateAI · Service</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           An AI agent is only useful when it keeps working. We host it, watch it, keep its knowledge
@@ -223,7 +224,7 @@ export default function Home() {
       </StageShell>
 
       {/* Stage 4: training */}
-      <StageShell stageId="stage-training" bodyId="body-training">
+      <StageShell stageId="stage-training" bodyId="body-training" mobileTitleLines={["Ai", "TRAiNiNG"]}>
         <span className="eyebrow mb-[22px]">OperateAI · Service</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           AI training should be practical, not buzzword soup. We teach owners, managers and staff
@@ -251,7 +252,7 @@ export default function Home() {
       </StageShell>
 
       {/* Stage 5: industries */}
-      <StageShell stageId="stage-industries" bodyId="body-industries">
+      <StageShell stageId="stage-industries" bodyId="body-industries" mobileTitleLines={["Ai BY", "iNDUSTRY"]}>
         <span className="eyebrow mb-[22px]">OperateAI · Industries</span>
         <p className="text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
           We tailor AI for the sectors most Australian small and medium businesses sit in. Do not

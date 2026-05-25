@@ -13,6 +13,11 @@ import { useEffect } from "react";
  */
 export function ParticleCanvas() {
   useEffect(() => {
+    // Skip the canvas entirely on coarse-pointer (touch) devices. iOS Safari
+    // pauses canvas paints during scroll gestures, producing the "flash to
+    // full canvas" glitch — no JS tuning fully fixes that. Touch users see a
+    // clean per-stage Orbitron heading instead (see StageShell + globals.css).
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     const canvasEl = document.getElementById("particle-canvas") as HTMLCanvasElement | null;
     const stirEl = document.getElementById("particle-stir") as HTMLDivElement | null;
     const scrollcue = document.getElementById("particle-scrollcue") as HTMLDivElement | null;
@@ -38,7 +43,12 @@ export function ParticleCanvas() {
     const TITLE_Y = 0.42;
 
     const STAGE_DEFS = [
-      { stageId: "stage-top", kind: "hero" as const, heroLines: ["OPERATE", "Ai"], titleLines: ["Ai AGENTS &", "AUTOMATiON"], bodyId: "body-top" },
+      // Brand intro: "OPERATE Ai" pours in and fades down on its own,
+      // matching the flow style of the rest. Previously the hero stage
+      // morphed straight from OPERATE Ai to "Ai AGENTS & AUTOMATiON"
+      // which felt inconsistent with the other stages.
+      { stageId: "stage-brand", kind: "flow" as const, titleLines: ["OPERATE", "Ai"], bodyId: "body-brand" },
+      { stageId: "stage-top", kind: "flow" as const, titleLines: ["Ai AGENTS &", "AUTOMATiON"], bodyId: "body-top" },
       { stageId: "stage-integration", kind: "flow" as const, titleLines: ["Ai iNTEGRATiON", "SERViCES"], bodyId: "body-integration" },
       { stageId: "stage-hosting", kind: "flow" as const, titleLines: ["Ai AGENT", "HOSTiNG"], bodyId: "body-hosting" },
       { stageId: "stage-training", kind: "flow" as const, titleLines: ["Ai", "TRAiNiNG"], bodyId: "body-training" },
@@ -84,7 +94,7 @@ export function ParticleCanvas() {
       el: HTMLElement;
       body: HTMLElement;
       P: (HeroParticle | FlowParticle)[];
-      kind: "hero" | "flow";
+      kind: "flow";
       top: number;
       range: number;
     };
@@ -108,40 +118,23 @@ export function ParticleCanvas() {
       ctx!.font = `900 ${fontSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
       ctx!.textBaseline = "middle";
       const top = cy - ((lines.length - 1) * lh) / 2;
-      const dotBoxes: { x: number; y: number; w: number; h: number }[] = [];
       ctx!.textAlign = "left";
+      // Render each line one character at a time, switching fill colour for
+      // lowercase "i" letters so they come out lime. This lets the font
+      // handle alignment of the dot/stem entirely — no synthetic dot box
+      // tuned per-font, no drift when fonts change. Pixel sampling below
+      // then picks up the lime ink as lime particles.
       lines.forEach((line, li) => {
         const lineW = ctx!.measureText(line).width;
         let x = W / 2 - lineW / 2;
         const yc = top + li * lh;
-        ctx!.fillStyle = "#fff";
         for (const ch of line) {
           const w = ctx!.measureText(ch).width;
+          ctx!.fillStyle = ch === "i" ? "#ccff00" : "#fff";
           ctx!.fillText(ch, x, yc);
-          if (ch === "i") {
-            // Orbitron 900: letters fill the cap area so the dot needs to
-            // sit clearly above the cap line, not over the letter ink. Use
-            // the actual ink bounds for horizontal centering instead of the
-            // advance width — Orbitron pads narrow letters with side
-            // bearings that push the visual stem off the advance midpoint.
-            const m = ctx!.measureText(ch);
-            const inkLeft = (m.actualBoundingBoxLeft ?? 0);
-            const inkRight = (m.actualBoundingBoxRight ?? w);
-            const stemCenterX = x - inkLeft + (inkLeft + inkRight) / 2;
-            const dotH = fontSize * 0.14;
-            const dotW = dotH;
-            dotBoxes.push({
-              x: stemCenterX - dotW / 2,
-              y: yc - fontSize * 0.55,
-              w: dotW,
-              h: dotH,
-            });
-          }
           x += w;
         }
       });
-      ctx!.fillStyle = "#ccff00";
-      for (const b of dotBoxes) ctx!.fillRect(b.x, b.y, b.w, b.h);
 
       const d = ctx!.getImageData(0, 0, W, H).data;
       const pts: { x: number; y: number; lime: boolean }[] = [];
@@ -178,35 +171,8 @@ export function ParticleCanvas() {
         const el = document.getElementById(def.stageId);
         const body = document.getElementById(def.bodyId);
         if (!el || !body) continue;
-        let P: (HeroParticle | FlowParticle)[];
-        if (def.kind === "hero") {
-          const A = shuffle(sampleText(def.heroLines!, heroSize, H * HERO_Y));
-          const B = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
-          const N = Math.max(A.length, B.length);
-          P = new Array(N);
-          for (let i = 0; i < N; i++) {
-            const a = A[i % A.length];
-            const b = B[i % B.length];
-            const ax = a.x + jit();
-            const ay = a.y + jit();
-            const bx = b.x + jit();
-            const by = b.y + jit();
-            P[i] = {
-              ax, ay, bx, by,
-              x: Math.random() * W,
-              y: Math.random() * H,
-              vx: 0, vy: 0,
-              lime: b.lime,
-              dispX: bx + (Math.random() - 0.5) * 120,
-              dispY: by + H * (0.9 + Math.random() * 0.6),
-              delay: Math.random() * FORM_STAGGER,
-              size: Math.random() * 0.7 + 0.6,
-              resp: Math.random() * 0.7 + 0.7,
-              hitAt: -999,
-              done: false,
-            } satisfies HeroParticle;
-          }
-        } else {
+        let P: FlowParticle[];
+        {
           const B = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
           P = B.map((b) => {
             const bx = b.x + jit();
@@ -256,7 +222,7 @@ export function ParticleCanvas() {
       activeIdx = act;
       for (const s of stages) {
         const lp = clamp01((y - s.top) / s.range);
-        const asm = s.kind === "hero" ? smoother(clamp01((lp - 0.62) / 0.34)) : smoother(clamp01((lp - 0.64) / 0.32));
+        const asm = smoother(clamp01((lp - 0.64) / 0.32));
         s.body.style.opacity = asm.toFixed(3);
         s.body.style.transform = `translateY(${((1 - asm) * 60).toFixed(1)}px)`;
       }
@@ -372,8 +338,7 @@ export function ParticleCanvas() {
       ctx!.fillStyle = `rgba(0,0,0,${fade})`;
       ctx!.fillRect(0, 0, W, H);
       if (s) {
-        if (s.kind === "hero") renderHero(s, lp, elapsed);
-        else renderFlow(s, lp);
+        renderFlow(s, lp);
       }
       rafId = requestAnimationFrame(frame);
     }

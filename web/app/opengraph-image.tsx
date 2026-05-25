@@ -75,7 +75,7 @@ export default async function Image() {
               fontStyle: "italic",
             }}
           >
-            Built in Perth. Delivered across Australia and online worldwide.
+            Delivered across Australia and online worldwide.
           </div>
         </div>
         <div

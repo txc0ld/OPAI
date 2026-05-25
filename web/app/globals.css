@@ -87,4 +87,35 @@
     .paint-in { opacity: 1; animation: none !important; }
   }
 
+  /*
+   * Touch / coarse-pointer mode.
+   * iOS Safari pauses canvas paints during scroll gestures (the page hands
+   * off to the compositor thread; JS-driven canvas updates cannot run
+   * smoothly during that window). Touch gets a static per-stage heading
+   * instead of a glitchy canvas.
+   */
+  @media (pointer: coarse) {
+    #particle-canvas,
+    #particle-stir,
+    #particle-scrollcue {
+      display: none !important;
+    }
+    .stage-shell {
+      height: auto !important;
+    }
+    .stage-shell-pin {
+      position: static !important;
+      height: auto !important;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+    .stage-shell-body {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .stage-shell-mobile-title {
+      display: block;
+      margin-bottom: 2.5rem;
+    }
+  }
 }
