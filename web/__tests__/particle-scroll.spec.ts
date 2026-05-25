@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 type StageMetrics = {
   bodyOpacity: number;
   litPixels: number;
+  limePixels: number;
   totalBrightness: number;
   centerY: number | null;
 };
@@ -36,6 +37,7 @@ async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: nu
       const height = canvas.height;
       const data = ctx.getImageData(0, 0, width, height).data;
       let litPixels = 0;
+      let limePixels = 0;
       let weightedY = 0;
       let totalWeight = 0;
       const step = Math.max(16, Math.floor(Math.min(width, height) / 60));
@@ -46,6 +48,7 @@ async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: nu
           const brightness = Math.max(data[idx], data[idx + 1], data[idx + 2]);
           if (brightness > 20) {
             litPixels += 1;
+            if (data[idx] > 120 && data[idx + 1] > 160 && data[idx + 2] < 80) limePixels += 1;
             weightedY += y * brightness;
             totalWeight += brightness;
           }
@@ -55,6 +58,7 @@ async function scrollStageTo(page: Page, stageId: string, bodyId: string, lp: nu
       return {
         bodyOpacity: Number.parseFloat(getComputedStyle(body).opacity || "0"),
         litPixels,
+        limePixels,
         totalBrightness: totalWeight,
         centerY: totalWeight > 0 ? weightedY / totalWeight / height : null,
       };
@@ -116,6 +120,7 @@ test("mobile particle title rises from bottom to center then fades upward", asyn
 
   const centered = await scrollStageTo(page, "stage-top", "body-top", 0.18);
   expect(centered.litPixels).toBeGreaterThan(4);
+  expect(centered.limePixels).toBeGreaterThan(0);
   expect(centered.centerY).not.toBeNull();
   expect(centered.centerY!).toBeGreaterThan(0.42);
   expect(centered.centerY!).toBeLessThan(0.58);

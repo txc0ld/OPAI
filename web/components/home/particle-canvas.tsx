@@ -124,6 +124,7 @@ export function ParticleCanvas() {
     const jit = () => (Math.random() - 0.5) * JITTER * 2;
     const titleFont = (fontSize: number) => `900 ${fontSize}px ${orbitronFamily}, sans-serif`;
     const snap = (v: number) => Math.round(v * dpr) / dpr;
+    const particleGlyphColor = (ch: string) => ch === "A" ? "#ccff00" : "#fff";
     function drawParticle(p: FlowParticle, x: number, y: number) {
       ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
       ctx!.fillRect(snap(x), snap(y), Math.max(1 / dpr, snap(p.size)), Math.max(1 / dpr, snap(p.size)));
@@ -142,18 +143,15 @@ export function ParticleCanvas() {
       ctx!.textBaseline = "middle";
       const top = cy - ((lines.length - 1) * lh) / 2;
       ctx!.textAlign = "left";
-      // Render each line one character at a time, switching fill colour for
-      // lowercase "i" letters so they come out lime. This lets the font
-      // handle alignment of the dot/stem entirely — no synthetic dot box
-      // tuned per-font, no drift when fonts change. Pixel sampling below
-      // then picks up the lime ink as lime particles.
+      // Render each line one character at a time so selected glyphs can emit
+      // lime particles while the font keeps its own metrics and alignment.
       lines.forEach((line, li) => {
         const lineW = ctx!.measureText(line).width;
         let x = W / 2 - lineW / 2;
         const yc = top + li * lh;
         for (const ch of line) {
           const w = ctx!.measureText(ch).width;
-          ctx!.fillStyle = "#fff";
+          ctx!.fillStyle = particleGlyphColor(ch);
           ctx!.fillText(ch, x, yc);
           x += w;
         }
@@ -194,8 +192,7 @@ export function ParticleCanvas() {
 
     // Sample a single text segment centered at (cx, cy). Used for the tagline
     // word/dot pieces so each one is positioned independently from a shared
-    // baseline. White ink for letters, lime for "•" and "i" (with the same
-    // i-dot tightening sampleText applies).
+    // baseline. Uppercase "A" emits lime particles to match the main titles.
     function sampleSegment(text: string, fontSize: number, cx: number, cy: number) {
       ctx!.fillStyle = "#000";
       ctx!.fillRect(0, 0, W, H);
@@ -206,9 +203,7 @@ export function ParticleCanvas() {
       let x = cx - totalW / 2;
       for (const ch of text) {
         const w = ctx!.measureText(ch).width;
-        // Keep the lime treatment for the "•" separator only; "i" renders
-        // white like every other letter so it matches the body of the word.
-        ctx!.fillStyle = ch === "•" ? "#ccff00" : "#fff";
+        ctx!.fillStyle = ch === "•" ? "#ccff00" : particleGlyphColor(ch);
         ctx!.fillText(ch, x, cy);
         x += w;
       }
