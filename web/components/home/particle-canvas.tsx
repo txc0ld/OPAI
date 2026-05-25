@@ -279,7 +279,7 @@ export function ParticleCanvas() {
     function buildStages() {
       stages.length = 0;
       const titleSize = Math.min(W / 9, H / 7, 92);
-      const taglineSize = Math.max(20, titleSize * 0.32);
+      const isNarrow = W < 640;
       for (const def of STAGE_DEFS) {
         const el = document.getElementById(def.stageId);
         const body = document.getElementById(def.bodyId);
@@ -289,22 +289,48 @@ export function ParticleCanvas() {
           // Tier 0: OPERATE / Ai (main title) at TITLE_Y.
           const mainPts = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
           P = mainPts.map((b) => makeFlowParticle(b, 0, "outside"));
-          // Tiers 1..5: AUTOMATE · DELEGATE · ELEVATE positioned below.
-          ctx!.font = `900 ${taglineSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+          // Tiers 1..5: AUTOMATE · DELEGATE · ELEVATE.
           const segs = ["AUTOMATE", "•", "DELEGATE", "•", "ELEVATE"];
-          const segW = segs.map((s) => ctx!.measureText(s).width);
-          const gap = taglineSize * 0.55;
-          const totalW = segW.reduce((a, b) => a + b, 0) + gap * (segs.length - 1);
-          const startX = W / 2 - totalW / 2;
-          const taglineY = H * 0.66;
-          let cursor = startX;
-          segs.forEach((seg, i) => {
-            const cx = cursor + segW[i] / 2;
-            const tier = i + 1;
-            const segPts = sampleSegment(seg, taglineSize, cx, taglineY);
-            for (const b of segPts) P.push(makeFlowParticle(b, tier, "below"));
-            cursor += segW[i] + gap;
-          });
+          if (isNarrow) {
+            // Stack vertically on narrow viewports so the words can't get
+            // cut off horizontally. Each word/dot is its own line.
+            const stackSize = Math.max(18, Math.min(W * 0.085, titleSize * 0.52));
+            const lh = stackSize * 1.05;
+            const totalH = lh * segs.length;
+            const startY = H * 0.66 - totalH / 2 + lh / 2;
+            const cx = W / 2;
+            segs.forEach((seg, i) => {
+              const tier = i + 1;
+              const segPts = sampleSegment(seg, stackSize, cx, startY + i * lh);
+              for (const b of segPts) P.push(makeFlowParticle(b, tier, "below"));
+            });
+          } else {
+            // Wide layout: single horizontal row. Shrink-to-fit if the
+            // measured row would exceed 92% of the viewport width.
+            const maxRow = W * 0.92;
+            let taglineSize = Math.max(20, titleSize * 0.32);
+            ctx!.font = `900 ${taglineSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+            let segW = segs.map((s) => ctx!.measureText(s).width);
+            let gap = taglineSize * 0.55;
+            let totalW = segW.reduce((a, b) => a + b, 0) + gap * (segs.length - 1);
+            if (totalW > maxRow) {
+              taglineSize = Math.max(14, taglineSize * (maxRow / totalW));
+              ctx!.font = `900 ${taglineSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+              segW = segs.map((s) => ctx!.measureText(s).width);
+              gap = taglineSize * 0.55;
+              totalW = segW.reduce((a, b) => a + b, 0) + gap * (segs.length - 1);
+            }
+            const startX = W / 2 - totalW / 2;
+            const taglineY = H * 0.66;
+            let cursor = startX;
+            segs.forEach((seg, i) => {
+              const cx = cursor + segW[i] / 2;
+              const tier = i + 1;
+              const segPts = sampleSegment(seg, taglineSize, cx, taglineY);
+              for (const b of segPts) P.push(makeFlowParticle(b, tier, "below"));
+              cursor += segW[i] + gap;
+            });
+          }
         } else {
           const B = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
           P = B.map((b) => makeFlowParticle(b, 0, "above"));
