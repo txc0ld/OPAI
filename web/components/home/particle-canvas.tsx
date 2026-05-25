@@ -34,7 +34,6 @@ export function ParticleCanvas() {
       canvas.style.willChange = "transform";
     }
 
-    const HERO_Y = 0.42;
     const TITLE_Y = 0.42;
 
     const STAGE_DEFS = [
@@ -64,21 +63,11 @@ export function ParticleCanvas() {
     // decay so particles drift back into place rather than snap.
     const FADE_BACK_DELAY = 0.6;
     const FADE_BACK_EASE = 0.025;
-    const RETAIN = 0.97;
     const EASE = 0.05;
     const TRAIL = 0.2;
     const VMAX = 4;
-    // Legacy hero constants — referenced by the (currently unused)
-    // renderHero path. Kept so the type checker stays happy if it's revived.
-    const radius = FLUID_RADIUS;
-    const PUSH = 2.6;
-    const SWIRL = 1.0;
-    const RETURN_EASE = 0.06;
-    const RETURN_DELAY = 1.0;
     const STEP = 1;
     const JITTER = 1.3;
-    const FORM_DUR = 1.1;
-    const FORM_STAGGER = 0.7;
 
     let W = 0;
     let H = 0;
@@ -87,6 +76,7 @@ export function ParticleCanvas() {
     let rafId = 0;
     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
     let dpr = 1;
+    let orbitronFamily = '"Orbitron"';
 
     // Size the canvas backing store to (cssSize * dpr) so high-DPI screens
     // (especially mobile) get crisp particles instead of an upscaled blur.
@@ -102,14 +92,6 @@ export function ParticleCanvas() {
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    type HeroParticle = {
-      ax: number; ay: number; bx: number; by: number;
-      x: number; y: number; vx: number; vy: number;
-      lime: boolean;
-      dispX: number; dispY: number;
-      delay: number; size: number; resp: number;
-      hitAt: number; done: boolean;
-    };
     type FlowParticle = {
       bx: number; by: number; ox: number; oy: number;
       size: number; lime: boolean; formDelay: number;
@@ -124,7 +106,7 @@ export function ParticleCanvas() {
       def: (typeof STAGE_DEFS)[number];
       el: HTMLElement;
       body: HTMLElement;
-      P: (HeroParticle | FlowParticle)[];
+      P: FlowParticle[];
       kind: "flow" | "intro";
       top: number;
       range: number;
@@ -134,19 +116,22 @@ export function ParticleCanvas() {
     const mouse = { x: -9999, y: -9999, active: false };
     let mx = -9999;
     let my = -9999;
-    let pmx = -9999;
-    let pmy = -9999;
 
-    const smoothstep = (t: number) => t * t * (3 - 2 * t);
     const smoother = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
     const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
     const jit = () => (Math.random() - 0.5) * JITTER * 2;
+    const titleFont = (fontSize: number) => `900 ${fontSize}px ${orbitronFamily}, sans-serif`;
+    const BODY_REVEAL_START = 0.74;
+    const BODY_REVEAL_DUR = 0.22;
+    const FLOW_DISPERSE_START = 0.42;
+    const FLOW_DISPERSE_DUR = 0.22;
+    const NEXT_STAGE_PREVIEW_START = -0.08;
 
     function sampleText(lines: string[], fontSize: number, cy: number) {
       const lh = fontSize * 1.04;
       ctx!.fillStyle = "#000";
       ctx!.fillRect(0, 0, W, H);
-      ctx!.font = `900 ${fontSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+      ctx!.font = titleFont(fontSize);
       ctx!.textBaseline = "middle";
       const top = cy - ((lines.length - 1) * lh) / 2;
       ctx!.textAlign = "left";
@@ -207,7 +192,7 @@ export function ParticleCanvas() {
     function sampleSegment(text: string, fontSize: number, cx: number, cy: number) {
       ctx!.fillStyle = "#000";
       ctx!.fillRect(0, 0, W, H);
-      ctx!.font = `900 ${fontSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+      ctx!.font = titleFont(fontSize);
       ctx!.textBaseline = "middle";
       ctx!.textAlign = "left";
       const totalW = ctx!.measureText(text).width;
@@ -315,13 +300,13 @@ export function ParticleCanvas() {
             // measured row would exceed 92% of the viewport width.
             const maxRow = W * 0.92;
             let taglineSize = Math.max(20, titleSize * 0.32);
-            ctx!.font = `900 ${taglineSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+            ctx!.font = titleFont(taglineSize);
             let segW = segs.map((s) => ctx!.measureText(s).width);
             let gap = taglineSize * 0.55;
             let totalW = segW.reduce((a, b) => a + b, 0) + gap * (segs.length - 1);
             if (totalW > maxRow) {
               taglineSize = Math.max(14, taglineSize * (maxRow / totalW));
-              ctx!.font = `900 ${taglineSize}px "Orbitron", "Plus Jakarta Sans", sans-serif`;
+              ctx!.font = titleFont(taglineSize);
               segW = segs.map((s) => ctx!.measureText(s).width);
               gap = taglineSize * 0.55;
               totalW = segW.reduce((a, b) => a + b, 0) + gap * (segs.length - 1);
@@ -365,16 +350,18 @@ export function ParticleCanvas() {
       return window.scrollY;
     }
 
-    function onScroll() {
-      const y = getScrollY();
+    function getActiveStageIndex(y: number) {
       let act = 0;
       for (let i = 0; i < stages.length; i++) {
         if (y + window.innerHeight * 0.5 >= stages[i].top) act = i;
       }
-      activeIdx = act;
+      return act;
+    }
+
+    function syncStageBodies(y: number) {
       for (const s of stages) {
         const lp = clamp01((y - s.top) / s.range);
-        const asm = smoother(clamp01((lp - 0.64) / 0.32));
+        const asm = smoother(clamp01((lp - BODY_REVEAL_START) / BODY_REVEAL_DUR));
         s.body.style.opacity = asm.toFixed(3);
         s.body.style.transform = `translateY(${((1 - asm) * 60).toFixed(1)}px)`;
       }
@@ -383,81 +370,10 @@ export function ParticleCanvas() {
       }
     }
 
-    function renderHero(s: StageRuntime, lp: number, elapsed: number) {
-      const morph = smoother(clamp01(lp / 0.42));
-      const disperse = smoother(clamp01((lp - 0.52) / 0.4));
-      if (disperse >= 0.999) return;
-      if (mouse.active) {
-        if (mx < -9000) { mx = mouse.x; my = mouse.y; pmx = mx; pmy = my; }
-        mx += (mouse.x - mx) * EASE;
-        my += (mouse.y - my) * EASE;
-      }
-      const mspeed = Math.hypot(mx - pmx, my - pmy);
-      pmx = mx; pmy = my;
-      const alpha = 1 - disperse;
-      ctx!.globalAlpha = alpha;
-      for (let i = 0; i < s.P.length; i++) {
-        const p = s.P[i] as HeroParticle;
-        const hx = p.ax + (p.bx - p.ax) * morph;
-        const hy = p.ay + (p.by - p.ay) * morph;
-        if (!p.done) {
-          if (elapsed > p.delay) {
-            p.x += (hx - p.x) * 0.08;
-            p.y += (hy - p.y) * 0.08;
-          }
-          if (elapsed > p.delay + FORM_DUR) p.done = true;
-        } else if (morph > 0.001) {
-          // Touch: bypass per-frame easing during scroll-driven morph.
-          // iOS drops frames during touch scroll; with easing, particles
-          // fall behind the morph target and snap visibly. Direct-set
-          // gives renderFlow-style 1:1 scroll tracking.
-          if (coarsePointer) {
-            p.x = hx;
-            p.y = hy;
-          } else {
-            p.x += (hx - p.x) * 0.5;
-            p.y += (hy - p.y) * 0.5;
-          }
-          p.vx = 0;
-          p.vy = 0;
-        } else {
-          if (mouse.active && activeIdx === 0) {
-            const dx = p.x - mx;
-            const dy = p.y - my;
-            const dist = Math.hypot(dx, dy);
-            if (dist < radius && dist > 0.5) {
-              const f = smoothstep(1 - dist / radius);
-              const dirX = dx / dist;
-              const dirY = dy / dist;
-              const push = f * PUSH * p.resp;
-              const sw = f * (SWIRL + mspeed * 0.02) * p.resp;
-              p.vx += dirX * push + (-dirY) * push * sw;
-              p.vy += dirY * push + dirX * push * sw;
-              p.hitAt = elapsed;
-            }
-          }
-          if (elapsed - p.hitAt > RETURN_DELAY) {
-            let vx = (hx - p.x) * RETURN_EASE;
-            let vy = (hy - p.y) * RETURN_EASE;
-            const sp = Math.hypot(vx, vy);
-            if (sp > VMAX) { vx *= VMAX / sp; vy *= VMAX / sp; }
-            p.x += vx; p.y += vy;
-            p.vx = vx; p.vy = vy;
-          } else {
-            p.vx *= RETAIN;
-            p.vy *= RETAIN;
-            const sp = Math.hypot(p.vx, p.vy);
-            if (sp > VMAX) { p.vx *= VMAX / sp; p.vy *= VMAX / sp; }
-            p.x += p.vx;
-            p.y += p.vy;
-          }
-        }
-        const rx = disperse > 0 ? p.x + (p.dispX - p.x) * disperse : p.x;
-        const ry = disperse > 0 ? p.y + (p.dispY - p.y) * disperse : p.y;
-        ctx!.fillStyle = p.lime ? "#ccff00" : "#fff";
-        ctx!.fillRect(rx, ry, p.size, p.size);
-      }
-      ctx!.globalAlpha = 1;
+    function onScroll() {
+      const y = getScrollY();
+      activeIdx = getActiveStageIndex(y);
+      syncStageBodies(y);
     }
 
     function stir(p: FlowParticle, baseX: number, baseY: number, weight: number, elapsed: number) {
@@ -535,17 +451,12 @@ export function ParticleCanvas() {
 
     function renderFlow(s: StageRuntime, lp: number, elapsed: number) {
       // Timed so the particle title clears the screen BEFORE the body copy
-      // fades in (body asm window is lp 0.64..0.96 in onScroll), preventing
+      // fades in (body asm window starts at lp 0.74), preventing
       // any visual overlap between title and body.
       //   Form-in over lp -0.4..0.1 (rises in from below).
       //   Hold over lp 0.1..0.45.
-      //   Disperse over lp 0.45..0.7 (almost entirely complete by the time
-      //   body fade-in begins at lp 0.64).
-      // The next stage's form-in (via sn branch) doesn't begin until lp >
-      // ~0.85 of the current stage, leaving roughly 80vh of "rest" where
-      // only the body copy is on screen — a real breathing gap, not an
-      // instant crossfade.
-      const disperse = smoother(clamp01((lp - 0.45) / 0.25));
+      //   Disperse over lp 0.42..0.64, then the body reveal begins at 0.74.
+      const disperse = smoother(clamp01((lp - FLOW_DISPERSE_START) / FLOW_DISPERSE_DUR));
       if (disperse >= 0.999) return;
       const formRaw = clamp01((lp + 0.4) / 0.5);
       if (formRaw <= 0.001) return;
@@ -570,13 +481,13 @@ export function ParticleCanvas() {
       // Ease the mouse position toward the latest cursor coords so the stir
       // feels smooth rather than snapping per-frame to raw pointer movement.
       if (mouse.active) {
-        if (mx < -9000) { mx = mouse.x; my = mouse.y; pmx = mx; pmy = my; }
+        if (mx < -9000) { mx = mouse.x; my = mouse.y; }
         mx += (mouse.x - mx) * EASE;
         my += (mouse.y - my) * EASE;
-        pmx = mx;
-        pmy = my;
       }
       const y = getScrollY();
+      activeIdx = getActiveStageIndex(y);
+      syncStageBodies(y);
       const s = stages[activeIdx];
       // visualViewport-aware read so the canvas matches what the user sees
       // mid-touch-scroll on iOS (window.scrollY is stale until the gesture
@@ -613,7 +524,7 @@ export function ParticleCanvas() {
       const sn = stages[activeIdx + 1];
       if (sn && sn !== brand && sn.kind === "flow") {
         const lpn = (y - sn.top) / sn.range;
-        if (lpn > -0.4 && lpn <= 0) {
+        if (lpn > NEXT_STAGE_PREVIEW_START && lpn <= 0) {
           renderFlow(sn, lpn, elapsed);
         }
       }
@@ -669,6 +580,10 @@ export function ParticleCanvas() {
     document.addEventListener("visibilitychange", onVisibility);
 
     function boot() {
+      const resolvedOrbitron = getComputedStyle(document.documentElement)
+        .getPropertyValue("--font-orbitron")
+        .trim();
+      orbitronFamily = resolvedOrbitron || orbitronFamily;
       sizeCanvas();
       buildStages();
       onScroll();
@@ -676,11 +591,12 @@ export function ParticleCanvas() {
       rafId = requestAnimationFrame(frame);
     }
     if (document.fonts && document.fonts.ready) {
-      // Preload Orbitron 900 so the first sampleText() uses it. Fall back
-      // (boot anyway) if the load rejects — Plus Jakarta Sans takes over
-      // via the font-family stack rather than leaving the canvas un-started.
+      // Preload the next/font Orbitron family so the first sampleText() uses
+      // the final glyph metrics instead of sampling the fallback font.
       Promise.race([
-        document.fonts.load('900 100px "Orbitron"').then(() => document.fonts.ready),
+        document.fonts.load(`900 100px ${getComputedStyle(document.documentElement)
+          .getPropertyValue("--font-orbitron")
+          .trim() || orbitronFamily}`).then(() => document.fonts.ready),
         new Promise((r) => setTimeout(r, 1000)),
       ]).then(boot, boot);
     } else {
