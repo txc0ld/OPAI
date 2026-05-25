@@ -172,8 +172,20 @@ export function ParticleCanvas() {
           P = B.map((b) => {
             const bx = b.x + jit();
             const by = b.y + jit();
-            const ox = bx + (Math.random() - 0.5) * 40;
-            const oy = -Math.random() * H * 0.5 - 30;
+            let ox: number;
+            let oy: number;
+            if (def.kind === "intro") {
+              // Original hero feel: particles enter from random points well
+              // outside the viewport on all sides and converge to the text
+              // in the middle.
+              const angle = Math.random() * Math.PI * 2;
+              const dist = Math.max(W, H) * (0.7 + Math.random() * 0.7);
+              ox = W / 2 + Math.cos(angle) * dist;
+              oy = H / 2 + Math.sin(angle) * dist;
+            } else {
+              ox = bx + (Math.random() - 0.5) * 40;
+              oy = -Math.random() * H * 0.5 - 30;
+            }
             return {
               bx, by, ox, oy,
               size: Math.random() * 0.7 + 0.6,
@@ -309,7 +321,7 @@ export function ParticleCanvas() {
       // matching the visual rhythm of the other flow stages.
       const disperse = smoother(clamp01((lp - 0.05) / 0.4));
       if (disperse >= 0.999) return;
-      const formRaw = clamp01(elapsed / 1.8);
+      const formRaw = clamp01(elapsed / 2.2);
       for (let i = 0; i < s.P.length; i++) {
         const p = s.P[i] as FlowParticle;
         const local = smoother(clamp01((formRaw - p.formDelay) / (1 - p.formDelay)));
