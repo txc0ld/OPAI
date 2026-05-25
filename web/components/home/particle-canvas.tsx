@@ -158,11 +158,15 @@ export function ParticleCanvas() {
             const inkR = m.actualBoundingBoxRight || w;
             const stemCenter = x + (inkR - inkL) / 2;
             const eraseTop = yc - ascent - 1;
+            // Erase only the natural tittle — height stops well above x-height
+            // so the original stem stays intact.
             ctx!.fillStyle = "#000";
-            ctx!.fillRect(x - 3, eraseTop, w + 6, fontSize * 0.42);
-            const dotSize = fontSize * 0.11;
-            const stemTopApprox = yc - fontSize * 0.38;
-            const newGap = fontSize * 0.004;
+            ctx!.fillRect(x - 3, eraseTop, w + 6, fontSize * 0.22);
+            const dotSize = fontSize * 0.13;
+            // stemTopApprox is the target sit-just-above point for the dot.
+            // Closer to yc = lower on screen = closer to the stem top.
+            const stemTopApprox = yc - fontSize * 0.27;
+            const newGap = fontSize * 0.005;
             ctx!.fillStyle = "#ccff00";
             ctx!.fillRect(stemCenter - dotSize / 2, stemTopApprox - newGap - dotSize, dotSize, dotSize);
           }
@@ -227,10 +231,10 @@ export function ParticleCanvas() {
           const inkR = m.actualBoundingBoxRight || w;
           const stemCenter = x + (inkR - inkL) / 2;
           ctx!.fillStyle = "#000";
-          ctx!.fillRect(x - 3, cy - ascent - 1, w + 6, fontSize * 0.42);
-          const dotSize = fontSize * 0.11;
-          const stemTopApprox = cy - fontSize * 0.38;
-          const newGap = fontSize * 0.004;
+          ctx!.fillRect(x - 3, cy - ascent - 1, w + 6, fontSize * 0.22);
+          const dotSize = fontSize * 0.13;
+          const stemTopApprox = cy - fontSize * 0.27;
+          const newGap = fontSize * 0.005;
           ctx!.fillStyle = "#ccff00";
           ctx!.fillRect(stemCenter - dotSize / 2, stemTopApprox - newGap - dotSize, dotSize, dotSize);
         }
