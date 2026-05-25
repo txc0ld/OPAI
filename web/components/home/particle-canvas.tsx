@@ -119,22 +119,46 @@ export function ParticleCanvas() {
       ctx!.textBaseline = "middle";
       const top = cy - ((lines.length - 1) * lh) / 2;
       ctx!.textAlign = "left";
-      // Render each line one character at a time, switching fill colour for
-      // lowercase "i" letters so they come out lime. This lets the font
-      // handle alignment of the dot/stem entirely — no synthetic dot box
-      // tuned per-font, no drift when fonts change. Pixel sampling below
-      // then picks up the lime ink as lime particles.
+      // Render text in white, then overpaint a lime square *above* each
+      // lowercase "i" stem (tittle). The dot position uses Canvas
+      // actualBoundingBox metrics so it sits exactly above the ink,
+      // independent of the font's cap-height proportions or side
+      // bearings — fixes the Orbitron-vs-Plus-Jakarta-Sans drift.
+      const dots: { x: number; y: number; w: number; h: number }[] = [];
       lines.forEach((line, li) => {
         const lineW = ctx!.measureText(line).width;
         let x = W / 2 - lineW / 2;
         const yc = top + li * lh;
+        ctx!.fillStyle = "#fff";
         for (const ch of line) {
           const w = ctx!.measureText(ch).width;
-          ctx!.fillStyle = ch === "i" ? "#ccff00" : "#fff";
           ctx!.fillText(ch, x, yc);
+          if (ch === "i") {
+            const m = ctx!.measureText(ch);
+            // ink horizontal extent (per WHATWG: actualBoundingBoxLeft is
+            // positive when ink extends LEFT of the alignment point).
+            const inkLeftEdge = x - (m.actualBoundingBoxLeft || 0);
+            const inkRightEdge = x + (m.actualBoundingBoxRight || w);
+            const stemCenter = (inkLeftEdge + inkRightEdge) / 2;
+            // ink top edge — actualBoundingBoxAscent is the positive
+            // distance from alignment baseline (yc, since textBaseline=
+            // middle) up to the top of the ink.
+            const ascent = m.actualBoundingBoxAscent || fontSize * 0.5;
+            const capTop = yc - ascent;
+            const dotH = fontSize * 0.14;
+            const dotW = dotH;
+            dots.push({
+              x: stemCenter - dotW / 2,
+              y: capTop - dotH * 1.6, // breathing room above the cap
+              w: dotW,
+              h: dotH,
+            });
+          }
           x += w;
         }
       });
+      ctx!.fillStyle = "#ccff00";
+      for (const d of dots) ctx!.fillRect(d.x, d.y, d.w, d.h);
 
       const d = ctx!.getImageData(0, 0, W, H).data;
       const pts: { x: number; y: number; lime: boolean }[] = [];
