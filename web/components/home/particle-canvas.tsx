@@ -281,14 +281,19 @@ export function ParticleCanvas() {
       stages.length = 0;
       const titleSize = Math.min(W / 9, H / 7, 92);
       const isNarrow = W < 640;
+      // Mobile: anchor the title near the top third of the viewport like a
+      // hero, instead of dead-center where it feels like the section "starts
+      // halfway up the screen". Tagline tucks closer underneath.
+      const titleYFrac = isNarrow ? 0.30 : TITLE_Y;
+      const taglineYFrac = isNarrow ? 0.54 : 0.66;
       for (const def of STAGE_DEFS) {
         const el = document.getElementById(def.stageId);
         const body = document.getElementById(def.bodyId);
         if (!el || !body) continue;
         let P: FlowParticle[];
         if (def.kind === "intro") {
-          // Tier 0: OPERATE / Ai (main title) at TITLE_Y.
-          const mainPts = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
+          // Tier 0: OPERATE / Ai (main title) at the responsive title Y.
+          const mainPts = shuffle(sampleText(def.titleLines, titleSize, H * titleYFrac));
           P = mainPts.map((b) => makeFlowParticle(b, 0, "outside"));
           if (isNarrow) {
             // Narrow viewports: drop the · separators, stack 3 words
@@ -300,7 +305,7 @@ export function ParticleCanvas() {
             const stackSize = Math.max(20, Math.min(W * 0.10, titleSize * 0.6));
             const lh = stackSize * 1.10;
             const totalH = lh * stackSegs.length;
-            const startY = H * 0.66 - totalH / 2 + lh / 2;
+            const startY = H * taglineYFrac - totalH / 2 + lh / 2;
             const cx = W / 2;
             stackSegs.forEach((seg, i) => {
               const tier = stackTiers[i];
@@ -325,7 +330,7 @@ export function ParticleCanvas() {
               totalW = segW.reduce((a, b) => a + b, 0) + gap * (segs.length - 1);
             }
             const startX = W / 2 - totalW / 2;
-            const taglineY = H * 0.66;
+            const taglineY = H * taglineYFrac;
             let cursor = startX;
             segs.forEach((seg, i) => {
               const cx = cursor + segW[i] / 2;
@@ -336,7 +341,7 @@ export function ParticleCanvas() {
             });
           }
         } else {
-          const B = shuffle(sampleText(def.titleLines, titleSize, H * TITLE_Y));
+          const B = shuffle(sampleText(def.titleLines, titleSize, H * titleYFrac));
           P = B.map((b) => makeFlowParticle(b, 0, "below"));
         }
         stages.push({ def, el, body, P, kind: def.kind, top: 0, range: 1 });
