@@ -26,8 +26,8 @@ export function Hero() {
         </h1>
 
         <p className="mt-7 max-w-[46ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-ink-soft)]">
-          More Perth homeowners now ask ChatGPT and Google&rsquo;s AI for a good tradie. It names just two or three.
-          Miss that shortlist and, for that job, you don&rsquo;t exist.
+          More Perth homeowners now ask ChatGPT or Google&rsquo;s AI for a good tradie. It names two or three. Miss
+          that list, and you don&rsquo;t exist for that job.
         </p>
 
         <div className="mt-9 flex flex-col gap-x-5 gap-y-4 sm:flex-row sm:items-center">

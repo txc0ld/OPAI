@@ -11,10 +11,10 @@ export function Forward() {
         Today AI <span className="hl">recommends</span> you. Soon it&rsquo;ll <span className="hl">book</span> you.
       </p>
       <p className="mt-7 max-w-[60ch] text-[19px] leading-[1.6] text-[var(--color-ink-soft)]">
-        Checking your diary, requesting a quote, even taking a deposit on the customer&rsquo;s behalf. That&rsquo;s not
-        tomorrow, so no panic about robots. But the work that gets you ready for it is the exact same work that wins you
-        jobs <span className="font-semibold text-[var(--color-ink)]">today</span>. Fix the fundamentals now and
-        you&rsquo;re sorted for both.
+        It&rsquo;ll check your diary, send a quote, even take a deposit for the customer. That&rsquo;s not tomorrow, so
+        no panic about robots. But getting ready for it is the same work that wins you jobs{" "}
+        <span className="font-semibold text-[var(--color-ink)]">today</span>. Sort the basics now and you&rsquo;re set
+        for both.
       </p>
     </Section>
   );

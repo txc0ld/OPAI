@@ -15,7 +15,7 @@
 
   /* ===== Text on dark ===== */
   --color-fg: #e9e7e4;
-  --color-fg-variant: #a4a29c; /* muted, tinted */
+  --color-fg-variant: #c2c0b8; /* muted, tinted — bright enough for comfortable body reading */
 
   /* ===== Signal (lime) ===== */
   --color-signal: #f3fc85;

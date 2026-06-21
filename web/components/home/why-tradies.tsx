@@ -12,8 +12,8 @@ export function WhyTradies() {
           </h2>
         </div>
         <p className="max-w-[54ch] text-[19px] leading-[1.6] text-[var(--color-ink-soft)]">
-          Google, Maps, word of mouth. That&rsquo;s how you get found. Now an AI answer sits above the results on a
-          huge share of searches, and people ask an assistant for a name instead of comparing listings.{" "}
+          Google, Maps, word of mouth. That&rsquo;s how you get found. Now AI gives the answer at the top of the page,
+          and people ask it for a name instead of scrolling the listings.{" "}
           <span className="font-semibold text-[var(--color-ink)]">
             Being findable isn&rsquo;t enough anymore. You have to be the one it recommends.
           </span>

@@ -10,9 +10,8 @@ export function TheShift() {
         SEO got you on the list. AI doesn&rsquo;t show a list. It makes the{" "}
         <span className="text-[var(--color-signal)]">choice</span>.
       </h2>
-      <p className="mt-5 max-w-[54ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">
-        Being findable used to be enough. Now the machine picks the names, and you have to be one it&rsquo;s confident
-        enough to put forward.
+      <p className="mt-5 max-w-[54ch] text-[17px] leading-[1.65] text-[var(--color-fg-variant)]">
+        Being findable used to be enough. Now AI picks the names, and you need to be one it trusts.
       </p>
       <div className="mt-12 grid gap-6 lg:grid-cols-2">
         <AIReadout
