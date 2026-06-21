@@ -62,14 +62,14 @@ export function SiteHeader() {
           );
         })}
         <Link
-          href="/book-ai-audit/"
+          href="/check/"
           className={cn(
             "group relative ml-1 pl-[22px] font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-fg)] transition-colors",
             "before:absolute before:left-0 before:top-1/2 before:h-px before:w-[11px] before:-translate-y-1/2 before:bg-[var(--color-w30)] before:transition-all",
             "hover:text-[var(--color-accent)] hover:before:w-4 hover:before:bg-[var(--color-accent)]",
           )}
         >
-          Contact
+          Free AI Check
         </Link>
       </nav>
 
@@ -119,11 +119,11 @@ export function SiteHeader() {
             })}
             <li className="mt-4">
               <Link
-                href="/book-ai-audit/"
+                href="/check/"
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center gap-2 rounded-md bg-[var(--color-fg)] px-6 py-3.5 text-[15px] font-semibold text-black"
               >
-                Contact us →
+                Free AI Check →
               </Link>
             </li>
           </ul>

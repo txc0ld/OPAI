@@ -1,11 +1,11 @@
 export const PRIMARY_NAV = [
-  { href: "/ai-integration-services/", label: "Integration" },
-  { href: "/ai-agents-for-business/", label: "AI Agents" },
-  { href: "/ai-agent-hosting/", label: "Hosting" },
-  { href: "/ai-training-for-business/", label: "Training" },
-  { href: "/industries/", label: "Industries" },
-  { href: "/perth-ai-consultant/", label: "Perth" },
+  { href: "/how-it-works/", label: "How it works" },
+  { href: "/articles/", label: "Articles" },
+  { href: "/about/", label: "About" },
 ] as const;
+
+// The primary CTA, rendered separately from PRIMARY_NAV in the header/footer.
+export const CHECK_CTA = { href: "/check/", label: "Free AI Check" } as const;
 
 export const FOOTER_LEGAL = [
   { href: "/legal/privacy/", label: "Privacy" },

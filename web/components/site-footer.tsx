@@ -11,9 +11,9 @@ export function SiteFooter() {
           <Link href="/" className="inline-flex">
             <Logo />
           </Link>
-          <p className="mt-4 max-w-[340px] text-sm leading-[1.6] text-[var(--color-w50)]">
-            AI agents, automation, hosting and training for Australian small and medium businesses.
-            Working with businesses across Australia and online worldwide.
+          <p className="mt-4 max-w-[360px] text-sm leading-[1.6] text-[var(--color-fg-variant)]">
+            I help WA trade businesses get found, recommended and booked — sorted for how
+            customers search now, and how AI is about to book them next. Perth, WA.
           </p>
         </div>
 
@@ -34,10 +34,10 @@ export function SiteFooter() {
             ))}
             <li>
               <Link
-                href="/book-ai-audit/"
+                href="/check/"
                 className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
               >
-                Contact
+                Free AI Check
               </Link>
             </li>
           </ul>
@@ -66,7 +66,7 @@ export function SiteFooter() {
         <span>
           {BUSINESS.abn} · © {BUSINESS.copyrightYear} {BUSINESS.legalName}
         </span>
-        <span>Delivered worldwide</span>
+        <span>Perth, WA</span>
       </div>
     </footer>
   );
