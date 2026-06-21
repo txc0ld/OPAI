@@ -1,10 +1,13 @@
 export type EnquiryPayload = {
+  source: "ai-visibility-check" | "contact";
   name: string;
   company?: string;
-  email: string;
+  email?: string;
   phone?: string;
+  suburb?: string;
+  trade?: string;
   interest?: string;
-  message: string;
+  message?: string;
 };
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
@@ -29,34 +32,37 @@ export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ deliv
   }
 
   const rows = [
-    ["Name", payload.name],
-    ["Company", payload.company || "Not supplied"],
-    ["Email", payload.email],
+    ["Source", payload.source === "ai-visibility-check" ? "AI Visibility Check" : "Contact form"],
+    ["Business", payload.company || payload.name],
+    ["Contact name", payload.name],
+    ["Suburb / area", payload.suburb || "Not supplied"],
+    ["Trade", payload.trade || "Not supplied"],
+    ["Email", payload.email || "Not supplied"],
     ["Phone", payload.phone || "Not supplied"],
-    ["Interest", payload.interest || "Not supplied"],
   ];
+
   const text = [
-    "New OperateAI enquiry",
+    payload.source === "ai-visibility-check" ? "New AI Visibility Check request" : "New OperateAI enquiry",
     "",
     ...rows.map(([label, value]) => `${label}: ${value}`),
     "",
-    "Message:",
-    payload.message,
+    "Notes:",
+    payload.message || "(none)",
   ].join("\n");
 
   const html = `
     <div style="font-family:Arial,sans-serif;line-height:1.5;color:#111">
-      <h1 style="font-size:20px">New OperateAI enquiry</h1>
+      <h1 style="font-size:20px">${payload.source === "ai-visibility-check" ? "New AI Visibility Check request" : "New OperateAI enquiry"}</h1>
       <table cellpadding="6" cellspacing="0" style="border-collapse:collapse">
         ${rows
           .map(
             ([label, value]) =>
-              `<tr><th align="left" style="border-bottom:1px solid #ddd">${escapeHtml(label)}</th><td style="border-bottom:1px solid #ddd">${escapeHtml(value)}</td></tr>`,
+              `<tr><th align="left" style="border-bottom:1px solid #ddd">${escapeHtml(label)}</th><td style="border-bottom:1px solid #ddd">${escapeHtml(value ?? "")}</td></tr>`,
           )
           .join("")}
       </table>
-      <h2 style="font-size:16px;margin-top:24px">Message</h2>
-      <p style="white-space:pre-wrap">${escapeHtml(payload.message)}</p>
+      <h2 style="font-size:16px;margin-top:24px">Notes</h2>
+      <p style="white-space:pre-wrap">${escapeHtml(payload.message || "(none)")}</p>
     </div>
   `;
 
@@ -69,8 +75,11 @@ export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ deliv
     body: JSON.stringify({
       from,
       to,
-      reply_to: payload.email,
-      subject: `OperateAI enquiry: ${payload.interest || "AI Business Audit"}`,
+      ...(payload.email ? { reply_to: payload.email } : {}),
+      subject:
+        payload.source === "ai-visibility-check"
+          ? `AI Visibility Check: ${payload.company || payload.name} (${payload.suburb || "?"})`
+          : `OperateAI contact: ${payload.name}`,
       text,
       html,
     }),

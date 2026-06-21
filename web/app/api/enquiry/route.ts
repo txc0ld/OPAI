@@ -15,28 +15,41 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
+    // Honeypot: bots fill the hidden "website" field.
     if (clean(body.website)) {
       return NextResponse.json({ ok: true });
     }
 
+    const source = clean(body.source) === "contact" ? "contact" : "ai-visibility-check";
+
     const payload: EnquiryPayload = {
+      source,
       name: clean(body.name),
       company: clean(body.company),
       email: clean(body.email),
       phone: clean(body.phone),
-      interest: clean(body.interest),
+      suburb: clean(body.suburb),
+      trade: clean(body.trade),
       message: clean(body.message),
     };
 
-    if (!payload.name || !payload.email || !payload.message) {
-      return NextResponse.json({ error: "Name, email and message are required." }, { status: 400 });
+    if (source === "ai-visibility-check") {
+      if (!payload.company || !payload.suburb || !payload.trade) {
+        return NextResponse.json({ error: "Business name, suburb and trade are required." }, { status: 400 });
+      }
+      if (!payload.email && !payload.phone) {
+        return NextResponse.json({ error: "Add an email or a mobile so I can send your rundown." }, { status: 400 });
+      }
+    } else {
+      if (!payload.name || (!payload.email && !payload.phone)) {
+        return NextResponse.json({ error: "Add your name and an email or mobile." }, { status: 400 });
+      }
     }
 
-    if (!isEmail(payload.email)) {
+    if (payload.email && !isEmail(payload.email)) {
       return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
     }
-
-    if (payload.message.length > 4000) {
+    if ((payload.message || "").length > 4000) {
       return NextResponse.json({ error: "Message must be 4000 characters or fewer." }, { status: 400 });
     }
 
@@ -44,6 +57,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, delivered: result.delivered });
   } catch (error) {
     console.error("[enquiry]", error);
-    return NextResponse.json({ error: "Enquiry could not be sent right now." }, { status: 500 });
+    return NextResponse.json({ error: "That could not be sent right now." }, { status: 500 });
   }
 }
