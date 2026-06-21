@@ -16,7 +16,7 @@ export default function PrivacyPage() {
             Privacy
           </h1>
           <p className="mt-8 max-w-[var(--measure)] text-[clamp(17px,2vw,21px)] leading-[1.55] text-[var(--color-w70)]">
-            How OperateAI handles personal information, business information and client operational data.
+            How OperateAI handles your personal and business information.
           </p>
         </div>
       </section>
@@ -26,28 +26,21 @@ export default function PrivacyPage() {
           <p>
             OperateAI operates in compliance with the Australian Privacy Principles under the
             Privacy Act 1988 (Cth). We collect personal information only where it is necessary to
-            deliver services to our clients, manage business operations, and comply with the law.
+            respond to your enquiry or deliver the service you have requested.
           </p>
 
           <h2>What we collect</h2>
           <p>
-            Names, contact details, and business information you provide via our enquiry form
-            or in the course of an engagement. Operational data from client systems
-            is processed under the terms of the engagement and the relevant data processing schedule.
+            Names, business names, contact details, and any other information you provide through
+            the AI Visibility Check form or the contact form on this site.
           </p>
 
           <h2>How we use it</h2>
           <p>
-            To respond to enquiries, deliver services, send operational updates, and meet our legal
-            and contractual obligations. We do not sell personal information. We do not use client
-            operational data to train models unless explicitly agreed in writing.
-          </p>
-
-          <h2>Storage and residency</h2>
-          <p>
-            Where possible, customer data routes through Amazon Bedrock (Sydney region) or Azure
-            (Australia East) to keep processing onshore. Each engagement documents the model and
-            region used.
+            Details submitted through the AI Visibility Check and the contact form are used only
+            to prepare and send the requested rundown or reply. We do not sell or share your
+            information with third parties. We keep it only as long as needed to respond to your
+            enquiry and for a reasonable period thereafter in case you follow up.
           </p>
 
           <h2>Your rights</h2>
@@ -62,7 +55,7 @@ export default function PrivacyPage() {
             Future changes will be versioned and published on this page with an effective date.
           </p>
 
-          <p className="footnote">Last updated: 24 May 2026.</p>
+          <p className="footnote">Last updated: 22 June 2026.</p>
         </Prose>
       </section>
     </>

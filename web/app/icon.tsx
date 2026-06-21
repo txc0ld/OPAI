@@ -10,8 +10,8 @@ export default async function Icon() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#0A0E14",
-          color: "#F6F4EE",
+          background: "#121414",
+          color: "#f3fc85",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

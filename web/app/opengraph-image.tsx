@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { BUSINESS } from "@/lib/business";
 
-export const alt = "OperateAI. AI agents, automation, hosting and training for Australian businesses.";
+export const alt = "OperateAI. Get found, recommended and booked by AI.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,8 +15,8 @@ export default async function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0A0E14",
-          color: "#F6F4EE",
+          background: "#121414",
+          color: "#e2e2e2",
           padding: "80px",
           fontFamily: "serif",
         }}
@@ -32,23 +32,23 @@ export default async function Image() {
               alignItems: "baseline",
             }}
           >
-            <span style={{ fontWeight: 200, opacity: 0.55 }}>[</span>
-            <span style={{ fontWeight: 700 }}>opai</span>
-            <span style={{ fontWeight: 200, opacity: 0.55 }}>]</span>
+            <span style={{ fontWeight: 200, color: "#f3fc85", opacity: 0.7 }}>[</span>
+            <span style={{ fontWeight: 700, color: "#f3fc85" }}>opai</span>
+            <span style={{ fontWeight: 200, color: "#f3fc85", opacity: 0.7 }}>]</span>
           </div>
           <div
             style={{
               marginTop: 22,
               paddingTop: 18,
-              borderTop: "1px solid #F6F4EE",
+              borderTop: "1px solid #e2e2e2",
               fontSize: 22,
               letterSpacing: "0.32em",
               textTransform: "uppercase",
-              opacity: 0.65,
+              opacity: 0.55,
               fontFamily: "monospace",
             }}
           >
-            OperateAI · AI for Small Business
+            OperateAI · Get found by AI
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -60,22 +60,10 @@ export default async function Image() {
               maxWidth: 1000,
               fontFamily: "sans-serif",
               fontWeight: 500,
+              color: "#e2e2e2",
             }}
           >
-            AI agents and automation for small businesses.
-          </div>
-          <div
-            style={{
-              fontSize: 26,
-              lineHeight: 1.4,
-              letterSpacing: "-0.005em",
-              maxWidth: 900,
-              opacity: 0.7,
-              fontFamily: "serif",
-              fontStyle: "italic",
-            }}
-          >
-            Delivered across Australia and online worldwide.
+            {BUSINESS.tagline}
           </div>
         </div>
         <div
@@ -90,12 +78,11 @@ export default async function Image() {
             fontFamily: "sans-serif",
           }}
         >
-          <span>Audit · Integration · Agents · Hosting · Training</span>
+          <span>Free AI Visibility Check</span>
           <span>operateai.com.au</span>
         </div>
       </div>
     ),
     { ...size }
   );
-  void BUSINESS; // referenced for future variable swap
 }
