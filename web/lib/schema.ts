@@ -55,11 +55,10 @@ export function buildLocalBusiness(): SchemaNode {
     },
     areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "AdministrativeArea", name: a })),
     serviceType: [
-      "AI integration services",
-      "AI agent design and build",
-      "Managed AI agent hosting",
-      "AI training for business",
-      "AI business audit",
+      "Google Business Profile optimisation",
+      "AI search visibility for trades",
+      "Local SEO for tradies",
+      "Online reviews setup",
     ],
   };
 }
@@ -112,6 +111,28 @@ export function buildWebPage({ url, title, description }: WebPageOptions): Schem
     name: title,
     description,
     isPartOf: { "@id": `${BUSINESS.url}/#website` },
+    inLanguage: "en-AU",
+  };
+}
+
+export type ArticleSchemaOptions = {
+  url: string;
+  title: string;
+  description: string;
+  date: string;
+  author: string;
+};
+
+export function buildArticle({ url, title, description, date, author }: ArticleSchemaOptions): SchemaNode {
+  return {
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: title,
+    description,
+    datePublished: date,
+    author: { "@type": "Person", name: author },
+    publisher: { "@id": `${BUSINESS.url}/#organization` },
+    mainEntityOfPage: url,
     inLanguage: "en-AU",
   };
 }
