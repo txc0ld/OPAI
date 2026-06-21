@@ -1,6 +1,6 @@
 # @aao/audit-cli
 
-A small Node CLI that automates the AAO Operations Audit pipeline. It loads the relevant `aao-*` Claude Code Skills as system context, calls Claude (Sonnet 4.6) to run the eight-stage orchestrator, then calls Claude a second time to render the final Markdown report. Replaces the manual "open Claude Code, invoke `aao-audit-pipeline`, then `aao-audit-report-renderer`" flow with a single command.
+A small Node CLI that automates the AAO Operations Audit pipeline. It loads the relevant `aao-*` Claude Code Skills as system context, calls Claude (**Opus 4.8**) to run the eight-stage orchestrator, then calls Claude (**Sonnet 4.6**) a second time to render the final Markdown report. The orchestrator does the heavy analytical reasoning so it runs on Opus; the renderer only reshapes the resulting JSON into Markdown so it stays on the cheaper Sonnet. Replaces the manual "open Claude Code, invoke `aao-audit-pipeline`, then `aao-audit-report-renderer`" flow with a single command.
 
 ## Install
 
@@ -49,11 +49,11 @@ pnpm --filter @aao/audit-cli run audit dry-run \
 
 ## Cost per audit
 
-Rough estimate, depends on input size and model output verbosity:
+Rough estimate, depends on input size and model output verbosity. The orchestrator runs on Opus (~5× Sonnet token pricing), the renderer on Sonnet:
 
-- Orchestrator pass: ~$0.40–$1.50 USD
-- Renderer pass: ~$0.10–$0.40 USD (cache hit on the skill specs reduces this materially)
-- **Typical audit run: $0.50–$2.00 USD**
+- Orchestrator pass (Opus 4.8): ~$2.00–$7.50 USD
+- Renderer pass (Sonnet 4.6): ~$0.10–$0.40 USD (cache hit on the skill specs reduces this materially)
+- **Typical audit run: $2.00–$8.00 USD**
 
 The CLI prints token counts and a per-call cost estimate to stdout after each call, plus a summary at the end.
 

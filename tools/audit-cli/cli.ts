@@ -5,10 +5,10 @@
  * Automates the AAO Operations Audit pipeline:
  *   1. Reads the audit pipeline input JSON.
  *   2. Loads the relevant aao-* SKILL.md files from ~/.claude/skills/.
- *   3. Calls Claude (sonnet 4.6) with the orchestrator skill + skill specs as
+ *   3. Calls Claude (Opus 4.8) with the orchestrator skill + skill specs as
  *      cached system context, captures structured JSON output.
- *   4. Calls Claude a second time with the renderer skill spec + the JSON
- *      output, writes the Markdown report.
+ *   4. Calls Claude (Sonnet 4.6) a second time with the renderer skill spec +
+ *      the JSON output, writes the Markdown report.
  *
  * Prompt caching is applied to the static skill-spec system blocks so the
  * second call hits the cache.
@@ -26,14 +26,26 @@ import os from "node:os";
 // Constants
 // ---------------------------------------------------------------------------
 
-const MODEL_ID = "claude-sonnet-4-6";
+// The orchestrator pass does the heavy eight-skill analytical reasoning, so it
+// runs on Opus. The renderer pass only turns the orchestrator's JSON into
+// Markdown, so it stays on the cheaper Sonnet.
+const ORCHESTRATOR_MODEL = "claude-opus-4-8";
+const RENDERER_MODEL = "claude-sonnet-4-6";
 
-// Per Anthropic public pricing for Sonnet-class models (USD per million tokens).
-// Used for a rough cost estimate only; actual billing comes from the API.
-const PRICE_INPUT_PER_MTOK = 3.0;
-const PRICE_INPUT_CACHE_WRITE_PER_MTOK = 3.75;
-const PRICE_INPUT_CACHE_READ_PER_MTOK = 0.3;
-const PRICE_OUTPUT_PER_MTOK = 15.0;
+// Per Anthropic public pricing (USD per million tokens), keyed by model so each
+// pass is costed against the model it actually used. Rough cost estimate only;
+// actual billing comes from the API.
+type Pricing = {
+  input: number;
+  cacheWrite: number;
+  cacheRead: number;
+  output: number;
+};
+
+const PRICING: Record<string, Pricing> = {
+  "claude-opus-4-8": { input: 15.0, cacheWrite: 18.75, cacheRead: 1.5, output: 75.0 },
+  "claude-sonnet-4-6": { input: 3.0, cacheWrite: 3.75, cacheRead: 0.3, output: 15.0 },
+};
 
 const SKILLS_DIR = path.join(os.homedir(), ".claude", "skills");
 
@@ -144,22 +156,24 @@ type Usage = {
   cache_read_input_tokens?: number;
 };
 
-function estimateCostUsd(usage: Usage): number {
+function estimateCostUsd(usage: Usage, model: string): number {
+  const p = PRICING[model] ?? PRICING[ORCHESTRATOR_MODEL];
   const baseInput = (usage.input_tokens || 0) / 1_000_000;
   const cacheWrite = (usage.cache_creation_input_tokens || 0) / 1_000_000;
   const cacheRead = (usage.cache_read_input_tokens || 0) / 1_000_000;
   const output = (usage.output_tokens || 0) / 1_000_000;
   return (
-    baseInput * PRICE_INPUT_PER_MTOK +
-    cacheWrite * PRICE_INPUT_CACHE_WRITE_PER_MTOK +
-    cacheRead * PRICE_INPUT_CACHE_READ_PER_MTOK +
-    output * PRICE_OUTPUT_PER_MTOK
+    baseInput * p.input +
+    cacheWrite * p.cacheWrite +
+    cacheRead * p.cacheRead +
+    output * p.output
   );
 }
 
-function logUsage(label: string, usage: Usage, ms: number): void {
-  const cost = estimateCostUsd(usage);
+function logUsage(label: string, usage: Usage, ms: number, model: string): void {
+  const cost = estimateCostUsd(usage, model);
   console.log(pc.cyan(`  [${label}]`));
+  console.log(`    model:              ${model}`);
   console.log(`    duration:           ${fmtDuration(ms)}`);
   console.log(
     `    input tokens:       ${usage.input_tokens.toLocaleString()}` +
@@ -254,7 +268,7 @@ async function runOrchestrator(
 
   const t0 = Date.now();
   const message = await client.messages.create({
-    model: MODEL_ID,
+    model: ORCHESTRATOR_MODEL,
     max_tokens: 16000,
     system,
     messages: [{ role: "user", content: userPrompt }],
@@ -289,7 +303,7 @@ async function runRenderer(
 
   const t0 = Date.now();
   const message = await client.messages.create({
-    model: MODEL_ID,
+    model: RENDERER_MODEL,
     max_tokens: 16000,
     system,
     messages: [{ role: "user", content: userPrompt }],
@@ -394,7 +408,7 @@ async function cmdRun(opts: {
   console.log(pc.bold("aao-audit run"));
   console.log(pc.dim(`  input:      ${path.resolve(opts.input)}`));
   console.log(pc.dim(`  output dir: ${path.resolve(opts.outputDir)}`));
-  console.log(pc.dim(`  model:      ${MODEL_ID}`));
+  console.log(pc.dim(`  models:     ${ORCHESTRATOR_MODEL} (orchestrator), ${RENDERER_MODEL} (renderer)`));
 
   const raw = readJson(opts.input);
   const input = AuditPipelineInputSchema.parse(raw);
@@ -405,7 +419,7 @@ async function cmdRun(opts: {
   const orchestrator = await runOrchestrator(client, input);
   const pipelineOutPath = path.join(opts.outputDir, "audit-pipeline-output.json");
   writeJson(pipelineOutPath, orchestrator.json);
-  logUsage("orchestrator", orchestrator.usage, orchestrator.ms);
+  logUsage("orchestrator", orchestrator.usage, orchestrator.ms, ORCHESTRATOR_MODEL);
   console.log(pc.green(`  wrote: ${pipelineOutPath}`));
 
   console.log(pc.bold("\n[2/2] renderer"));
@@ -413,11 +427,12 @@ async function cmdRun(opts: {
   const renderer = await runRenderer(client, orchestrator.json, clientMetadata);
   const deliverablePath = path.join(opts.outputDir, "audit-deliverable.md");
   writeText(deliverablePath, renderer.markdown);
-  logUsage("renderer", renderer.usage, renderer.ms);
+  logUsage("renderer", renderer.usage, renderer.ms, RENDERER_MODEL);
   console.log(pc.green(`  wrote: ${deliverablePath}`));
 
   const totalCost =
-    estimateCostUsd(orchestrator.usage) + estimateCostUsd(renderer.usage);
+    estimateCostUsd(orchestrator.usage, ORCHESTRATOR_MODEL) +
+    estimateCostUsd(renderer.usage, RENDERER_MODEL);
   const totalMs = orchestrator.ms + renderer.ms;
   console.log(pc.bold("\nsummary"));
   console.log(`  total duration:   ${fmtDuration(totalMs)}`);
@@ -458,7 +473,7 @@ async function cmdRender(opts: {
   const client = new Anthropic({ apiKey });
   const renderer = await runRenderer(client, pipelineOutput, clientMetadata);
   writeText(opts.output, renderer.markdown);
-  logUsage("renderer", renderer.usage, renderer.ms);
+  logUsage("renderer", renderer.usage, renderer.ms, RENDERER_MODEL);
   console.log(pc.green(`done — wrote ${opts.output}`));
 }
 
