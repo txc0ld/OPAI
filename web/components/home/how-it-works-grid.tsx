@@ -31,7 +31,7 @@ export function HowItWorksGrid() {
   return (
     <Section>
       <MonoLabel>How the AI picks who it picks</MonoLabel>
-      <h2 className="mt-4 max-w-[22ch] text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+      <h2 className="mt-4 max-w-[22ch] text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
         It&rsquo;s not magic. It trusts whatever is clearest. Here&rsquo;s what I fix.
       </h2>
       <div className="mt-10 grid gap-5 md:grid-cols-2">

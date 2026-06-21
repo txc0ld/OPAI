@@ -22,7 +22,7 @@ export default function ContactPage() {
       <JsonLd schema={wrapGraph([buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION })])} />
       <Section className="pt-32 lg:pt-40" containerClassName="max-w-[720px]">
         <MonoLabel>Contact</MonoLabel>
-        <h1 className="mt-5 text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+        <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
           Rather just have a chat?
         </h1>
         <p className="mt-5 text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">

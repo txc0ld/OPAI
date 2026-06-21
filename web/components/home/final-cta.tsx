@@ -5,7 +5,7 @@ export function FinalCta() {
   return (
     <Section className="border-t border-[var(--color-border)]">
       <div className="rounded-lg border border-[var(--color-signal)]/40 bg-[var(--color-surface-container)] p-8 text-center lg:p-16">
-        <h2 className="mx-auto max-w-[20ch] text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+        <h2 className="mx-auto max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
           See what AI says about your business.
         </h2>
         <p className="mx-auto mt-5 max-w-[52ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">

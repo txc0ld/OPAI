@@ -6,7 +6,7 @@ export function TheShift() {
   return (
     <Section className="border-t border-[var(--color-border)] bg-[var(--color-surface-low)]">
       <MonoLabel>What changed</MonoLabel>
-      <h2 className="mt-4 max-w-[20ch] text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+      <h2 className="mt-4 max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
         SEO got you on the list. AI doesn&rsquo;t show a list — it makes the choice.
       </h2>
       <div className="mt-10 grid gap-5 lg:grid-cols-2">

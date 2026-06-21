@@ -31,7 +31,7 @@ export default function CheckPage() {
       <Section className="pt-32 lg:pt-40" containerClassName="grid gap-14 lg:grid-cols-[1fr_1.1fr]">
         <div>
           <MonoLabel>Free · one business day · a real person</MonoLabel>
-          <h1 className="mt-5 text-[var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+          <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
             See what AI says about your business.
           </h1>
           <p className="mt-5 max-w-[46ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">

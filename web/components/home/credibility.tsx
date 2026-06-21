@@ -11,7 +11,7 @@ export function Credibility() {
   return (
     <Section className="border-t border-[var(--color-border)] bg-[var(--color-surface-low)]">
       <MonoLabel>Straight up</MonoLabel>
-      <h2 className="mt-4 max-w-[20ch] text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+      <h2 className="mt-4 max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
         I&rsquo;m new at this brand, not new at the work. Here&rsquo;s the deal.
       </h2>
       <div className="mt-10 grid gap-6 sm:grid-cols-3">

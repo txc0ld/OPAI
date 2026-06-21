@@ -73,7 +73,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <span aria-hidden>·</span>
           <span>{meta.author}</span>
         </div>
-        <h1 className="mt-4 text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">{meta.title}</h1>
+        <h1 className="mt-4 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">{meta.title}</h1>
 
         <div className="my-10 rounded-lg border border-[var(--color-signal)]/40 bg-[var(--color-surface-container)] p-5">
           <p className="text-[14px] text-[var(--color-fg-variant)]">

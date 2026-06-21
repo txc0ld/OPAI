@@ -7,7 +7,7 @@ export function WhyTradies() {
       <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-end">
         <div>
           <MonoLabel>Why it hits tradies hardest</MonoLabel>
-          <h2 className="mt-4 max-w-[18ch] text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+          <h2 className="mt-4 max-w-[18ch] text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
             Your business lives on local discovery. That&rsquo;s the bit AI is eating first.
           </h2>
         </div>

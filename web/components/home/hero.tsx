@@ -12,10 +12,10 @@ export function Hero() {
           <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-[var(--color-signal)]" aria-hidden />
           Perth, WA
         </MonoLabel>
-        <h1 className="mt-5 text-[var(--text-display)] font-extrabold leading-[1.02] tracking-[-0.03em]">
+        <h1 className="mt-5 text-[length:var(--text-display)] font-extrabold leading-[1.02] tracking-[-0.03em]">
           Your next customer won&rsquo;t scroll Google. They&rsquo;ll ask AI who to call.
         </h1>
-        <p className="mt-6 max-w-[48ch] text-[var(--text-lede)] leading-[1.55] text-[var(--color-fg-variant)]">
+        <p className="mt-6 max-w-[48ch] text-[length:var(--text-lede)] leading-[1.55] text-[var(--color-fg-variant)]">
           More Perth homeowners are asking ChatGPT and Google&rsquo;s AI &ldquo;who&rsquo;s a good tradie?&rdquo; — and
           it only names two or three. If you&rsquo;re not one of them, you don&rsquo;t exist for that job.
         </p>

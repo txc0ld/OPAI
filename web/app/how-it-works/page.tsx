@@ -47,7 +47,7 @@ export default function HowItWorksPage() {
       />
       <Section className="pt-32 lg:pt-40">
         <MonoLabel>How it works</MonoLabel>
-        <h1 className="mt-5 max-w-[20ch] text-[var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+        <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
           It&rsquo;s not magic, and it&rsquo;s not random. Here&rsquo;s how AI picks — and what I fix.
         </h1>
         <p className="mt-5 max-w-[56ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">

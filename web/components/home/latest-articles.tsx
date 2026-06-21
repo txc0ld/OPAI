@@ -11,7 +11,7 @@ export function LatestArticles() {
       <div className="flex items-end justify-between gap-4">
         <div>
           <MonoLabel>From the site</MonoLabel>
-          <h2 className="mt-4 text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">Latest</h2>
+          <h2 className="mt-4 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">Latest</h2>
         </div>
         <Link href="/articles/" className="font-mono text-[12px] uppercase tracking-[0.1em] text-[var(--color-fg-variant)] hover:text-[var(--color-signal)]">
           All articles →

@@ -25,7 +25,7 @@ export default function ArticlesPage() {
       <JsonLd schema={wrapGraph([buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION })])} />
       <Section className="pt-32 lg:pt-40">
         <MonoLabel>Articles</MonoLabel>
-        <h1 className="mt-5 max-w-[18ch] text-[var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+        <h1 className="mt-5 max-w-[18ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
           Getting found, recommended and booked by AI.
         </h1>
         <p className="mt-5 max-w-[52ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">{DESCRIPTION}</p>

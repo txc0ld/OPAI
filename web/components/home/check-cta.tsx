@@ -15,7 +15,7 @@ export function CheckCta() {
       <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
         <div>
           <MonoLabel>Free check</MonoLabel>
-          <h2 className="mt-4 text-[var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
+          <h2 className="mt-4 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
             Want to know how you look to AI right now?
           </h2>
           <div className="mt-8">
