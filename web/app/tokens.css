@@ -1,65 +1,68 @@
 @theme {
-  /* Surfaces (tonal layering, no soft shadows) */
-  --color-surface: #121414;
-  --color-surface-lowest: #0c0f0f;
-  --color-surface-low: #1a1c1c;
-  --color-surface-container: #1e2020;
-  --color-surface-high: #282a2b;
+  /* ===== Dark surfaces (deep, layered) ===== */
+  --color-void: #0a0a0a; /* deepest base / footer */
+  --color-surface: #0e0e0e; /* dark section bg */
+  --color-surface-low: #111111;
+  --color-surface-container: #161616; /* card base */
+  --color-surface-high: #1c1c1c; /* card gradient top / chips */
+  --color-surface-lowest: #0a0a0a;
 
-  /* Text */
-  --color-fg: #e2e2e2;
-  --color-fg-variant: #c8c8b3;
+  /* ===== Light "paper" surfaces ===== */
+  --color-paper: #f3f3f0; /* light section bg */
+  --color-paper-warm: #ecebe4; /* hero paper, slightly warmer */
+  --color-ink: #121212; /* text on light */
+  --color-ink-soft: #46443f; /* muted text on light */
 
-  /* Signal accent */
+  /* ===== Text on dark ===== */
+  --color-fg: #e9e7e4;
+  --color-fg-variant: #a4a29c; /* muted, tinted */
+
+  /* ===== Signal (lime) ===== */
   --color-signal: #f3fc85;
-  --color-on-signal: #1b1d00;
+  --color-signal-dim: #cdd66e;
+  --color-on-signal: #0a0a0a;
+  --color-signal-glow: rgba(243, 252, 133, 0.16);
 
-  /* Borders */
-  --color-border: #2a2a2a;
-  --color-outline: #474838; /* stronger border / focus ring; replaces old semi-transparent alias */
-
-  /* Status */
+  /* ===== Lines / status ===== */
+  --color-border: rgba(255, 255, 255, 0.1); /* hairline on dark */
+  --color-border-soft: rgba(255, 255, 255, 0.06);
+  --color-line-ink: rgba(18, 18, 18, 0.12); /* hairline on light */
   --color-warning: #ffb86b;
   --color-error: #ffb4ab;
 
-  /* White opacity tiers (legacy components still resolve these) */
-  --color-w70: rgba(226, 226, 226, 0.7);
-  --color-w50: rgba(226, 226, 226, 0.5);
-  --color-w30: rgba(226, 226, 226, 0.3);
-  --color-w10: rgba(226, 226, 226, 0.1);
-
-  /* Legacy aliases mapped onto the new system so unmigrated components work */
-  --color-bg: var(--color-surface);
+  /* ===== Legacy aliases (keep older chrome resolving) ===== */
+  --color-bg: var(--color-void);
   --color-accent: var(--color-signal);
-  --color-paper: var(--color-surface);
+  --color-light: var(--color-paper);
   --color-on-surface: var(--color-fg);
   --color-muted: var(--color-fg-variant);
   --color-rule: var(--color-border);
+  --color-w70: rgba(233, 231, 228, 0.7);
+  --color-w50: rgba(233, 231, 228, 0.5);
+  --color-w30: rgba(233, 231, 228, 0.3);
+  --color-w10: rgba(255, 255, 255, 0.1);
+  --color-outline: rgba(255, 255, 255, 0.18);
 
-  /* Legacy light-section aliases — NOTE: intentionally inverted from the old
-     system. page.tsx uses bg-[var(--color-light)] text-[var(--color-ink)] as a
-     pair that still renders readable on the dark page. Do NOT use these vars
-     individually. Remove together with the page.tsx light section in Task 11. */
-  --color-light: var(--color-fg);
-  --color-ink: var(--color-surface);
-
-  /* Fonts (CSS vars set by next/font in layout.tsx) */
+  /* ===== Fonts (CSS vars set by next/font in layout.tsx) ===== */
   --font-sans: var(--font-hanken);
   --font-heading: var(--font-hanken);
   --font-mono: var(--font-jetbrains);
 
-  /* Typographic scale */
-  --text-display: clamp(40px, 8vw, 76px);
-  --text-section: clamp(28px, 4.5vw, 44px);
-  --text-lede: clamp(17px, 2vw, 21px);
+  /* ===== Type scale ===== */
+  --text-display: clamp(2.9rem, 6vw, 5.5rem);
+  --text-section: clamp(2rem, 3.6vw, 3.25rem);
+  --text-lede: clamp(1.1rem, 1.4vw, 1.35rem);
 
-  /* Spacing rhythm */
-  --section-pad-y: 7rem;
-  --section-pad-y-mobile: 4.5rem;
-  --container-max: 1200px;
+  /* ===== Spacing / layout ===== */
+  --section-pad-y: 7.5rem;
+  --section-pad-y-mobile: 5rem;
+  --container-max: 1240px;
   --measure: 65ch;
 
-  /* Easing */
-  --ease: cubic-bezier(0.33, 1, 0.68, 1);
+  /* ===== Motion ===== */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ===== Grain texture (premium tactile overlay) ===== */
+  --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

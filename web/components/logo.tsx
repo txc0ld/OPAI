@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 type LogoProps = {
@@ -6,20 +5,21 @@ type LogoProps = {
 };
 
 /**
- * OperateAI brand mark. Source is web/public/opailogoblk.png — a 1536x1024
- * raster containing the "OPAi" wordmark with the "AUTOMATE · DELEGATE ·
- * ELEVATE" tagline beneath. next/image handles optimization/format.
+ * OperateAI wordmark: a lime mark tile + the name. Inherits text colour from
+ * its context (light on the dark nav/footer). Replaces the old raster PNG.
  */
 export function Logo({ className }: LogoProps) {
   return (
-    <Image
-      src="/opailogoblk.png"
-      alt="OperateAI"
-      width={1536}
-      height={1024}
-      priority
-      sizes="(min-width: 1024px) 90px, 72px"
-      className={cn("h-12 w-auto select-none lg:h-14", className)}
-    />
+    <span className={cn("inline-flex select-none items-center gap-2.5", className)}>
+      <span
+        aria-hidden
+        className="grid h-7 w-7 place-items-center rounded-lg bg-[var(--color-signal)] text-[14px] font-extrabold text-[var(--color-on-signal)]"
+      >
+        O
+      </span>
+      <span className="text-[18px] font-extrabold tracking-[-0.02em]">
+        OperateAI<span className="text-[var(--color-signal)]">.</span>
+      </span>
+    </span>
   );
 }

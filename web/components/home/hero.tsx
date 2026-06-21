@@ -1,40 +1,69 @@
+import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
 import { CheckButton } from "@/components/ui/check-button";
 import { AIReadout } from "@/components/ai-readout";
-import Link from "next/link";
 
 export function Hero() {
   return (
-    <Section className="pt-32 lg:pt-40" containerClassName="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
-      <div>
-        <MonoLabel>
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-[var(--color-signal)]" aria-hidden />
-          Perth, WA
-        </MonoLabel>
-        <h1 className="mt-5 text-[length:var(--text-display)] font-extrabold leading-[1.02] tracking-[-0.03em]">
-          Your next customer won&rsquo;t scroll Google. They&rsquo;ll ask AI who to call.
+    <Section
+      tone="paper-warm"
+      className="overflow-hidden pt-32 lg:pt-40"
+      containerClassName="grid items-center gap-x-14 gap-y-14 lg:grid-cols-[1.04fr_0.96fr]"
+    >
+      {/* soft lime wash behind the answer card */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[-8%] top-[6%] h-[520px] w-[520px] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(circle, var(--color-signal-glow), transparent 65%)" }}
+      />
+
+      <div className="relative">
+        <MonoLabel tone="light">Perth · WA trades</MonoLabel>
+
+        <h1 className="mt-6 max-w-[15ch] text-[length:var(--text-display)] font-extrabold leading-[0.97] tracking-[-0.035em] text-[var(--color-ink)]">
+          Your next customer won&rsquo;t scroll Google. They&rsquo;ll ask <span className="hl">AI</span> who to call.
         </h1>
-        <p className="mt-6 max-w-[48ch] text-[length:var(--text-lede)] leading-[1.55] text-[var(--color-fg-variant)]">
-          More Perth homeowners are asking ChatGPT and Google&rsquo;s AI &ldquo;who&rsquo;s a good tradie?&rdquo; — and
-          it only names two or three. If you&rsquo;re not one of them, you don&rsquo;t exist for that job.
+
+        <p className="mt-7 max-w-[46ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-ink-soft)]">
+          More Perth homeowners now ask ChatGPT and Google&rsquo;s AI for a good tradie — and it names just two or three.
+          Miss that shortlist and, for that job, you don&rsquo;t exist.
         </p>
-        <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+
+        <div className="mt-9 flex flex-col gap-x-5 gap-y-4 sm:flex-row sm:items-center">
           <CheckButton />
-          <Link href="/how-it-works/" className="text-[15px] font-semibold text-[var(--color-fg)] hover:text-[var(--color-signal)]">
-            How it works →
+          <Link
+            href="/how-it-works/"
+            className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-[var(--color-ink)] transition-colors hover:text-[var(--color-ink-soft)]"
+          >
+            How it works
+            <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
+              →
+            </span>
           </Link>
         </div>
-        <p className="mt-5 font-mono text-[12px] tracking-[0.04em] text-[var(--color-fg-variant)]">
-          Free · takes you 30 seconds · a real person checks it, not a bot.
+
+        <p className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-[var(--color-ink-soft)]">
+          <span>Free</span>
+          <span aria-hidden className="opacity-40">
+            /
+          </span>
+          <span>30 seconds</span>
+          <span aria-hidden className="opacity-40">
+            /
+          </span>
+          <span>checked by a real person, not a bot</span>
         </p>
       </div>
-      <AIReadout
-        caption="Asked just now"
-        prompt="Who's a good emergency plumber in Perth?"
-        names={["Coastal Plumbing & Gas", "RapidFlow Plumbers", "Westside Emergency Plumbing"]}
-        hook="— is your name here?"
-      />
+
+      <div className="relative">
+        <AIReadout
+          caption="Asked just now"
+          prompt="Who's a good emergency plumber in Perth?"
+          names={["Coastal Plumbing & Gas", "RapidFlow Plumbers", "Westside Emergency Plumbing"]}
+          hook="— is your name here?"
+        />
+      </div>
     </Section>
   );
 }

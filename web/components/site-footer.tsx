@@ -1,58 +1,50 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { FOOTER_LEGAL, PRIMARY_NAV } from "@/lib/nav";
+import { FOOTER_LEGAL, PRIMARY_NAV, CHECK_CTA } from "@/lib/nav";
 import { BUSINESS } from "@/lib/business";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[var(--color-w10)] bg-[#060606] px-6 pt-20 pb-10 lg:px-12 lg:pt-24 lg:pb-12">
-      <div className="mx-auto grid w-full max-w-[1200px] gap-12 md:grid-cols-[2fr_1fr_1fr]">
+    <footer className="grain relative border-t border-[var(--color-border)] bg-[var(--color-void)] px-6 pt-20 pb-10 text-[var(--color-fg)] lg:px-12 lg:pt-24 lg:pb-12">
+      <div className="relative z-[1] mx-auto grid w-full max-w-[var(--container-max)] gap-12 md:grid-cols-[2fr_1fr_1fr]">
         <div>
-          <Link href="/" className="inline-flex">
+          <Link href="/" className="inline-flex" aria-label="OperateAI home">
             <Logo />
           </Link>
-          <p className="mt-4 max-w-[360px] text-sm leading-[1.6] text-[var(--color-fg-variant)]">
-            I help WA trade businesses get found, recommended and booked — sorted for how
-            customers search now, and how AI is about to book them next. Perth, WA.
+          <p className="mt-5 max-w-[360px] text-[15px] leading-[1.6] text-[var(--color-fg-variant)]">
+            I help WA trade businesses get found, recommended and booked — sorted for how customers search now, and how
+            AI is about to book them next.
           </p>
         </div>
 
         <div>
-          <h3 className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-w50)]">
+          <h3 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-fg-variant)]">
             Navigate
           </h3>
-          <ul className="grid gap-[11px]">
-            {PRIMARY_NAV.map((item) => (
+          <ul className="grid gap-3">
+            {[...PRIMARY_NAV, CHECK_CTA].map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
+                  className="text-[15px] text-[var(--color-fg-variant)] transition-colors hover:text-[var(--color-signal)]"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/check/"
-                className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
-              >
-                Free AI Check
-              </Link>
-            </li>
           </ul>
         </div>
 
         <div>
-          <h3 className="mb-[18px] font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--color-w50)]">
+          <h3 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-fg-variant)]">
             Legal
           </h3>
-          <ul className="grid gap-[11px]">
+          <ul className="grid gap-3">
             {FOOTER_LEGAL.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm text-[var(--color-w70)] transition-colors hover:text-[var(--color-fg)]"
+                  className="text-[15px] text-[var(--color-fg-variant)] transition-colors hover:text-[var(--color-signal)]"
                 >
                   {item.label}
                 </Link>
@@ -62,7 +54,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mx-auto mt-16 flex w-full max-w-[1200px] flex-wrap justify-between gap-2 border-t border-[var(--color-w10)] pt-7 font-mono text-[11px] tracking-[0.04em] text-[var(--color-w50)]">
+      <div className="relative z-[1] mx-auto mt-16 flex w-full max-w-[var(--container-max)] flex-wrap justify-between gap-2 border-t border-[var(--color-border)] pt-7 text-[12px] tracking-[0.02em] text-[var(--color-fg-variant)]">
         <span>
           {BUSINESS.abn} · © {BUSINESS.copyrightYear} {BUSINESS.legalName}
         </span>
