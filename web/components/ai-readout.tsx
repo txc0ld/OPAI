@@ -22,12 +22,12 @@ export function AIReadout({ prompt, names, hook, caption, dim = false, className
         <div className="mb-4 text-[11px] uppercase tracking-[0.1em] text-[var(--color-fg-variant)]">{caption}</div>
       ) : null}
       <div className="flex gap-2 text-[var(--color-fg-variant)]">
-        <span className="select-none text-[var(--color-signal)]">&gt;</span>
+        <span aria-hidden="true" className="select-none text-[var(--color-signal)]">&gt;</span>
         <span className="text-[var(--color-fg)]">{prompt}</span>
       </div>
-      <ol className="mt-3 grid gap-1.5">
+      <ol role="list" className="mt-3 grid gap-1.5">
         {names.map((name, i) => (
-          <li key={name} className="flex gap-2 text-[var(--color-fg)]">
+          <li key={`${i}-${name}`} className="flex gap-2 text-[var(--color-fg)]">
             <span className="select-none text-[var(--color-fg-variant)]">{i + 1}.</span>
             <span>{name}</span>
           </li>
