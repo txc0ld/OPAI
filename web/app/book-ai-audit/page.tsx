@@ -112,7 +112,7 @@ export default function Page() {
               A short note is enough. We will reply by email.
             </p>
           </div>
-          <ContactForm defaultInterest="AI Business Audit" />
+          <ContactForm />
         </div>
       </section>
 
