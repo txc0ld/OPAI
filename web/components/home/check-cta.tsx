@@ -6,7 +6,7 @@ const ITEMS = [
   "What AI actually says about you",
   "Whether you make the shortlist",
   "The one thing costing you jobs",
-  "How to fix it — plain English",
+  "How to fix it, in plain English",
 ];
 
 export function CheckCta() {
@@ -24,7 +24,7 @@ export function CheckCta() {
             Want to know how you look to AI right now?
           </h2>
           <p className="mt-5 max-w-[44ch] text-[16px] leading-[1.6] text-[var(--color-fg-variant)]">
-            Send your name and suburb. I check it by hand and send the rundown back — free, no pitch.
+            Send your name and suburb. I check it by hand and send the rundown back. Free, no pitch.
           </p>
           <div className="mt-8">
             <CheckButton />

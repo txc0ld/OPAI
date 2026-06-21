@@ -39,11 +39,11 @@ export default function ArticlesPage() {
               >
                 <div className="flex flex-wrap items-center gap-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[var(--color-ink-soft)]">
                   <span>{formatArticleDate(a.date)}</span>
-                  <span aria-hidden>·</span>
+                  <span aria-hidden>,</span>
                   <span>{a.readingMinutes} min read</span>
                   {a.tags?.[0] ? (
                     <>
-                      <span aria-hidden>·</span>
+                      <span aria-hidden>,</span>
                       <span className="text-[var(--color-signal-dim)]">{a.tags[0]}</span>
                     </>
                   ) : null}

@@ -26,7 +26,7 @@ export default function TermsPage() {
           <h2>What we do</h2>
           <p>
             OperateAI helps trade businesses get found, recommended and booked by AI. That starts
-            with a free AI Visibility Check — a rundown of how AI systems currently see your
+            with a free AI Visibility Check, a rundown of how AI systems currently see your
             business. From there, we offer optional done-for-you work to improve your AI presence
             over time.
           </p>

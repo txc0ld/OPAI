@@ -48,7 +48,7 @@ export default async function Image() {
               fontFamily: "monospace",
             }}
           >
-            OperateAI · Get found by AI
+            OperateAI. Get found by AI.
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>

@@ -25,7 +25,7 @@ export function ContactForm() {
       if (!response.ok) throw new Error(result.error || "That could not be sent.");
       form.reset();
       setState("sent");
-      setMessage("Thanks — I'll get back to you.");
+      setMessage("Thanks. I'll get back to you.");
     } catch (error) {
       setState("error");
       setMessage(error instanceof Error ? error.message : "That could not be sent.");

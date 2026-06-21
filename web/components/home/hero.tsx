@@ -19,14 +19,14 @@ export function Hero() {
       />
 
       <div className="relative">
-        <MonoLabel tone="light">Perth · WA trades</MonoLabel>
+        <MonoLabel tone="light">Perth, WA trades</MonoLabel>
 
         <h1 className="mt-6 max-w-[15ch] text-[length:var(--text-display)] font-extrabold leading-[0.97] tracking-[-0.035em] text-[var(--color-ink)]">
           Your next customer won&rsquo;t scroll Google. They&rsquo;ll ask <span className="hl">AI</span> who to call.
         </h1>
 
         <p className="mt-7 max-w-[46ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-ink-soft)]">
-          More Perth homeowners now ask ChatGPT and Google&rsquo;s AI for a good tradie — and it names just two or three.
+          More Perth homeowners now ask ChatGPT and Google&rsquo;s AI for a good tradie. It names just two or three.
           Miss that shortlist and, for that job, you don&rsquo;t exist.
         </p>
 
@@ -43,16 +43,8 @@ export function Hero() {
           </Link>
         </div>
 
-        <p className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-[var(--color-ink-soft)]">
-          <span>Free</span>
-          <span aria-hidden className="opacity-40">
-            /
-          </span>
-          <span>30 seconds</span>
-          <span aria-hidden className="opacity-40">
-            /
-          </span>
-          <span>checked by a real person, not a bot</span>
+        <p className="mt-7 text-[13px] text-[var(--color-ink-soft)]">
+          Free. Takes 30 seconds. Checked by a real person, not a bot.
         </p>
       </div>
 
@@ -61,7 +53,7 @@ export function Hero() {
           caption="Asked just now"
           prompt="Who's a good emergency plumber in Perth?"
           names={["Coastal Plumbing & Gas", "RapidFlow Plumbers", "Westside Emergency Plumbing"]}
-          hook="— is your name here?"
+          hook="is your name here?"
         />
       </div>
     </Section>

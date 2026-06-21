@@ -23,7 +23,7 @@ export default function AboutPage() {
       <Section tone="paper-warm" className="pt-32 lg:pt-40" containerClassName="max-w-[720px]">
         <MonoLabel tone="light">About</MonoLabel>
         <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.025em] text-[var(--color-ink)]">
-          A <span className="hl">real person</span> in Perth — not an overseas agency.
+          A <span className="hl">real person</span> in Perth. Not an overseas agency.
         </h1>
         <div className="mt-8 grid gap-5 text-[17px] leading-[1.7] text-[var(--color-ink-soft)]">
           <p>
@@ -32,7 +32,7 @@ export default function AboutPage() {
           </p>
           <p>
             I&rsquo;m not going to pretend I&rsquo;ve done a thousand of these. I&rsquo;m early, hungry, and I&rsquo;ll
-            personally look at your business myself — which is exactly why the free check is worth taking. No call
+            personally look at your business myself, which is exactly why the free check is worth taking. No call
             centre, no lock-in, no jargon. Just the fundamentals done properly, sorted for how customers search now and
             how AI is about to book them next.
           </p>

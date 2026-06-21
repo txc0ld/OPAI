@@ -15,14 +15,14 @@ const LEVERS = [
     fix: "Clear words it can pick up and quote back.",
   },
   {
-    title: "Reviews — plenty, recent, replied-to",
+    title: "Reviews: plenty, recent, replied-to",
     problem: "12 reviews from 2022 reads as closed down.",
     fix: "An easy way to ask every happy customer, and reply to all.",
   },
   {
     title: "Answer fast",
     problem: "Slow callbacks teach AI to stop sending leads.",
-    fix: "Catch missed calls and reply in minutes — the next thing that matters.",
+    fix: "Catch missed calls and reply in minutes. That's the next thing that matters.",
     big: true,
   },
 ];
@@ -32,7 +32,7 @@ export function HowItWorksGrid() {
     <Section tone="paper">
       <MonoLabel tone="light">How the AI picks who it picks</MonoLabel>
       <h2 className="mt-5 max-w-[24ch] text-[length:var(--text-section)] font-extrabold leading-[1.04] tracking-[-0.025em] text-[var(--color-ink)]">
-        It&rsquo;s not magic. It trusts whatever is clearest — here&rsquo;s what I fix.
+        It trusts whatever is clearest. Here&rsquo;s what I fix.
       </h2>
       <div className="mt-12 grid gap-5 md:grid-cols-2">
         {LEVERS.map((lever, i) => (

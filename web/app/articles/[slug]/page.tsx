@@ -68,9 +68,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </Link>
         <div className="mt-6 flex flex-wrap items-center gap-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[var(--color-fg-variant)]">
           <span>{formatArticleDate(meta.date)}</span>
-          <span aria-hidden>·</span>
+          <span aria-hidden>,</span>
           <span>{meta.readingMinutes} min read</span>
-          <span aria-hidden>·</span>
+          <span aria-hidden>,</span>
           <span>{meta.author}</span>
         </div>
         <h1 className="mt-4 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">{meta.title}</h1>

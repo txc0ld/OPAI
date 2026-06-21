@@ -67,7 +67,7 @@ export function CheckForm() {
         Got it. I&rsquo;ll personally check what AI says about{" "}
         <span className="text-[var(--color-signal)]">{business || "your business"}</span>
         {suburb ? <> in <span className="text-[var(--color-signal)]">{suburb}</span></> : null} and send your rundown
-        within one business day. — Taylor
+        within one business day. Cheers, Taylor
       </div>
     );
   }

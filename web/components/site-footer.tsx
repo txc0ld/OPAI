@@ -12,8 +12,7 @@ export function SiteFooter() {
             <Logo />
           </Link>
           <p className="mt-5 max-w-[360px] text-[15px] leading-[1.6] text-[var(--color-fg-variant)]">
-            I help WA trade businesses get found, recommended and booked — sorted for how customers search now, and how
-            AI is about to book them next.
+            I help WA trade businesses get found, recommended and booked by AI, sorted for how customers search now and how AI is about to book them next.
           </p>
         </div>
 
@@ -56,7 +55,7 @@ export function SiteFooter() {
 
       <div className="relative z-[1] mx-auto mt-16 flex w-full max-w-[var(--container-max)] flex-wrap justify-between gap-2 border-t border-[var(--color-border)] pt-7 text-[12px] tracking-[0.02em] text-[var(--color-fg-variant)]">
         <span>
-          {BUSINESS.abn} · © {BUSINESS.copyrightYear} {BUSINESS.legalName}
+          {BUSINESS.abn}, © {BUSINESS.copyrightYear} {BUSINESS.legalName}
         </span>
         <span>Perth, WA</span>
       </div>

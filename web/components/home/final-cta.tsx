@@ -15,14 +15,14 @@ export function FinalCta() {
             See what AI says about your business.
           </h2>
           <p className="mx-auto mt-6 max-w-[50ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-fg-variant)]">
-            Send your name and suburb. I&rsquo;ll send back a free rundown of what AI says about you — and the one thing
+            Send your name and suburb. I&rsquo;ll send back a free rundown of what AI says about you, including the one thing
             costing you jobs.
           </p>
           <div className="mt-9 flex justify-center">
             <CheckButton />
           </div>
           <p className="mt-5 text-[13px] text-[var(--color-fg-variant)]">
-            Free · one business day · checked by a real person.
+            Free. One business day. Checked by a real person.
           </p>
         </div>
       </div>

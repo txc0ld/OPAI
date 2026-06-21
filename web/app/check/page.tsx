@@ -9,7 +9,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/check/`;
 const TITLE = "Free AI Visibility Check";
 const DESCRIPTION =
-  "Send your business name and suburb. I'll send back a free rundown of what ChatGPT and Google's AI say about you — and the one thing costing you jobs.";
+  "Send your business name and suburb. I'll send back a free rundown of what ChatGPT and Google's AI say about you, including the one thing costing you jobs.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const RUNDOWN = [
   "What ChatGPT and Google's AI actually say when someone asks for a good tradie in your area",
-  "Whether you make the shortlist — or get skipped",
+  "Whether you make the shortlist or get skipped",
   "The one thing costing you jobs right now",
   "How to fix it (no pressure, no jargon)",
 ];
@@ -33,13 +33,13 @@ export default function CheckPage() {
       <Section className="pt-32 lg:pt-40" containerClassName="grid gap-14 lg:grid-cols-[1fr_1.1fr]">
         {/* Left: copy */}
         <div>
-          <MonoLabel>Free · one business day · a real person</MonoLabel>
+          <MonoLabel>Free. One business day. A real person.</MonoLabel>
           <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
             See what AI says about your business.
           </h1>
           <p className="mt-5 max-w-[46ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">
             Send your name and suburb. I&rsquo;ll personally check what AI says about you and send back a plain-English
-            rundown. It&rsquo;s free because the work proves itself — no catch, no spam.
+            rundown. It&rsquo;s free because the work proves itself. No catch, no spam.
           </p>
           <ul className="mt-8 grid gap-3">
             {RUNDOWN.map((item) => (
@@ -80,7 +80,7 @@ export default function CheckPage() {
         <ol className="mt-8 grid gap-5 sm:grid-cols-3">
           {[
             ["01", "You send it", "Business name, suburb, trade. Takes about 30 seconds."],
-            ["02", "I check it by hand", "I look at what AI says about you — a real person, not an autoresponder."],
+            ["02", "I check it by hand", "I look at what AI says about you. A real person, not an autoresponder."],
             ["03", "You get the rundown", "A plain-English summary and the one thing to fix. No pressure to buy anything."],
           ].map(([n, h, p]) => (
             <li

@@ -8,7 +8,7 @@ import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/contact/`;
 const TITLE = "Contact";
-const DESCRIPTION = "Get in touch with OperateAI — or take the free AI Visibility Check first.";
+const DESCRIPTION = "Get in touch with OperateAI, or take the free AI Visibility Check first.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -29,8 +29,8 @@ export default function ContactPage() {
           The fastest start is the{" "}
           <a href="/check/" className="text-[var(--color-ink)] underline underline-offset-4 hover:opacity-70">
             free AI check
-          </a>{" "}
-          — but if you&rsquo;d rather email me, drop a line below or write to{" "}
+          </a>
+          , but if you&rsquo;d rather email me, drop a line below or write to{" "}
           <a
             href={`mailto:${BUSINESS.email}`}
             className="text-[var(--color-ink)] underline underline-offset-4 hover:opacity-70"
