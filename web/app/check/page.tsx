@@ -6,7 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
-const URL = `${BUSINESS.url}/check/`;
+const PAGE_URL = `${BUSINESS.url}/check/`;
 const TITLE = "Free AI Visibility Check";
 const DESCRIPTION =
   "Send your business name and suburb. I'll send back a free rundown of what ChatGPT and Google's AI say about you — and the one thing costing you jobs.";
@@ -27,7 +27,7 @@ const RUNDOWN = [
 export default function CheckPage() {
   return (
     <>
-      <JsonLd schema={wrapGraph([buildWebPage({ url: URL, title: TITLE, description: DESCRIPTION })])} />
+      <JsonLd schema={wrapGraph([buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION })])} />
       <Section className="pt-32 lg:pt-40" containerClassName="grid gap-14 lg:grid-cols-[1fr_1.1fr]">
         <div>
           <MonoLabel>Free · one business day · a real person</MonoLabel>

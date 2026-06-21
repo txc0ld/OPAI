@@ -74,7 +74,7 @@ export function CheckForm() {
 
   return (
     <form onSubmit={onSubmit} className="grid gap-5 text-left">
-      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
       <label className={labelClass} htmlFor={`${formId}-company`}>
         Business name
