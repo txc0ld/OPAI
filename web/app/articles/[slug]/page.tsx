@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { CheckButton } from "@/components/ui/check-button";
-import { Prose } from "@/components/prose";
 import { getArticleSlugs, listArticles, formatArticleDate } from "@/lib/articles";
 import { JsonLd } from "@/components/json-ld";
 import { buildArticle, buildWebPage, wrapGraph } from "@/lib/schema";
@@ -13,6 +12,8 @@ export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug }));
 }
 
+// Keep in sync with content/articles/*.mdx — every article file needs an entry here
+// (Turbopack can't resolve a bare template-literal dynamic import).
 const LOADERS: Record<string, () => Promise<{ default: React.ComponentType }>> = {
   "your-next-customer-wont-scroll-google": () =>
     import("@/content/articles/your-next-customer-wont-scroll-google.mdx"),
@@ -83,9 +84,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
 
-        <Prose>
-          <Content />
-        </Prose>
+        <Content />
 
         <div className="mt-14 border-t border-[var(--color-border)] pt-10">
           <CheckButton label="See what AI says about you" />
