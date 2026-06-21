@@ -3,7 +3,7 @@ import { CheckButton } from "@/components/ui/check-button";
 
 export default function NotFound() {
   return (
-    <section className="bg-[#121414] px-6 pt-[140px] pb-24 text-center lg:px-12 lg:pt-[180px] lg:pb-32">
+    <section className="bg-[var(--color-surface)] px-6 pt-[140px] pb-24 text-center lg:px-12 lg:pt-[180px] lg:pb-32">
       <div className="mx-auto w-full max-w-[820px]">
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.22em] text-[var(--color-fg-variant)]">404</p>
         <h1 className="text-[clamp(40px,7vw,88px)] font-extrabold leading-[1] tracking-[-0.04em] text-[var(--color-fg)]">

@@ -6,8 +6,8 @@ export function JsonLd({ schema }: JsonLdProps) {
   return (
     <script
       type="application/ld+json"
-      // schema is constructed server-side from typed builders; safe to stringify.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      // Escape "<" to < so no field value can break out of the <script> tag.
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
     />
   );
 }
