@@ -20,12 +20,12 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd schema={wrapGraph([buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION })])} />
-      <Section className="pt-32 lg:pt-40" containerClassName="max-w-[720px]">
-        <MonoLabel>About</MonoLabel>
-        <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.02em]">
-          A real person in Perth — not an overseas agency.
+      <Section tone="paper-warm" className="pt-32 lg:pt-40" containerClassName="max-w-[720px]">
+        <MonoLabel tone="light">About</MonoLabel>
+        <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.025em] text-[var(--color-ink)]">
+          A <span className="hl">real person</span> in Perth — not an overseas agency.
         </h1>
-        <div className="mt-8 grid gap-5 text-[17px] leading-[1.7] text-[var(--color-fg-variant)]">
+        <div className="mt-8 grid gap-5 text-[17px] leading-[1.7] text-[var(--color-ink-soft)]">
           <p>
             I&rsquo;m Taylor. I help WA trade businesses get found, recommended and booked in the new world where
             customers ask AI who to call instead of scrolling Google.
@@ -38,7 +38,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="mt-10">
-          <CheckButton />
+          <CheckButton variant="solid" />
         </div>
       </Section>
     </>

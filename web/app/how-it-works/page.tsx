@@ -45,39 +45,61 @@ export default function HowItWorksPage() {
           buildService({ name: "AI search visibility for trades", url: PAGE_URL, description: DESCRIPTION }),
         ])}
       />
-      <Section className="pt-32 lg:pt-40">
-        <MonoLabel>How it works</MonoLabel>
-        <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
+
+      {/* Intro — paper */}
+      <Section tone="paper" className="pt-32 lg:pt-40">
+        <MonoLabel tone="light">How it works</MonoLabel>
+        <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em] text-[var(--color-ink)]">
           It&rsquo;s not magic, and it&rsquo;s not random. Here&rsquo;s how AI picks — and what I fix.
         </h1>
-        <p className="mt-5 max-w-[56ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">
+        <p className="mt-5 max-w-[56ch] text-[17px] leading-[1.6] text-[var(--color-ink-soft)]">
           AI builds its recommendation from a small handful of sources, and it trusts whatever is clearest, most
           complete, and most consistent. If your details are messy or locked in images, it skips you. Most of your
           competition hasn&rsquo;t fixed this. That&rsquo;s the good news.
         </p>
       </Section>
 
-      <Section className="pt-0">
+      {/* Steps — paper, white cards */}
+      <Section tone="paper" className="pt-0">
         <ol className="grid gap-5">
           {STEPS.map((step, i) => (
             <li
               key={step.title}
-              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-container)] p-7 lg:p-9"
+              className="rounded-2xl border border-[var(--color-line-ink)] bg-white p-7 shadow-[0_22px_44px_-30px_rgba(18,18,18,0.45)] transition-transform duration-300 hover:-translate-y-1 lg:p-9"
             >
-              <div className="font-mono text-[13px] text-[var(--color-signal)]">{String(i + 1).padStart(2, "0")}</div>
-              <h2 className="mt-2 text-[22px] font-bold tracking-tight">{step.title}</h2>
-              <p className="mt-3 max-w-[64ch] text-[15px] leading-[1.7] text-[var(--color-fg-variant)]">{step.body}</p>
+              <div className="flex items-center gap-3">
+                <span
+                  className="grid h-9 w-9 place-items-center rounded-lg text-[13px] font-extrabold text-[var(--color-ink)]"
+                  style={{ background: "color-mix(in oklab, var(--color-signal) 38%, white)" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h2 className="text-[20px] font-bold tracking-tight text-[var(--color-ink)]">{step.title}</h2>
+              </div>
+              <p className="mt-4 max-w-[64ch] text-[15px] leading-[1.7] text-[var(--color-ink-soft)]">{step.body}</p>
             </li>
           ))}
         </ol>
+      </Section>
 
-        <div className="mt-12 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-low)] p-8 text-center">
-          <p className="mx-auto max-w-[48ch] text-[17px] leading-[1.6] text-[var(--color-fg)]">
-            Every business is different. There&rsquo;s no fixed package — get the free check first, then we talk about
-            what&rsquo;s worth doing.
-          </p>
-          <div className="mt-6 flex justify-center">
-            <CheckButton />
+      {/* Closing CTA band — dark */}
+      <Section tone="dark">
+        <div className="relative overflow-hidden rounded-3xl border border-[var(--color-border)] px-8 py-14 text-center lg:py-20">
+          {/* Lime glow blob */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-[600px] max-w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(ellipse, var(--color-signal-glow), transparent 68%)" }}
+          />
+          <div className="relative">
+            <MonoLabel className="justify-center">No fixed package</MonoLabel>
+            <p className="mx-auto mt-5 max-w-[48ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-fg)]">
+              Every business is different. There&rsquo;s no fixed package — get the free check first, then we talk about
+              what&rsquo;s worth doing.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <CheckButton />
+            </div>
           </div>
         </div>
       </Section>

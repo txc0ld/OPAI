@@ -28,7 +28,10 @@ export default function CheckPage() {
   return (
     <>
       <JsonLd schema={wrapGraph([buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION })])} />
+
+      {/* Hero + form */}
       <Section className="pt-32 lg:pt-40" containerClassName="grid gap-14 lg:grid-cols-[1fr_1.1fr]">
+        {/* Left: copy */}
         <div>
           <MonoLabel>Free · one business day · a real person</MonoLabel>
           <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.02em]">
@@ -41,31 +44,58 @@ export default function CheckPage() {
           <ul className="mt-8 grid gap-3">
             {RUNDOWN.map((item) => (
               <li key={item} className="flex gap-3 text-[15px] leading-[1.5] text-[var(--color-fg)]">
-                <span className="mt-1 select-none font-mono text-[var(--color-signal)]" aria-hidden>
-                  ▸
+                <span
+                  className="mt-0.5 select-none text-[var(--color-signal)]"
+                  aria-hidden
+                >
+                  ✓
                 </span>
                 {item}
               </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-container)] p-6 lg:p-8">
-          <CheckForm />
+
+        {/* Right: form card */}
+        <div className="relative">
+          {/* Lime glow blob behind the card */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-16 -right-16 h-72 w-72 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--color-signal-glow), transparent 70%)" }}
+          />
+          <div
+            className="grain relative rounded-3xl border border-[var(--color-border)] p-8 lg:p-10"
+            style={{ background: "linear-gradient(150deg,var(--color-surface-high),var(--color-surface-container))" }}
+          >
+            <CheckForm />
+          </div>
         </div>
       </Section>
 
-      <Section className="border-t border-[var(--color-border)] bg-[var(--color-surface-low)]">
-        <h2 className="text-[22px] font-bold tracking-tight">What happens next</h2>
-        <ol className="mt-6 grid gap-6 sm:grid-cols-3">
+      {/* What happens next */}
+      <Section tone="dark" className="border-t border-[var(--color-border)]">
+        <MonoLabel>What happens next</MonoLabel>
+        <h2 className="mt-5 text-[22px] font-bold tracking-tight">Three steps. Thirty seconds on your end.</h2>
+        <ol className="mt-8 grid gap-5 sm:grid-cols-3">
           {[
             ["01", "You send it", "Business name, suburb, trade. Takes about 30 seconds."],
             ["02", "I check it by hand", "I look at what AI says about you — a real person, not an autoresponder."],
             ["03", "You get the rundown", "A plain-English summary and the one thing to fix. No pressure to buy anything."],
           ].map(([n, h, p]) => (
-            <li key={n}>
-              <div className="font-mono text-[13px] text-[var(--color-signal)]">{n}</div>
-              <h3 className="mt-2 font-bold">{h}</h3>
-              <p className="mt-1 text-[14px] leading-[1.6] text-[var(--color-fg-variant)]">{p}</p>
+            <li
+              key={n}
+              className="grain rounded-2xl border border-[var(--color-border)] p-7 hover:border-[color-mix(in_oklab,var(--color-signal)_40%,transparent)]"
+              style={{ background: "linear-gradient(150deg,var(--color-surface-high),var(--color-surface-container))" }}
+            >
+              <div
+                className="grid h-9 w-9 place-items-center rounded-lg text-[13px] font-extrabold text-[var(--color-on-signal)]"
+                style={{ background: "color-mix(in oklab, var(--color-signal) 80%, transparent)" }}
+              >
+                {n}
+              </div>
+              <h3 className="mt-4 font-bold text-[var(--color-fg)]">{h}</h3>
+              <p className="mt-2 text-[14px] leading-[1.6] text-[var(--color-fg-variant)]">{p}</p>
             </li>
           ))}
         </ol>
