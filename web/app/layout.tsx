@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Orbitron, Plus_Jakarta_Sans } from "next/font/google";
+import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StructuredData } from "@/components/structured-data";
@@ -7,10 +7,11 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { BUSINESS } from "@/lib/business";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  variable: "--font-hanken",
   display: "swap",
+  weight: ["400", "600", "700", "800"],
 });
 
 const mono = JetBrains_Mono({
@@ -20,16 +21,9 @@ const mono = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  variable: "--font-orbitron",
-  display: "swap",
-  weight: "900",
-});
-
 export const metadata: Metadata = {
   title: {
-    default: "OperateAI | AI Agents, Automation & Training for Australian Businesses",
+    default: "OperateAI | Get your trade business found and recommended by AI",
     template: "%s | OperateAI",
   },
   description: BUSINESS.description,
@@ -38,58 +32,42 @@ export const metadata: Metadata = {
   authors: [{ name: BUSINESS.name, url: BUSINESS.url }],
   creator: BUSINESS.name,
   publisher: BUSINESS.name,
-  category: "AI consultancy",
+  category: "Local marketing for trades",
   keywords: [
-    "AI agents for business",
-    "AI agents for small business",
-    "AI automation for business",
-    "AI integration services",
-    "AI consultant Perth",
-    "AI training for business",
-    "AI agent hosting",
-    "managed AI agents",
-    "small business AI automation",
-    "Perth AI consultant",
-    "AI agents Perth",
+    "get found by AI",
+    "AI recommendations for tradies",
+    "Google Business Profile for tradies",
+    "tradie marketing Perth",
+    "get recommended by ChatGPT",
+    "AI search for trades",
+    "Perth plumber marketing",
+    "Perth electrician marketing",
   ],
   openGraph: {
     type: "website",
     locale: "en_AU",
     url: BUSINESS.url,
     siteName: BUSINESS.name,
-    title: "OperateAI | AI Agents, Automation & Training for Australian Businesses",
+    title: "OperateAI | Get your trade business found and recommended by AI",
     description: BUSINESS.description,
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: `${BUSINESS.name}. ${BUSINESS.tagline}`,
-      },
-    ],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${BUSINESS.name}. ${BUSINESS.tagline}` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "OperateAI | AI Agents, Automation & Training for Australian Businesses",
+    title: "OperateAI | Get your trade business found and recommended by AI",
     description: BUSINESS.description,
     images: ["/opengraph-image"],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU" className={`${jakarta.variable} ${mono.variable} ${orbitron.variable}`}>
+    <html lang="en-AU" className={`${hanken.variable} ${mono.variable}`}>
       <body>
         <StructuredData />
         <ScrollReveal />
