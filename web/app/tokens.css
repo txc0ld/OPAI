@@ -16,7 +16,7 @@
 
   /* Borders */
   --color-border: #2a2a2a;
-  --color-outline: #474838;
+  --color-outline: #474838; /* stronger border / focus ring; replaces old semi-transparent alias */
 
   /* Status */
   --color-warning: #ffb86b;
@@ -36,7 +36,10 @@
   --color-muted: var(--color-fg-variant);
   --color-rule: var(--color-border);
 
-  /* Legacy light-section aliases (page.tsx still uses these) */
+  /* Legacy light-section aliases — NOTE: intentionally inverted from the old
+     system. page.tsx uses bg-[var(--color-light)] text-[var(--color-ink)] as a
+     pair that still renders readable on the dark page. Do NOT use these vars
+     individually. Remove together with the page.tsx light section in Task 11. */
   --color-light: var(--color-fg);
   --color-ink: var(--color-surface);
 
