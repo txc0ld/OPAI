@@ -1,0 +1,23 @@
+{
+  "name": "@aao/check-cli",
+  "version": "0.1.0",
+  "description": "Operator accelerator for the Free AI Check: gather AI + Google signals and draft the report.",
+  "type": "module",
+  "private": true,
+  "bin": { "ai-check": "./cli.ts" },
+  "scripts": {
+    "check": "tsx cli.ts",
+    "dry-run": "tsx cli.ts run --dry-run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "commander": "^12.1.0",
+    "picocolors": "^1.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
