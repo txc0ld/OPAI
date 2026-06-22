@@ -58,7 +58,7 @@ export function CheckForm() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded border border-[var(--color-border)] bg-[var(--color-surface-lowest)] px-4 py-3 text-[15px] text-[var(--color-fg)] outline-none transition-colors placeholder:text-[var(--color-fg-variant)]/60 focus:border-[var(--color-signal)]";
+    "mt-2 w-full rounded border border-[var(--color-border)] bg-[var(--color-surface-lowest)] px-4 py-3 text-[16px] text-[var(--color-fg)] outline-none transition-colors placeholder:text-[var(--color-fg-variant)]/60 focus:border-[var(--color-signal)]";
   const labelClass = "block font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[var(--color-fg-variant)]";
 
   if (state === "sent") {

@@ -23,8 +23,8 @@ function escapeHtml(value: string): string {
 
 export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ delivered: boolean }> {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL || "OperateAI <hello@operateai.com.au>";
-  const to = process.env.RESEND_TO_EMAIL || "hello@operateai.com.au";
+  const from = process.env.RESEND_FROM_EMAIL || "OperateAI <team@operateai.com.au>";
+  const to = process.env.RESEND_TO_EMAIL || "team@operateai.com.au";
 
   if (!apiKey) {
     console.log("[enquiry-stub]", JSON.stringify(payload));
@@ -107,8 +107,8 @@ export async function sendCheckDraftEmail({
   markdown: string;
 }): Promise<{ delivered: boolean }> {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL || "OperateAI <hello@operateai.com.au>";
-  const to = process.env.RESEND_TO_EMAIL || "hello@operateai.com.au";
+  const from = process.env.RESEND_FROM_EMAIL || "OperateAI <team@operateai.com.au>";
+  const to = process.env.RESEND_TO_EMAIL || "team@operateai.com.au";
 
   if (!apiKey) {
     console.log("[check-draft-stub]", { business, suburb });

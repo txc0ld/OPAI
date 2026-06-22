@@ -4,7 +4,7 @@ import { MonoLabel } from "@/components/ui/mono-label";
 import { ContactForm } from "@/components/contact/contact-form";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, wrapGraph } from "@/lib/schema";
-import { BUSINESS } from "@/lib/business";
+import { BUSINESS, emails } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/contact/`;
 const TITLE = "Contact";
@@ -41,8 +41,15 @@ export default function ContactPage() {
             className="text-[var(--color-ink)] underline underline-offset-4 hover:opacity-70"
           >
             {BUSINESS.email}
-          </a>
-          .
+          </a>{" "}
+          (or{" "}
+          <a
+            href={`mailto:${emails.hello}`}
+            className="text-[var(--color-ink)] underline underline-offset-4 hover:opacity-70"
+          >
+            {emails.hello}
+          </a>{" "}
+          for general enquiries).
         </p>
 
         {/* Dark form card — intentional contrast panel on paper */}
