@@ -34,6 +34,16 @@ export default function HomePage() {
         title="Common questions"
         items={[
           {
+            question: "What's SEO, in plain English?",
+            answer:
+              "SEO is Search Engine Optimisation. It's the old game of getting your business to show up when someone Googles a tradie, then letting them pick from the list. Still worth doing, but it's not the whole story anymore.",
+          },
+          {
+            question: "And what's AEO?",
+            answer:
+              "AEO is Answer Engine Optimisation. Same idea, but for AI. Instead of getting you onto a list, it's about getting ChatGPT and Google's AI to actually name you when someone asks for a good tradie. The AI only picks two or three, so being one it names is the new goal.",
+          },
+          {
             question: "Is this just SEO with a new name?",
             answer:
               "No. SEO put you on a list and let the customer choose. AI doesn't show a list, it names two or three businesses. The job is being one it trusts enough to name.",
@@ -46,7 +56,7 @@ export default function HomePage() {
           {
             question: "How much does it cost?",
             answer:
-              "The check is free. If you want it sorted for you, it's a fixed-price setup — no big retainer to start — and you'll know the price before anything happens.",
+              "The check is free. If you want it sorted for you, it's a fixed-price setup, no big retainer to start, and you'll know the price before anything happens.",
           },
           {
             question: "How long until it makes a difference?",
