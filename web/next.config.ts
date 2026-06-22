@@ -4,7 +4,8 @@ import createMDX from "@next/mdx";
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: ["remark-gfm"],
+    // remark-frontmatter strips the YAML --- block so it isn't rendered as body text.
+    remarkPlugins: ["remark-frontmatter", "remark-gfm"],
     rehypePlugins: [
       "rehype-slug",
       ["rehype-autolink-headings", { behavior: "wrap" }],
