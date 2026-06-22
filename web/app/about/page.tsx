@@ -35,14 +35,18 @@ export default function AboutPage() {
             </h1>
             <div className="mt-8 grid max-w-[52ch] gap-5 text-[17px] leading-[1.7] text-[var(--color-ink-soft)]">
               <p>
-                I&rsquo;m Taylor. I help WA trade businesses get found, recommended and booked in the new world where
+                I&rsquo;m Taylor. I help WA trade businesses get found, recommended and booked in a world where
                 customers ask AI who to call instead of scrolling Google.
               </p>
               <p>
-                I&rsquo;m not going to pretend I&rsquo;ve done a thousand of these. I&rsquo;m early, hungry, and I&rsquo;ll
-                personally look at your business myself, which is exactly why the free check is worth taking. No call
-                centre, no lock-in, no jargon. Just the fundamentals done properly, sorted for how customers search now and
-                how AI is about to book them next.
+                I&rsquo;ve spent the better part of three years working with these systems, so I know how they decide who
+                gets recommended and who gets skipped. That&rsquo;s the whole game now, and most trades aren&rsquo;t set
+                up for it yet.
+              </p>
+              <p>
+                When you take the complimentary check, I look at your business myself. Not a template, not a call
+                centre. No lock-in, no jargon. Just the fundamentals done properly, built for how customers search today
+                and how AI is about to start booking them tomorrow.
               </p>
             </div>
             <div className="mt-10">
