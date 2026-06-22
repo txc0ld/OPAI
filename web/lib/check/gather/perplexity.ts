@@ -18,44 +18,42 @@ export async function gatherPerplexity(prompts: string[]): Promise<EngineResult>
     };
   }
 
-  const answers: EngineAnswer[] = [];
+  const apiKey = ENV.perplexity;
 
-  for (const prompt of prompts) {
-    try {
-      const response = await fetch("https://api.perplexity.ai/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${ENV.perplexity}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "sonar",
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-
-      if (!response.ok) {
-        answers.push({
-          prompt,
-          text: `(error: HTTP ${response.status} ${response.statusText})`,
+  const answers: EngineAnswer[] = await Promise.all(
+    prompts.map(async (prompt): Promise<EngineAnswer> => {
+      try {
+        const response = await fetch("https://api.perplexity.ai/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "sonar",
+            messages: [{ role: "user", content: prompt }],
+          }),
         });
-        continue;
+
+        if (!response.ok) {
+          return { prompt, text: `(error: HTTP ${response.status} ${response.statusText})` };
+        }
+
+        const data = (await response.json()) as {
+          choices?: { message?: { content?: string } }[];
+          citations?: string[];
+        };
+
+        const text = data.choices?.[0]?.message?.content ?? "(no response)";
+        const citations = Array.isArray(data.citations) ? data.citations : undefined;
+
+        return { prompt, text, citations };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return { prompt, text: `(error: ${msg})` };
       }
-
-      const data = (await response.json()) as {
-        choices?: { message?: { content?: string } }[];
-        citations?: string[];
-      };
-
-      const text = data.choices?.[0]?.message?.content ?? "(no response)";
-      const citations = Array.isArray(data.citations) ? data.citations : undefined;
-
-      answers.push({ prompt, text, citations });
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      answers.push({ prompt, text: `(error: ${msg})` });
-    }
-  }
+    }),
+  );
 
   const engine = "Perplexity";
   const allFailed = answers.every(

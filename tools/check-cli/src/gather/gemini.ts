@@ -26,45 +26,43 @@ export async function gatherGemini(prompts: string[]): Promise<EngineResult> {
     };
   }
 
-  const answers: EngineAnswer[] = [];
+  const apiKey = ENV.gemini;
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
-  for (const prompt of prompts) {
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": ENV.gemini,
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          tools: [{ google_search: {} }],
-        }),
-      });
-
-      if (!response.ok) {
-        answers.push({
-          prompt,
-          text: `(error: HTTP ${response.status} ${response.statusText})`,
+  const answers: EngineAnswer[] = await Promise.all(
+    prompts.map(async (prompt): Promise<EngineAnswer> => {
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": apiKey,
+          },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            tools: [{ google_search: {} }],
+          }),
         });
-        continue;
+
+        if (!response.ok) {
+          return { prompt, text: `(error: HTTP ${response.status} ${response.statusText})` };
+        }
+
+        const data = (await response.json()) as GeminiResponse;
+
+        const text =
+          data.candidates?.[0]?.content?.parts
+            ?.map((p) => p.text ?? "")
+            .join("")
+            .trim() ?? "(no response)";
+
+        return { prompt, text: text || "(no response)" };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return { prompt, text: `(error: ${msg})` };
       }
-
-      const data = (await response.json()) as GeminiResponse;
-
-      const text =
-        data.candidates?.[0]?.content?.parts
-          ?.map((p) => p.text ?? "")
-          .join("")
-          .trim() ?? "(no response)";
-
-      answers.push({ prompt, text: text || "(no response)" });
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      answers.push({ prompt, text: `(error: ${msg})` });
-    }
-  }
+    }),
+  );
 
   const engine = "Google (Gemini)";
   const allFailed = answers.every(
