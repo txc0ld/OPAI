@@ -1,8 +1,8 @@
 /**
  * src/gather/gemini.ts
  *
- * Gathers answers from the Google Gemini 2.0 Flash API with Google Search
- * grounding enabled. Gracefully skips if GEMINI_API_KEY is not set.
+ * Gathers answers from the Google Gemini API (gemini-2.5-flash) with Google
+ * Search grounding enabled. Gracefully skips if GEMINI_API_KEY is not set.
  */
 
 import { ENV } from "../config.js";
@@ -27,7 +27,7 @@ export async function gatherGemini(prompts: string[]): Promise<EngineResult> {
   }
 
   const answers: EngineAnswer[] = [];
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
   for (const prompt of prompts) {
     try {
