@@ -98,7 +98,7 @@ export async function gatherPlaces(business: string, suburb: string): Promise<Pl
       reviewCount: place.userRatingCount ?? null,
       primaryType: place.primaryType ?? null,
       types: place.types ?? [],
-      hasHours: !!(place.regularOpeningHours?.periods && place.regularOpeningHours.periods.length > 0),
+      hasHours: !!place.regularOpeningHours,
       openNow: place.regularOpeningHours?.openNow ?? null,
       website: place.websiteUri ?? null,
       phone: place.nationalPhoneNumber ?? null,

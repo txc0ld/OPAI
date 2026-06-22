@@ -27,13 +27,16 @@ export async function gatherGemini(prompts: string[]): Promise<EngineResult> {
   }
 
   const answers: EngineAnswer[] = [];
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${ENV.gemini}`;
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
 
   for (const prompt of prompts) {
     try {
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": ENV.gemini,
+        },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           tools: [{ google_search: {} }],
@@ -63,9 +66,18 @@ export async function gatherGemini(prompts: string[]): Promise<EngineResult> {
     }
   }
 
-  return {
-    engine: "Google (Gemini)",
-    available: true,
-    answers,
-  };
+  const engine = "Google (Gemini)";
+  const allFailed = answers.every(
+    (a) => a.text === "(no response)" || a.text.startsWith("(error:"),
+  );
+  if (allFailed) {
+    return {
+      engine,
+      available: false,
+      note: "all prompts failed (check Gemini key)",
+      answers,
+    };
+  }
+
+  return { engine, available: true, answers };
 }

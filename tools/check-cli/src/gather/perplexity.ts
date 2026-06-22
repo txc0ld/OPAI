@@ -57,9 +57,18 @@ export async function gatherPerplexity(prompts: string[]): Promise<EngineResult>
     }
   }
 
-  return {
-    engine: "Perplexity",
-    available: true,
-    answers,
-  };
+  const engine = "Perplexity";
+  const allFailed = answers.every(
+    (a) => a.text === "(no response)" || a.text.startsWith("(error:"),
+  );
+  if (allFailed) {
+    return {
+      engine,
+      available: false,
+      note: "all prompts failed (check Perplexity key)",
+      answers,
+    };
+  }
+
+  return { engine, available: true, answers };
 }

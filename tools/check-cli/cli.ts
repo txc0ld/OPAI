@@ -329,12 +329,24 @@ program
         dryRun: opts.dryRun as boolean,
       });
     } catch (err) {
-      console.error(pc.red(`\nFAILED: ${(err as Error).message}`));
+      if (err instanceof Anthropic.APIError) {
+        console.error(pc.red(`\nFAILED: Anthropic API ${err.status} — ${err.message}`));
+        const retry = err.headers?.["retry-after"];
+        if (retry) console.error(pc.dim(`  retry-after: ${retry}`));
+      } else {
+        console.error(pc.red(`\nFAILED: ${(err as Error).message}`));
+      }
       process.exit(1);
     }
   });
 
 program.parseAsync(process.argv).catch((err) => {
-  console.error(pc.red(`\nFAILED: ${(err as Error).message}`));
+  if (err instanceof Anthropic.APIError) {
+    console.error(pc.red(`\nFAILED: Anthropic API ${err.status} — ${err.message}`));
+    const retry = err.headers?.["retry-after"];
+    if (retry) console.error(pc.dim(`  retry-after: ${retry}`));
+  } else {
+    console.error(pc.red(`\nFAILED: ${(err as Error).message}`));
+  }
   process.exit(1);
 });

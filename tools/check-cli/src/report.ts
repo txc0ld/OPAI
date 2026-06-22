@@ -45,18 +45,19 @@ function estimateCostUsd(usage: ReportUsage): number {
 export function logReportUsage(usage: ReportUsage, ms: number): void {
   const cost = estimateCostUsd(usage);
   const dur = ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(2)}s`;
+  const u = usage;
+  const input = u?.input_tokens ?? 0;
+  const output = u?.output_tokens ?? 0;
+  const cacheWrite = u?.cache_creation_input_tokens ?? 0;
+  const cacheRead = u?.cache_read_input_tokens ?? 0;
   console.log(`  model:              ${MODELS.report}`);
   console.log(`  duration:           ${dur}`);
   console.log(
-    `  input tokens:       ${usage.input_tokens.toLocaleString()}` +
-      (usage.cache_creation_input_tokens
-        ? ` (+${usage.cache_creation_input_tokens.toLocaleString()} cache write)`
-        : "") +
-      (usage.cache_read_input_tokens
-        ? ` (+${usage.cache_read_input_tokens.toLocaleString()} cache read)`
-        : ""),
+    `  input tokens:       ${input}` +
+      (cacheWrite ? ` (+${cacheWrite} cache write)` : "") +
+      (cacheRead ? ` (+${cacheRead} cache read)` : ""),
   );
-  console.log(`  output tokens:      ${usage.output_tokens.toLocaleString()}`);
+  console.log(`  output tokens:      ${output}`);
   console.log(`  estimated cost USD: $${cost.toFixed(4)}`);
 }
 
@@ -183,7 +184,7 @@ export async function renderReport(
   const message = await client.messages.create({
     model: MODELS.report,
     max_tokens: 4000,
-    system: SYSTEM_PROMPT,
+    system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: userPrompt }],
   });
   const ms = Date.now() - t0;
@@ -193,7 +194,13 @@ export async function renderReport(
     .map((b) => b.text)
     .join("\n");
 
-  const usage = message.usage as ReportUsage;
+  const u = message.usage;
+  const usage: ReportUsage = {
+    input_tokens: u?.input_tokens ?? 0,
+    output_tokens: u?.output_tokens ?? 0,
+    cache_creation_input_tokens: (u as ReportUsage)?.cache_creation_input_tokens ?? 0,
+    cache_read_input_tokens: (u as ReportUsage)?.cache_read_input_tokens ?? 0,
+  };
 
   logReportUsage(usage, ms);
 
