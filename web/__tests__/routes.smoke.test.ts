@@ -6,7 +6,7 @@ const ROUTES: { path: string; needle: RegExp }[] = [
   { path: "/how-it-works/", needle: /how AI picks/i },
   { path: "/articles/", needle: /recommended and booked by AI/i },
   { path: "/articles/your-next-customer-wont-scroll-google/", needle: /scroll Google/i },
-  { path: "/about/", needle: /real person in Perth/i },
+  { path: "/about/", needle: /who gets recommended and who gets skipped/i },
   { path: "/contact/", needle: /just have a chat/i },
   { path: "/legal/privacy/", needle: /Privacy/i },
   { path: "/legal/terms/", needle: /Terms/i },

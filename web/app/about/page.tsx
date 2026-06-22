@@ -31,7 +31,7 @@ export default function AboutPage() {
           <div>
             <MonoLabel tone="light">About</MonoLabel>
             <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.025em] text-[var(--color-ink)]">
-              A <span className="hl">real person</span> in Perth. Not an overseas agency.
+              I know how AI <span className="hl">picks</span> who gets the call.
             </h1>
             <div className="mt-8 grid max-w-[52ch] gap-5 text-[17px] leading-[1.7] text-[var(--color-ink-soft)]">
               <p>
@@ -53,7 +53,7 @@ export default function AboutPage() {
               <CheckButton variant="solid" />
             </div>
           </div>
-          <Photo src="/photos/tools.jpg" alt="A WA tradie's toolbox" className="aspect-[4/5] w-full" />
+          <Photo src="/TMAbout.png" alt="Taylor, founder of OperateAI, in Perth" className="aspect-[4/5] w-full" priority />
         </div>
       </Section>
     </>
