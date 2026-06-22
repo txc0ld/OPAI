@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
 import { cn } from "@/lib/cn";
+import { GbpCard } from "@/components/mock/examples";
 
 const LEVERS = [
   {
@@ -60,6 +61,13 @@ export function HowItWorksGrid() {
             </p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-12">
+        <p className="text-[15px] font-medium text-[var(--color-ink-soft)]">
+          Here&rsquo;s what &ldquo;machine-perfect&rdquo; looks like to AI:
+        </p>
+        <GbpCard />
       </div>
     </Section>
   );
