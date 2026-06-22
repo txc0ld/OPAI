@@ -7,7 +7,7 @@ import { ReadingChrome } from "@/components/article/reading-chrome";
 import { KeyTakeaways } from "@/components/mock/examples";
 import { getArticleSlugs, listArticles, formatArticleDate } from "@/lib/articles";
 import { JsonLd } from "@/components/json-ld";
-import { buildArticle, buildWebPage, wrapGraph } from "@/lib/schema";
+import { buildArticle, buildBreadcrumb, buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 export function generateStaticParams() {
@@ -70,6 +70,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         schema={wrapGraph([
           buildWebPage({ url, title: meta.title, description: meta.description }),
           buildArticle({ url, title: meta.title, description: meta.description, date: meta.date, author: meta.author }),
+          buildBreadcrumb([
+            { name: "Home", url: BUSINESS.url },
+            { name: "Articles", url: `${BUSINESS.url}/articles/` },
+            { name: meta.title, url },
+          ]),
         ])}
       />
       <ReadingChrome />

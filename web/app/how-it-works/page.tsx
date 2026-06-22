@@ -7,7 +7,7 @@ import { buildService, buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/how-it-works/`;
-const TITLE = "How it works";
+const TITLE = "How AI Picks Which Tradie to Recommend";
 const DESCRIPTION =
   "How AI decides which tradie to recommend, and exactly what I do to get you on the shortlist and ready for AI booking.";
 
@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/how-it-works/" },
+  openGraph: {
+    type: "website",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 const STEPS = [

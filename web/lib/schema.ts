@@ -137,6 +137,20 @@ export function buildArticle({ url, title, description, date, author }: ArticleS
   };
 }
 
+export type BreadcrumbItem = { name: string; url: string };
+
+export function buildBreadcrumb(items: BreadcrumbItem[]): SchemaNode {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
 export function wrapGraph(nodes: SchemaNode[]): SchemaNode {
   return {
     "@context": "https://schema.org",

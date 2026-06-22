@@ -7,7 +7,7 @@ import { buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/check/`;
-const TITLE = "Free AI Visibility Check";
+const TITLE = "Free AI Visibility Check for WA Tradies";
 const DESCRIPTION =
   "Send your business name and suburb. I'll send back a free rundown of what ChatGPT and Google's AI say about you, including the one thing costing you jobs.";
 
@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/check/" },
+  openGraph: {
+    type: "website",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 const RUNDOWN = [

@@ -9,13 +9,18 @@ import { buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/articles/`;
-const TITLE = "Articles";
+const TITLE = "Articles for WA Trade Businesses";
 const DESCRIPTION = "Plain-English guides for WA tradies on getting found, recommended and booked by AI.";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/articles/" },
+  openGraph: {
+    type: "website",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function ArticlesPage() {

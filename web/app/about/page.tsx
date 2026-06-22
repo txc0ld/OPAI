@@ -8,13 +8,18 @@ import { buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/about/`;
-const TITLE = "About";
+const TITLE = "About OperateAI";
 const DESCRIPTION = "A Perth-based operator helping WA trade businesses get found and recommended by AI.";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/about/" },
+  openGraph: {
+    type: "website",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function AboutPage() {
