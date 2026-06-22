@@ -44,6 +44,13 @@ export function CheckForm() {
       setSuburb(String(data.suburb || ""));
       form.reset();
       setState("sent");
+      // Fire-and-forget: trigger the optional server-side auto-draft pipeline.
+      // Never awaited — must not block the confirmation shown above.
+      fetch("/api/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, source: "ai-visibility-check" }),
+      }).catch(() => {});
     } catch (err) {
       setState("error");
       setError(err instanceof Error ? err.message : "That could not be sent.");

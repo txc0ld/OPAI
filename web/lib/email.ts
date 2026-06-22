@@ -92,3 +92,46 @@ export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ deliv
 
   return { delivered: true };
 }
+
+// ---------------------------------------------------------------------------
+// Draft report email (operator-only — never sent to the tradie)
+// ---------------------------------------------------------------------------
+
+export async function sendCheckDraftEmail({
+  business,
+  suburb,
+  markdown,
+}: {
+  business: string;
+  suburb: string;
+  markdown: string;
+}): Promise<{ delivered: boolean }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM_EMAIL || "OperateAI <hello@operateai.com.au>";
+  const to = process.env.RESEND_TO_EMAIL || "hello@operateai.com.au";
+
+  if (!apiKey) {
+    console.log("[check-draft-stub]", { business, suburb });
+    return { delivered: false };
+  }
+
+  const subject = `AI Check draft: ${business} (${suburb})`;
+  const text = markdown;
+  const html = `<pre style="font-family:monospace;white-space:pre-wrap;line-height:1.5">${escapeHtml(markdown)}</pre>`;
+
+  const response = await fetch(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ from, to, subject, text, html }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Resend (draft) failed with ${response.status}: ${errorText}`);
+  }
+
+  return { delivered: true };
+}
