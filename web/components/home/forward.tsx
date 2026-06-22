@@ -1,5 +1,6 @@
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
+import { MissedCall } from "@/components/mock/examples";
 
 export function Forward() {
   return (
@@ -16,6 +17,7 @@ export function Forward() {
         <span className="font-semibold text-[var(--color-ink)]">today</span>. Sort the basics now and you&rsquo;re set
         for both.
       </p>
+      <MissedCall />
     </Section>
   );
 }
