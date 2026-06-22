@@ -183,7 +183,7 @@ export async function renderReport(
   const t0 = Date.now();
   const message = await client.messages.create({
     model: MODELS.report,
-    max_tokens: 4000,
+    max_tokens: 8192,
     system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: userPrompt }],
   });
@@ -196,10 +196,10 @@ export async function renderReport(
 
   const u = message.usage;
   const usage: ReportUsage = {
-    input_tokens: u?.input_tokens ?? 0,
-    output_tokens: u?.output_tokens ?? 0,
-    cache_creation_input_tokens: (u as ReportUsage)?.cache_creation_input_tokens ?? 0,
-    cache_read_input_tokens: (u as ReportUsage)?.cache_read_input_tokens ?? 0,
+    input_tokens: u.input_tokens,
+    output_tokens: u.output_tokens,
+    cache_creation_input_tokens: u.cache_creation_input_tokens ?? 0,
+    cache_read_input_tokens: u.cache_read_input_tokens ?? 0,
   };
 
   logReportUsage(usage, ms);

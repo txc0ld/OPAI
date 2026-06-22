@@ -3,8 +3,9 @@
  *
  * Optional server-side auto-draft of the AI check report.
  * Gated by AUTO_CHECK=1 — off by default, no API cost when unset.
- * Never throws to the client; a failure here is safe (the lead email
- * from /api/enquiry already went out).
+ * Malformed or invalid requests return a 400. All other failures return
+ * ok: true — a pipeline error here is safe (the lead email from
+ * /api/enquiry already went out).
  */
 
 import { NextResponse } from "next/server";
@@ -24,7 +25,20 @@ const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_MAX = 3;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 
+function pruneRateLimitMap(): void {
+  const now = Date.now();
+  if (rateLimitMap.size > 500) {
+    for (const [key, val] of rateLimitMap) {
+      if (now > val.resetAt) rateLimitMap.delete(key);
+    }
+    // If still over the cap after pruning expired entries, clear entirely.
+    if (rateLimitMap.size > 500) rateLimitMap.clear();
+  }
+}
+
 function isRateLimited(ip: string): boolean {
+  pruneRateLimitMap();
+
   const now = Date.now();
   const entry = rateLimitMap.get(ip);
 
