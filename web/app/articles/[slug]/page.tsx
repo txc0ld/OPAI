@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Section } from "@/components/ui/section";
 import { CheckButton } from "@/components/ui/check-button";
 import { ReadingChrome } from "@/components/article/reading-chrome";
@@ -105,8 +106,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </h1>
 
         <div className="mt-7 flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--color-ink)] text-[15px] font-bold text-white">
-            {meta.author.charAt(0)}
+          <span className="relative h-11 w-11 flex-none overflow-hidden rounded-full border border-[var(--color-line-ink)]">
+            <Image
+              src="/TMAbout.png"
+              alt={meta.author}
+              fill
+              sizes="44px"
+              className="object-cover"
+              style={{ objectPosition: "center 18%" }}
+            />
           </span>
           <div className="text-[14px] leading-tight">
             <div className="font-bold text-[var(--color-ink)]">{meta.author}</div>
