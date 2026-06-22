@@ -1,13 +1,20 @@
 /**
  * web/lib/check/report.ts
  *
- * Calls Claude (Opus 4.8) to fill in the Phase-3 one-page report template
- * using ONLY the gathered data. Never fabricates; never sends.
+ * Calls Claude (Opus 4.8) to produce a structured JSON report for a Perth
+ * trade business AI visibility check. Returns rendered HTML + plain-text.
+ * Never fabricates. Never sends.
  */
 
 import Anthropic from "@anthropic-ai/sdk";
 import { MODELS, PRICING } from "./config";
 import type { CheckInput, GatheredData, Triage } from "./types";
+import {
+  renderReportHtml,
+  renderReportText,
+  minimalReportData,
+  type ReportData,
+} from "./report-html";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -21,7 +28,9 @@ export interface ReportUsage {
 }
 
 export interface ReportResult {
-  markdown: string;
+  data: ReportData;
+  html: string;
+  text: string;
   usage: ReportUsage;
 }
 
@@ -61,53 +70,41 @@ export function logReportUsage(usage: ReportUsage, ms: number): void {
 }
 
 // ---------------------------------------------------------------------------
+// JSON schema description (for the prompt)
+// ---------------------------------------------------------------------------
+
+const JSON_SCHEMA = `{
+  "headline": string,
+  "askedPrompts": string[],
+  "whatItSaid": string,
+  "scorecard": [
+    {"label":"AI visibility","rating":"R|A|G","note": string},
+    {"label":"Google Business Profile","rating":"R|A|G","note": string},
+    {"label":"Website readability","rating":"R|A|G","note": string},
+    {"label":"Reviews","rating":"R|A|G","note": string},
+    {"label":"Directories & consistency","rating":"R|A|G","note": string}
+  ],
+  "topIssue": {"title": string, "why": string},
+  "fixes": [
+    {"title": string, "effort": string, "steps": string[]}
+  ],
+  "quickWins": string[],
+  "closing": string
+}`;
+
+// ---------------------------------------------------------------------------
 // Prompt builders
 // ---------------------------------------------------------------------------
 
-const SYSTEM_PROMPT = `You are drafting a one-page "Free AI Check" report for a Perth trade business.
+const SYSTEM_PROMPT = `You are producing a structured JSON report for a "Free AI Check" for a Perth trade business.
 
 Brand voice: blunt, plain-English Perth tradie tone. en-AU spelling. No em-dashes. No marketing hype. Short sentences. State facts, name specifics.
 
-Three non-negotiable rules:
-1. NEVER FABRICATE — use ONLY the data supplied in the user message. If something wasn't gathered (available: false), write "couldn't check automatically — worth a manual look." Do not invent competitor names, review counts, or scores.
-2. DATED SNAPSHOT — frame the whole report as a point-in-time snapshot. AI results move around; the underlying issues are more stable.
-3. HONESTY — if the business looks great on a dimension, say so. Do not invent problems to create urgency. Only flag real issues from the data.`;
-
-const PHASE3_TEMPLATE = `**AI Check — [Business], [Suburb]**
-*Checked [date] across [engines that ran].*
-
-**The short version:** [one line: absent / wrong info / outranked — or "looks solid"].
-
-**What I asked the AI:**
-- "[prompt 1]"
-- "[prompt 2]"
-- "[prompt 3]"
-
-**What it said about you:** [real result summary; if absent, name the competitors it recommended instead; if Perplexity ran, note the sources it cited].
-
-**The #1 thing costing you jobs right now:** [the headline Red finding, specific — or note they look solid if no Reds].
-
-**Two quick wins:** [two actionable items, grounded in the data].
-
-**Where this could be:** [one sentence on the realistic upside if the gaps are fixed].
-
-*Checked [date] — AI results move around, so this is a snapshot; the underlying issues are stable.*
-
----
-
-**Want to fix it yourself?**
-1. [DIY step 1 — derived from the biggest gap]
-2. [DIY step 2]
-3. Ask AI assistants directly: search "[business name] [suburb]" in ChatGPT and Google AI and screenshot what comes back.
-
-**Want us to handle it?**
-[Done-for-you offer placeholder — operator to personalise before sending]`;
-
-const CONVERSION_FOOTER = `
-
----
-
-*This report was prepared as a complimentary AI Check. It's a draft for operator review — not a final deliverable. Review all findings before sharing.*`;
+Four non-negotiable rules:
+1. NEVER FABRICATE — use ONLY the data supplied in the user message. If something wasn't gathered (available: false), note it was not checked automatically. Do not invent competitor names, review counts, or scores.
+2. DATED SNAPSHOT — frame content as a point-in-time snapshot. AI results move around; the underlying issues are more stable.
+3. HONESTY — if the business looks great on a dimension, set rating "G" and say so. Do not invent problems to create urgency. Only flag real issues from the data.
+4. JSON ONLY — return ONLY valid JSON matching the schema. No prose before or after. No markdown code fences. No comments. The response must start with { and end with }.`;
 
 function buildUserPrompt(
   input: CheckInput,
@@ -123,19 +120,21 @@ function buildUserPrompt(
     .filter((e) => !e.available)
     .map((e) => `${e.engine} (${e.note ?? "key not set"})`);
 
-  return `Fill in the Phase-3 report template below using ONLY the gathered data provided. Do not invent anything not in the data.
+  return `Produce a structured JSON report for the AI visibility check below.
 
-For any dimension marked available: false, write "couldn't check automatically — worth a manual look."
+Return ONLY valid JSON matching this schema exactly:
+${JSON_SCHEMA}
 
-Keep the report to one screen. End with the conversion section as templated.
-
----
-
-TEMPLATE TO FILL:
-
-${PHASE3_TEMPLATE}
-
-${CONVERSION_FOOTER}
+Field rules:
+- headline: 1-2 plain sentences summarising where they stand (from the data).
+- askedPrompts: exactly the prompts that were asked (copy from PROMPTS ASKED below).
+- whatItSaid: 1 short paragraph — which competitors were named instead, any wrong info, sources cited (from GATHERED DATA only).
+- scorecard: EXACTLY these 5 dimensions in this order. Rating must be "R", "A", or "G". Note must be 4-9 words. If a dimension wasn't gathered, set rating "A" and note "Not checked automatically".
+- topIssue.title: the #1 specific thing costing jobs right now (the headline Red finding, or the biggest Amber if no Reds).
+- topIssue.why: 1-2 sentences on why it costs them work, specific to their trade and suburb.
+- fixes: 2-4 fixes, top issue first. Each fix must be fully actionable. effort e.g. "About 15 minutes". steps must be 3-7 clear imperative do-this-then-that instructions a tradie can follow.
+- quickWins: 2-3 short wins they can do today.
+- closing: 1 sentence on the realistic upside if they fix the gaps.
 
 ---
 
@@ -156,14 +155,74 @@ ${JSON.stringify(triage, null, 2)}
 
 TODAY: ${today}
 
-SUGGESTED HEADLINE: ${triage.headline}
+SUGGESTED HEADLINE: ${triage.headline}`;
+}
 
-INSTRUCTIONS:
-- Replace every [bracket] placeholder with real content from the data above.
-- Engines that ran: list only ${enginesRan.length > 0 ? enginesRan.join(", ") : "none"}.
-- For skipped engines/sources, say "couldn't check automatically — worth a manual look."
-- If no engines ran, note in "What it said about you" that all AI checks were skipped and a manual spot-check in ChatGPT + Google AI is the immediate action.
-- Keep it tight. One screen. Plain English. No em-dashes.`;
+// ---------------------------------------------------------------------------
+// Defensive JSON parser
+// ---------------------------------------------------------------------------
+
+function parseReportJson(raw: string, fallbackHeadline?: string): ReportData {
+  // Strip accidental code fences if the model added them.
+  let cleaned = raw.trim();
+  if (cleaned.startsWith("```")) {
+    cleaned = cleaned.replace(/^```[a-z]*\n?/, "").replace(/\n?```$/, "").trim();
+  }
+
+  // Find the outer { ... } in case there's leading/trailing prose.
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start !== -1 && end !== -1 && end > start) {
+    cleaned = cleaned.slice(start, end + 1);
+  }
+
+  try {
+    const parsed = JSON.parse(cleaned) as Partial<ReportData>;
+
+    // Ensure scorecard has exactly 5 rows with valid ratings.
+    const LABELS = [
+      "AI visibility",
+      "Google Business Profile",
+      "Website readability",
+      "Reviews",
+      "Directories & consistency",
+    ] as const;
+
+    const scorecard = LABELS.map((label, i) => {
+      const row = parsed.scorecard?.[i];
+      const rating = (row?.rating === "R" || row?.rating === "A" || row?.rating === "G")
+        ? row.rating
+        : "A";
+      return {
+        label,
+        rating: rating as "R" | "A" | "G",
+        note: typeof row?.note === "string" && row.note.trim() ? row.note.trim() : "Not checked automatically",
+      };
+    });
+
+    return {
+      headline: typeof parsed.headline === "string" ? parsed.headline : (fallbackHeadline ?? "AI check complete."),
+      askedPrompts: Array.isArray(parsed.askedPrompts) ? parsed.askedPrompts.map(String) : [],
+      whatItSaid: typeof parsed.whatItSaid === "string" ? parsed.whatItSaid : "",
+      scorecard,
+      topIssue: {
+        title: typeof parsed.topIssue?.title === "string" ? parsed.topIssue.title : "See scorecard above",
+        why: typeof parsed.topIssue?.why === "string" ? parsed.topIssue.why : "",
+      },
+      fixes: Array.isArray(parsed.fixes)
+        ? parsed.fixes.map((f) => ({
+            title: typeof f?.title === "string" ? f.title : "Fix",
+            effort: typeof f?.effort === "string" ? f.effort : "",
+            steps: Array.isArray(f?.steps) ? f.steps.map(String) : [],
+          }))
+        : [],
+      quickWins: Array.isArray(parsed.quickWins) ? parsed.quickWins.map(String) : [],
+      closing: typeof parsed.closing === "string" ? parsed.closing : "",
+    };
+  } catch {
+    console.error("[report] JSON parse failed — using minimal fallback");
+    return minimalReportData(fallbackHeadline);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -188,7 +247,7 @@ export async function renderReport(
   });
   const ms = Date.now() - t0;
 
-  const markdown = message.content
+  const raw = message.content
     .filter((b): b is Anthropic.TextBlock => b.type === "text")
     .map((b) => b.text)
     .join("\n");
@@ -203,5 +262,11 @@ export async function renderReport(
 
   logReportUsage(usage, ms);
 
-  return { markdown, usage };
+  const reportData = parseReportJson(raw, triage.headline);
+  const meta = { business: input.business, suburb: input.suburb, date: today };
+
+  const html = renderReportHtml(reportData, meta);
+  const text = renderReportText(reportData, meta);
+
+  return { data: reportData, html, text, usage };
 }

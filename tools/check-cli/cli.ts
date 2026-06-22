@@ -12,8 +12,9 @@
  *      gracefully if GOOGLE_MAPS_API_KEY is missing).
  *   4. Fetches the business website and checks basic content signals.
  *   5. Scores each dimension Red/Amber/Green.
- *   6. Calls Claude (Opus 4.8) to draft the one-page report.
- *   7. Writes the draft + log CSV. Never sends.
+ *   6. Calls Claude (Opus 4.8) to draft the structured JSON report.
+ *   7. Renders a premium branded HTML report + plain-text fallback.
+ *   8. Writes <slug>-<date>.html (primary) + <slug>-<date>.txt + log CSV. Never sends.
  *
  * Missing API keys are never thrown — each gatherer returns a graceful
  * "available: false" result and the pipeline continues. Key values are
@@ -37,6 +38,7 @@ import { gatherWebsite } from "./src/gather/website.js";
 import { gatherPageSpeed } from "./src/gather/pagespeed.js";
 import { computeTriage } from "./src/triage.js";
 import { renderReport } from "./src/report.js";
+import { renderReportHtml, renderReportText, minimalReportData } from "./src/report-html.js";
 import { appendLog } from "./src/log.js";
 
 // ---------------------------------------------------------------------------
@@ -163,6 +165,7 @@ async function cmdRun(opts: {
   // ---------------------------------------------------------------------------
 
   const today = new Date().toISOString().slice(0, 10);
+  const meta = { business: input.business, suburb: input.suburb, date: today };
 
   console.log(pc.bold("\nGathering data..."));
 
@@ -218,58 +221,41 @@ async function cmdRun(opts: {
   const filename = `${slug}-${today}`;
   const outputDir = path.resolve(opts.outputDir);
 
-  let reportPath: string;
-  let reportContent: string;
+  let htmlContent: string;
+  let textContent: string;
 
   if (ENV.anthropic) {
     // Full report via Claude.
     console.log(pc.bold("\n[Claude] Drafting report..."));
     const client = new Anthropic({ apiKey: ENV.anthropic });
     const result = await renderReport(client, input, data, triage, today);
-    reportContent = result.markdown;
-    reportPath = path.join(outputDir, `${filename}.md`);
+    htmlContent = result.html;
+    textContent = result.text;
     console.log(pc.green("  report drafted"));
   } else {
-    // Fallback: write raw gathered data + triage in Markdown so it's still useful.
+    // Fallback: render a minimal HTML + text report from triage data.
     console.log(pc.yellow("\n[Claude] skipped — ANTHROPIC_API_KEY not set"));
-    console.log(pc.yellow("  Writing raw data file instead (still useful for manual review)."));
+    console.log(pc.yellow("  Writing fallback report (still useful for manual review)."));
 
     const enginesRan = [perplexity, openai, gemini]
       .filter((e) => e.available)
       .map((e) => e.engine)
       .join(", ") || "none";
 
-    const enginesSkipped = [perplexity, openai, gemini]
-      .filter((e) => !e.available)
-      .map((e) => `${e.engine} (${e.note ?? "key not set"})`)
-      .join(", ") || "none";
-
-    reportContent = [
-      `# AI Check — ${input.business}, ${input.suburb} (raw data)`,
-      `*Checked ${today}. Claude report skipped — ANTHROPIC_API_KEY not set.*`,
-      "",
-      `**Engines that ran:** ${enginesRan}`,
-      `**Engines skipped:** ${enginesSkipped}`,
-      "",
-      "## Triage",
-      `- AI visibility: ${triage.aiVisibility}`,
-      `- GBP: ${triage.gbp}`,
-      `- Website: ${triage.website}`,
-      `- Reviews: ${triage.reviews}`,
-      `- Directory: ${triage.directory}`,
-      `- Headline: ${triage.headline}`,
-      "",
-      "## Gathered data (JSON)",
-      "```json",
-      JSON.stringify(data, null, 2),
-      "```",
-    ].join("\n");
-
-    reportPath = path.join(outputDir, `${filename}-raw.md`);
+    const fallbackData = minimalReportData(
+      `Claude report skipped (no API key). Engines that ran: ${enginesRan}. Triage: ${triage.headline}`,
+    );
+    htmlContent = renderReportHtml(fallbackData, meta);
+    textContent = renderReportText(fallbackData, meta);
   }
 
-  // Write report.
-  writeText(reportPath, reportContent);
+  // Write HTML report (primary deliverable).
+  const htmlPath = path.join(outputDir, `${filename}.html`);
+  writeText(htmlPath, htmlContent);
+
+  // Write plain-text version alongside.
+  const textPath = path.join(outputDir, `${filename}.txt`);
+  writeText(textPath, textContent);
 
   // Append log row.
   appendLog(outputDir, {
@@ -288,8 +274,9 @@ async function cmdRun(opts: {
   const logPath = path.join(outputDir, "checks-log.csv");
 
   console.log(pc.bold("\nDone."));
-  console.log(`  Report:    ${reportPath}`);
-  console.log(`  Log:       ${logPath}`);
+  console.log(`  HTML report: ${htmlPath}`);
+  console.log(`  Text report: ${textPath}`);
+  console.log(`  Log:         ${logPath}`);
   console.log(pc.yellow("\n  Review before sending. This is a draft."));
 }
 

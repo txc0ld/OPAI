@@ -2,7 +2,7 @@
  * web/lib/check/run.ts
  *
  * Orchestrates the full gather → triage → report pipeline.
- * Returns { markdown, triage } — never throws (callers must wrap in try/catch).
+ * Returns { html, text, triage } — never throws (callers must wrap in try/catch).
  */
 
 import Anthropic from "@anthropic-ai/sdk";
@@ -17,9 +17,11 @@ import { gatherWebsite } from "./gather/website";
 import { gatherPageSpeed } from "./gather/pagespeed";
 import { computeTriage } from "./triage";
 import { renderReport } from "./report";
+import { renderReportHtml, renderReportText, minimalReportData } from "./report-html";
 
 export interface RunResult {
-  markdown: string;
+  html: string;
+  text: string;
   triage: Triage;
 }
 
@@ -85,34 +87,25 @@ export async function runCheck(input: CheckInput): Promise<RunResult> {
   const triage = computeTriage(data);
 
   const today = new Date().toISOString().slice(0, 10);
+  const meta = { business: input.business, suburb: input.suburb, date: today };
 
   if (!ENV.anthropic) {
-    // No Claude key — return a minimal markdown summary so the email is still useful.
+    // No Claude key — return a minimal HTML so the email is still useful.
     const enginesRan = [perplexity, openai, gemini]
       .filter((e) => e.available)
       .map((e) => e.engine)
       .join(", ") || "none";
 
-    const markdown = [
-      `# AI Check — ${input.business}, ${input.suburb} (raw data)`,
-      `*Checked ${today}. Claude report skipped — ANTHROPIC_API_KEY not set.*`,
-      "",
-      `**Engines that ran:** ${enginesRan}`,
-      "",
-      "## Triage",
-      `- AI visibility: ${triage.aiVisibility}`,
-      `- GBP: ${triage.gbp}`,
-      `- Website: ${triage.website}`,
-      `- Reviews: ${triage.reviews}`,
-      `- Directory: ${triage.directory}`,
-      `- Headline: ${triage.headline}`,
-    ].join("\n");
-
-    return { markdown, triage };
+    const fallbackData = minimalReportData(
+      `Claude report skipped (no API key). Engines that ran: ${enginesRan}. Triage: ${triage.headline}`,
+    );
+    const html = renderReportHtml(fallbackData, meta);
+    const text = renderReportText(fallbackData, meta);
+    return { html, text, triage };
   }
 
   const client = new Anthropic({ apiKey: ENV.anthropic });
   const result = await renderReport(client, input, data, triage, today);
 
-  return { markdown: result.markdown, triage };
+  return { html: result.html, text: result.text, triage };
 }

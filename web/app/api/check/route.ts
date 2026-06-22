@@ -103,12 +103,13 @@ export async function POST(request: Request) {
 
     // Run pipeline fire-and-forget style — wrap so any failure returns ok.
     try {
-      const { markdown, triage } = await runCheck(input);
+      const { html, text, triage } = await runCheck(input);
       console.log("[check] triage headline:", triage.headline);
       await sendCheckDraftEmail({
         business: input.business,
         suburb: input.suburb,
-        markdown,
+        html,
+        text,
       });
       console.log("[check] draft emailed for:", input.business);
     } catch (e) {
