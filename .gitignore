@@ -1,9 +1,18 @@
 node_modules
 .next
 out
-.env*.local
+
+# Local env files — NEVER commit real keys. Only the *.example templates are tracked.
+.env
+.env.*
+!.env.example
+
 .vercel
 *.log
 .DS_Store
 playwright-report
 test-results
+
+# Local screenshots / MCP scratch
+/*.png
+.playwright-mcp/
