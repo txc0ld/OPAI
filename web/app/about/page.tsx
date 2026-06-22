@@ -22,13 +22,13 @@ export default function AboutPage() {
     <>
       <JsonLd schema={wrapGraph([buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION })])} />
       <Section tone="paper-warm" className="pt-32 lg:pt-40" containerClassName="max-w-[1000px]">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-14">
-          <div className="lg:max-w-[520px]">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.78fr]">
+          <div>
             <MonoLabel tone="light">About</MonoLabel>
             <h1 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.08] tracking-[-0.025em] text-[var(--color-ink)]">
               A <span className="hl">real person</span> in Perth. Not an overseas agency.
             </h1>
-            <div className="mt-8 grid gap-5 text-[17px] leading-[1.7] text-[var(--color-ink-soft)]">
+            <div className="mt-8 grid max-w-[52ch] gap-5 text-[17px] leading-[1.7] text-[var(--color-ink-soft)]">
               <p>
                 I&rsquo;m Taylor. I help WA trade businesses get found, recommended and booked in the new world where
                 customers ask AI who to call instead of scrolling Google.
@@ -44,9 +44,7 @@ export default function AboutPage() {
               <CheckButton variant="solid" />
             </div>
           </div>
-          <div className="w-full lg:flex-1">
-            <Photo src="/photos/tools.jpg" alt="A WA tradie's toolbox" className="aspect-[4/5] w-full" />
-          </div>
+          <Photo src="/photos/tools.jpg" alt="A WA tradie's toolbox" className="aspect-[4/5] w-full" />
         </div>
       </Section>
     </>
