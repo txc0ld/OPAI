@@ -105,7 +105,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </span>
           <div className="text-[14px] leading-tight">
             <div className="font-bold text-[var(--color-ink)]">{meta.author}</div>
-            <div className="text-[var(--color-ink-soft)]">OperateAI · Perth</div>
           </div>
         </div>
 
