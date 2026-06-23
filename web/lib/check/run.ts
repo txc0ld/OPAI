@@ -60,15 +60,13 @@ export async function runCheck(input: CheckInput): Promise<RunResult> {
     input.specificJob,
   );
 
-  // Run AI engines + Places in parallel; website + pagespeed follow.
-  const [perplexity, openai, gemini, places] = await Promise.all([
+  // Run all six gatherers in parallel — none depend on each other, so this
+  // collapses the gather phase to the slowest single source (was two batches).
+  const [perplexity, openai, gemini, places, website, pagespeed] = await Promise.all([
     gatherPerplexity(prompts),
     gatherOpenAI(prompts),
     gatherGemini(prompts),
     gatherPlaces(input.business, input.suburb),
-  ]);
-
-  const [website, pagespeed] = await Promise.all([
     gatherWebsite(input.url, input.suburb),
     gatherPageSpeed(input.url),
   ]);
