@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
 import { CheckForm } from "@/components/check/check-form";
@@ -104,6 +105,27 @@ export default function CheckPage() {
             </li>
           ))}
         </ol>
+      </Section>
+
+      {/* Upsell band: the always-on done-for-you service */}
+      <Section tone="paper-warm">
+        <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[var(--color-line-ink)] bg-[var(--color-paper)] p-8 lg:flex-row lg:items-center lg:p-10">
+          <div>
+            <MonoLabel tone="light">Prefer we just handle it?</MonoLabel>
+            <h2 className="mt-4 max-w-[28ch] text-[22px] font-bold leading-snug tracking-tight text-[var(--color-ink)]">
+              The check is a snapshot. Done-for-you keeps you on the shortlist, always on.
+            </h2>
+          </div>
+          <Link
+            href="/done-for-you/"
+            className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-[var(--color-line-ink)] px-7 py-3.5 text-[15px] font-bold tracking-tight text-[var(--color-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-ink)] hover:text-white"
+          >
+            See done-for-you
+            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">
+              →
+            </span>
+          </Link>
+        </div>
       </Section>
     </>
   );
