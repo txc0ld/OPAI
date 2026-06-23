@@ -11,7 +11,7 @@ import { BUSINESS, DONE_FOR_YOU } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/done-for-you/`;
 const TITLE = "Done-for-you: we keep you on AI's shortlist";
 const DESCRIPTION =
-  "The free check finds the gaps. The done-for-you service fixes them and keeps them fixed — always on. We monitor what AI says about you, keep your profile and site current, and send proof of the work.";
+  "The free check finds the gaps. The done-for-you service fixes them and keeps them fixed, always on. We monitor what AI says about you, keep your profile and site current, and send proof of the work.";
 
 const PRICE_FROM = `$${DONE_FOR_YOU.priceFrom}/mo`;
 const SETUP = `$${DONE_FOR_YOU.setup}`;
@@ -36,7 +36,7 @@ const INCLUDED = [
   ],
   [
     "We keep your Google profile current",
-    "Hours, services, suburbs, photos, categories — the details AI reads first. Kept accurate and complete, not set-and-forgotten.",
+    "Hours, services, suburbs, photos, categories: the details AI reads first. Kept accurate and complete, not set-and-forgotten.",
   ],
   [
     "We keep your site AI-readable",
@@ -44,7 +44,7 @@ const INCLUDED = [
   ],
   [
     "We keep the reviews flowing",
-    "A simple system so happy customers leave reviews — the signal AI leans on hardest when it decides who to name.",
+    "A simple system so happy customers leave reviews: the signal AI leans on hardest when it decides who to name.",
   ],
   [
     "You get proof of the work",
@@ -64,7 +64,7 @@ const COMPARE = {
     "You do the fixing (or you don't)",
   ],
   service: [
-    "Always on — checked every week, not once",
+    "Always on. Checked every week, not once",
     "We do the fixing, and keep it fixed as things drift",
     "Monthly proof-of-work with screenshots",
     "You approve anything that goes public before it's live",
@@ -75,21 +75,21 @@ const FAQ_ITEMS = [
   {
     question: "How is this different from the free check?",
     answer:
-      "The free check is a one-time snapshot — it tells you how AI sees you today and the main thing to fix. Done-for-you is the ongoing version: we check every week, do the fixing, and keep it fixed as your details and the AI models change. The check is the photo; this is keeping the picture true.",
+      "The free check is a one-time snapshot: it tells you how AI sees you today and the main thing to fix. Done-for-you is the ongoing version: we check every week, do the fixing, and keep it fixed as your details and the AI models change. The check is the photo; this is keeping the picture true.",
   },
   {
     question: "Will you change things without asking me?",
     answer:
-      "No. Anything that goes public — a listing edit, a post, a change to your site — you approve first. We start in monitor-and-recommend mode and only act on the categories you've signed off on. Every action is logged with a screenshot.",
+      "No. Anything that goes public you approve first: a listing edit, a post, a change to your site. We start in monitor-and-recommend mode and only act on the categories you've signed off on. Every action is logged with a screenshot.",
   },
   {
     question: "What does it cost?",
-    answer: `It starts from ${PRICE_FROM} plus a one-off setup of ${SETUP}. The setup is where most of the work happens — profile rebuilt, site made AI-readable, reviews system in place. You'll know the exact price before anything starts, and there's no lock-in.`,
+    answer: `It starts from ${PRICE_FROM} plus a one-off setup of ${SETUP}. The setup is where most of the work happens: profile rebuilt, site made AI-readable, reviews system in place. You'll know the exact price before anything starts, and there's no lock-in.`,
   },
   {
     question: "Do I need to do anything?",
     answer:
-      "Almost nothing. We need access to your Google Business Profile and your website, and a few minutes to approve changes when we propose them. That's the point — you run the business, we keep you findable.",
+      "Almost nothing. We need access to your Google Business Profile and your website, and a few minutes to approve changes when we propose them. That's the point: you run the business, we keep you findable.",
   },
   {
     question: "How long until it makes a difference?",
@@ -125,7 +125,7 @@ export default function DoneForYouPage() {
       <Section className="pt-32 lg:pt-40">
         <MonoLabel>Done-for-you · Always on</MonoLabel>
         <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-display)] font-extrabold leading-[0.98] tracking-[-0.035em]">
-          The check finds the gaps. We fix them — and keep them fixed.
+          The check finds the gaps. We close them for good.
         </h1>
         <p className="mt-6 max-w-[54ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-fg-variant)]">
           AI doesn&rsquo;t pick from a list. It names two or three businesses, and it re-reads the web constantly. A one-off
@@ -149,7 +149,7 @@ export default function DoneForYouPage() {
         <p className="mt-5 max-w-[60ch] text-[17px] leading-[1.6] text-[var(--color-ink-soft)]">
           Fix your profile today and you&rsquo;ll look great today. But AI re-reads the web every week, your hours and
           services change, competitors update their listings, and the models themselves shift. A snapshot quietly goes
-          stale — and you slide back off the shortlist without ever knowing. The businesses AI keeps naming are the ones
+          stale, and you slide back off the shortlist without ever knowing. The businesses AI keeps naming are the ones
           that stay current. That&rsquo;s a job, not a one-off.
         </p>
       </Section>
@@ -223,7 +223,7 @@ export default function DoneForYouPage() {
           </h2>
           <p className="mt-6 text-[16px] leading-[1.6] text-[var(--color-fg-variant)]">
             We start by watching and recommending. Any change to a live listing, a post, or your site is queued for you
-            to approve first — and once it&rsquo;s done, you get a before/after screenshot. It&rsquo;s your business and
+            to approve first. Once it&rsquo;s done, you get a before/after screenshot. It&rsquo;s your business and
             your reputation. We act on it the way you&rsquo;d want a trusted staff member to: carefully, and on the record.
           </p>
         </div>

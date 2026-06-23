@@ -19,7 +19,7 @@ export function DoneForYouCta() {
             Flat out? We&rsquo;ll keep you on the shortlist.
           </h2>
           <p className="mt-5 max-w-[46ch] text-[16px] leading-[1.6] text-[var(--color-ink-soft)]">
-            The free check shows where you stand. The done-for-you service keeps you there — always on, with you
+            The free check shows where you stand. The done-for-you service keeps you there, always on, with you
             approving anything before it goes live.
           </p>
           <div className="mt-8">

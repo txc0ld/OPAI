@@ -8,15 +8,15 @@ import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
-const PAGE_URL = `${BUSINESS.url}/agent-2-you/`;
-const TITLE = "Agent 2 You: your own AI agent, built for your business";
+const PAGE_URL = `${BUSINESS.url}/ioagent/`;
+const TITLE = "iOAgent: your own AI agent, built for your business";
 const DESCRIPTION =
-  "We build and deploy a custom AI agent for your business — answering enquiries, following up customers, handling the admin you hate — running on its own always-on computer, set up around how you actually work.";
+  "We build and deploy a custom AI agent for your business: it answers enquiries, follows up customers, and handles the admin you hate, running on its own always-on computer, set up around how you actually work.";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/agent-2-you/" },
+  alternates: { canonical: "/ioagent/" },
   openGraph: {
     type: "website",
     url: PAGE_URL,
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 const JOBS = [
   [
     "Answer and qualify enquiries",
-    "Replies to leads the moment they land, asks the right questions, books the job or hands you a qualified one. A missed call is a lost job — it stops being missed.",
+    "Replies to leads the moment they land, asks the right questions, books the job or hands you a qualified one. A missed call is a lost job. Now it stops being missed.",
   ],
   [
     "Follow up customers",
@@ -41,7 +41,7 @@ const JOBS = [
   ],
   [
     "Whatever's eating your week",
-    "Every business has one repetitive job that quietly burns hours. We find yours and build the agent around it — not a template, your bottleneck.",
+    "Every business has one repetitive job that quietly burns hours. We find yours and build the agent around it. Not a template. Your bottleneck.",
   ],
 ] as const;
 
@@ -54,12 +54,12 @@ const STEPS = [
   [
     "02",
     "We build it around you",
-    "The agent is set up custom to how your business runs and the tools you already use — not a one-size-fits-all bot.",
+    "The agent is set up custom to how your business runs and the tools you already use. Not a one-size-fits-all bot.",
   ],
   [
     "03",
     "It goes live on its own computer",
-    "Your agent runs on its own dedicated, always-on machine in the cloud — private to your business, working 24/7, no laptop to leave on.",
+    "Your agent runs on its own dedicated, always-on machine in the cloud. Private to your business, working 24/7, no laptop to leave on.",
   ],
   [
     "04",
@@ -72,17 +72,17 @@ const FAQ_ITEMS = [
   {
     question: "What exactly is an AI agent?",
     answer:
-      "Think of it as a tireless staff member that lives on a computer. It can read and reply to messages, use your software, fill things in, follow up people, and do multi-step jobs on its own — the repetitive work, handled. We build it for your business and it runs around the clock.",
+      "Think of it as a tireless staff member that lives on a computer. It can read and reply to messages, use your software, fill things in, follow up people, and do multi-step jobs on its own. The repetitive work, handled. We build it for your business and it runs around the clock.",
   },
   {
     question: "Is this a fixed product or built for me?",
     answer:
-      "Built for you. We scope what your business actually needs and set the agent up around that — your jobs, your tools, your way of working. Two businesses rarely get the same agent.",
+      "Built for you. We scope what your business actually needs and set the agent up around that: your jobs, your tools, your way of working. Two businesses rarely get the same agent.",
   },
   {
     question: "Where does it run? Is my data safe?",
     answer:
-      "On its own dedicated, always-on computer in the cloud, isolated to your business — not shared with anyone else. It only connects to the tools and accounts you approve, and we use delegated access rather than handing it your passwords wherever possible.",
+      "On its own dedicated, always-on computer in the cloud, isolated to your business, never shared with anyone else. It only connects to the tools and accounts you approve, and we use delegated access rather than handing it your passwords wherever possible.",
   },
   {
     question: "Will it do things without asking me?",
@@ -92,7 +92,7 @@ const FAQ_ITEMS = [
   {
     question: "How is this different from the free check or done-for-you?",
     answer:
-      "The free check tells you how AI sees your business. Done-for-you keeps you on AI's shortlist. Agent 2 You is the next level: an agent that actually does the work inside your business, not just gets you found.",
+      "The free check tells you how AI sees your business. Done-for-you keeps you on AI's shortlist. iOAgent is the next level: an agent that actually does the work inside your business, not just gets you found.",
   },
   {
     question: "What does it cost?",
@@ -101,33 +101,33 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default function Agent2YouPage() {
+export default function IOAgentPage() {
   return (
     <>
       <JsonLd
         schema={wrapGraph([
           buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION }),
           buildService({
-            name: "Agent 2 You — custom AI agent setup",
+            name: "iOAgent: custom AI agent setup",
             url: PAGE_URL,
             description: DESCRIPTION,
           }),
           buildBreadcrumb([
             { name: "Home", url: `${BUSINESS.url}/` },
-            { name: "Agent 2 You", url: PAGE_URL },
+            { name: "iOAgent", url: PAGE_URL },
           ]),
         ])}
       />
 
       {/* Hero */}
       <Section className="pt-32 lg:pt-40">
-        <MonoLabel>Agent 2 You · Custom AI agents</MonoLabel>
+        <MonoLabel>iOAgent · Custom AI agents</MonoLabel>
         <h1 className="mt-5 max-w-[18ch] text-[length:var(--text-display)] font-extrabold leading-[0.98] tracking-[-0.035em]">
           Your own AI agent, built around your business.
         </h1>
         <p className="mt-6 max-w-[56ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-fg-variant)]">
           Not a chatbot. A tireless team member that lives on its own always-on computer and does the repetitive
-          work for you — answering enquiries, following up customers, handling the admin. We build it custom to your
+          work for you: answering enquiries, following up customers, handling the admin. We build it custom to your
           business and set the whole thing up.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-4">
@@ -135,7 +135,7 @@ export default function Agent2YouPage() {
           <CheckButton label="Start with a free check" variant="ghost" />
         </div>
         <p className="mt-5 text-[13px] text-[var(--color-fg-variant)]">
-          Built for you · Runs 24/7 · You stay in control. Priced to your build — clear quote before anything starts.
+          Built for you · Runs 24/7 · You stay in control. Priced to your build. Clear quote before anything starts.
         </p>
       </Section>
 
@@ -186,7 +186,7 @@ export default function Agent2YouPage() {
         </h2>
         <div className="mt-10 grid gap-5 sm:grid-cols-3">
           {[
-            ["Always on", "Works nights, weekends and the moment a lead comes in — not just business hours."],
+            ["Always on", "Works nights, weekends and the moment a lead comes in, not just business hours."],
             ["Costs less than a hire", "No wage, no super, no onboarding. A fraction of the cost of the staff member you can't justify yet."],
             ["Scales with you", "Busy week? It doesn't get overwhelmed. Quiet week? It's not sitting idle on the payroll."],
           ].map(([h, p]) => (
@@ -213,7 +213,7 @@ export default function Agent2YouPage() {
         </div>
       </Section>
 
-      <Faq tone="paper" title="Agent 2 You questions" items={FAQ_ITEMS} />
+      <Faq tone="paper" title="iOAgent questions" items={FAQ_ITEMS} />
 
       {/* Final CTA */}
       <Section tone="void">
@@ -229,7 +229,7 @@ export default function Agent2YouPage() {
             </h2>
             <p className="mx-auto mt-6 max-w-[50ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-fg-variant)]">
               Tell us where your week goes. We&rsquo;ll show you what an agent built for your business could take off
-              your plate — and what it&rsquo;d cost.
+              your plate, and what it&rsquo;d cost.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
               <ButtonLink href="/contact/" label="Book a setup call" />

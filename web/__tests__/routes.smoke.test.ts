@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 const ROUTES: { path: string; needle: RegExp }[] = [
   { path: "/", needle: /ask AI who to call/i },
   { path: "/check/", needle: /See what AI says about your business/i },
-  { path: "/agent-2-you/", needle: /Your own AI agent/i },
+  { path: "/ioagent/", needle: /Your own AI agent/i },
   { path: "/done-for-you/", needle: /The check finds the gaps/i },
   { path: "/how-it-works/", needle: /how AI picks/i },
   { path: "/articles/", needle: /recommended and booked by AI/i },
