@@ -8,15 +8,15 @@ import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
-const PAGE_URL = `${BUSINESS.url}/agent-2-you/`;
-const TITLE = "Agent 2 You: your own AI agent, built for your business";
+const PAGE_URL = `${BUSINESS.url}/ioagent/`;
+const TITLE = "iOAgent: your own AI agent, built for your business";
 const DESCRIPTION =
   "We build and deploy a custom AI agent for your business: it answers enquiries, follows up customers, and handles the admin you hate, running on its own always-on computer, set up around how you actually work.";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: "/agent-2-you/" },
+  alternates: { canonical: "/ioagent/" },
   openGraph: {
     type: "website",
     url: PAGE_URL,
@@ -92,7 +92,7 @@ const FAQ_ITEMS = [
   {
     question: "How is this different from the free check or done-for-you?",
     answer:
-      "The free check tells you how AI sees your business. Done-for-you keeps you on AI's shortlist. Agent 2 You is the next level: an agent that actually does the work inside your business, not just gets you found.",
+      "The free check tells you how AI sees your business. Done-for-you keeps you on AI's shortlist. iOAgent is the next level: an agent that actually does the work inside your business, not just gets you found.",
   },
   {
     question: "What does it cost?",
@@ -101,27 +101,27 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default function Agent2YouPage() {
+export default function IOAgentPage() {
   return (
     <>
       <JsonLd
         schema={wrapGraph([
           buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION }),
           buildService({
-            name: "Agent 2 You: custom AI agent setup",
+            name: "iOAgent: custom AI agent setup",
             url: PAGE_URL,
             description: DESCRIPTION,
           }),
           buildBreadcrumb([
             { name: "Home", url: `${BUSINESS.url}/` },
-            { name: "Agent 2 You", url: PAGE_URL },
+            { name: "iOAgent", url: PAGE_URL },
           ]),
         ])}
       />
 
       {/* Hero */}
       <Section className="pt-32 lg:pt-40">
-        <MonoLabel>Agent 2 You · Custom AI agents</MonoLabel>
+        <MonoLabel>iOAgent · Custom AI agents</MonoLabel>
         <h1 className="mt-5 max-w-[18ch] text-[length:var(--text-display)] font-extrabold leading-[0.98] tracking-[-0.035em]">
           Your own AI agent, built around your business.
         </h1>
@@ -213,7 +213,7 @@ export default function Agent2YouPage() {
         </div>
       </Section>
 
-      <Faq tone="paper" title="Agent 2 You questions" items={FAQ_ITEMS} />
+      <Faq tone="paper" title="iOAgent questions" items={FAQ_ITEMS} />
 
       {/* Final CTA */}
       <Section tone="void">
