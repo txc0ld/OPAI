@@ -22,3 +22,8 @@ checks/
 
 # Local redesign scratch — already used, not part of the tracked product
 redesign/
+
+# Agent skills (marketingskills via `npx skills`). Restore with `npx skills experimental_install`.
+# skills-lock.json IS tracked (source of truth); the materialised skills + symlinks are not.
+.agents/
+.claude/skills/
