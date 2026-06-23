@@ -29,6 +29,15 @@ export const BUSINESS = {
   copyrightYear: 2026,
 } as const;
 
+// Done-for-you (always-on) service offering.
+// NOTE: priceFrom + setup are PLACEHOLDERS — set the real numbers before deploy.
+// This is the single place to edit them; they flow into the /done-for-you/ page.
+export const DONE_FOR_YOU = {
+  priceFrom: 490, // PLACEHOLDER — monthly, in AUD
+  setup: 990, // PLACEHOLDER — one-off setup, in AUD
+  currency: "AUD",
+} as const;
+
 export const NAV_LABELS = {
   howItWorks: "How it works",
   articles: "Articles",

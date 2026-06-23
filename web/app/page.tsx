@@ -3,6 +3,7 @@ import { TheShift } from "@/components/home/the-shift";
 import { WhyTradies } from "@/components/home/why-tradies";
 import { CheckCta } from "@/components/home/check-cta";
 import { HowItWorksGrid } from "@/components/home/how-it-works-grid";
+import { DoneForYouCta } from "@/components/home/done-for-you-cta";
 import { Credibility } from "@/components/home/credibility";
 import { Forward } from "@/components/home/forward";
 import { LatestArticles } from "@/components/home/latest-articles";
@@ -26,6 +27,7 @@ export default function HomePage() {
       <WhyTradies />
       <CheckCta />
       <HowItWorksGrid />
+      <DoneForYouCta />
       <Credibility />
       <Forward />
       <LatestArticles />
