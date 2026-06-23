@@ -8,7 +8,7 @@
 
 ## 1. Where we are now (the base)
 
-- **Audience:** WA tradies (one narrow community, deep).
+- **Audience:** Perth local service businesses (trades, health and allied health, beauty/wellness, hospitality, real estate, professional services). One city, many verticals, deep.
 - **Wedge (free):** the AI Visibility Check — name + suburb → a human-reviewed rundown of what AI says about them and the one thing costing them jobs. Now also auto-draftable server-side.
 - **First paid offer:** done-for-you "AI-Findable Setup" (Google Business Profile made machine-perfect, plain-text AI-readable info, reviews engine, fast response).
 
@@ -25,7 +25,7 @@ Everything below is the expansion *on top of that relationship and that channel*
 - AI-referred visitors convert at **~4.4× organic** rates. [Semrush via Omni Eclipse — directional]
 
 **The opportunity is wide open.**
-- Only **~1.2% of local businesses are cited by AI**, and 95% that appear show up on only *one* of the four major engines — fragmented, winner-takes-most, and most tradies haven't heard of the problem. [Evolve AMZ; Demand Convert — directional but consistent]
+- Only **~1.2% of local businesses are cited by AI**, and 95% that appear show up on only *one* of the four major engines — fragmented, winner-takes-most, and most local businesses haven't heard of the problem. [Evolve AMZ; Demand Convert — directional but consistent]
 - What AI reads is **third-party trust signals** (reviews, directories, schema/FAQ) — *not* the business's own website. Reviews ~3×, FAQ schema ~2.8×, content fresh <30 days ~3.2× more likely to be cited. [Evolve AMZ — directional]
 
 **The future is agentic booking, and it's close.**
@@ -60,7 +60,7 @@ Each rung grows a client's lifetime value and is only offered once the previous 
 
 Per the ethos, the cleanest money is **earning from the incumbents your clients already use or need**. One client relationship can generate stacked, recurring referral income with no extra build:
 
-- **Job management:** ServiceM8 ($500 + ~20% ongoing), Tradify ($160), simPRO ($200), Jobber (PartnerStack). Most tradies need one; you're the trusted advisor who recommends + implements.
+- **Job / practice management:** trades use ServiceM8 ($500 + ~20% ongoing), Tradify ($160), simPRO ($200), Jobber (PartnerStack); health and allied health use Cliniko / Halaxy; beauty and wellness use Fresha / Mindbody; real estate uses PropertyMe / Rex. Most local businesses run one of these; you're the trusted advisor who recommends + implements. Affiliate/referral terms vary by platform, so verify per vertical before you bank on the income.
 - **Reviews:** NiceJob ($150/referral, reseller tier available).
 - **GBP / local tools:** BrightLocal (15% lifetime, when reopened).
 - **Orchestration:** GoHighLevel white-label ($497/mo) as your own branded automation layer (missed-call, chat, SMS) resold at margin.
@@ -74,20 +74,20 @@ Per the ethos, the cleanest money is **earning from the incumbents your clients 
 These leverage the `check-cli` pipeline and the proprietary data it accumulates.
 
 - **"AI Visibility Score" (productized monitoring):** a low-cost monthly automated report (the check, run on a schedule) — a recurring, near-zero-marginal-cost product that also nurtures leads toward the managed tiers. Built on the existing pipeline.
-- **The data moat (the real long-term asset):** every check logs *how a WA trade business looks to AI*. After 50–100 checks you own a dataset nobody else has — "X% of Perth sparkies have their services as one line," "the average plumber appears on 0.8 of 4 engines." That dataset becomes:
-  - the **content/authority engine** (articles, the next hooks, PR — "we checked 200 Perth tradies, here's what we found"),
-  - benchmarking inside client reports ("you're on 1 of 4 engines; the top tradies in your suburb are on 3"),
-  - eventually a **self-serve "check + score" tier** for tradies who won't pay for done-for-you yet (top-of-funnel at scale).
+- **The data moat (the real long-term asset):** every check logs *how a Perth local business looks to AI*. After 50–100 checks you own a dataset nobody else has — "X% of Perth clinics have their services as one line," "the average local business appears on 0.8 of 4 engines," sliced by suburb and vertical. That dataset becomes:
+  - the **content/authority engine** (articles, the next hooks, PR — "we checked 200 Perth businesses, here's what we found"),
+  - benchmarking inside client reports ("you're on 1 of 4 engines; the top businesses in your category and suburb are on 3"),
+  - eventually a **self-serve "check + score" tier** for businesses who won't pay for done-for-you yet (top-of-funnel at scale).
 - **Guardrail:** keep automation human-in-the-loop where the brand promise is "a real person checks it." Productize the *monitoring*, not the *trust*.
 
 ---
 
-## 6. Horizontal expansion (only after WA tradies are won)
+## 6. Expansion (only after Perth is won)
 
-The ethos is explicit: **dominate one community before touching a second.** Sequence, do not parallelise:
-1. **Win WA tradies** (the current focus) — be *the* name for "getting found by AI" among Perth trades.
-2. **Adjacent WA local-service verticals** that share the exact same AI-discovery problem and tooling: health clinics, allied health, real estate, beauty/wellness, hospitality. Same playbook, new community, near-zero new product.
-3. **Trades in other AU cities** (replicate the WA model) — only once the WA motion is systematised and partly automated.
+The ethos still holds, just anchored to the city instead of a single trade: **dominate one market before spreading to the next.** Perth across local-service verticals is the depth; other cities are the horizon. Sequence, do not parallelise:
+1. **Win Perth local service businesses** (the current focus) — be *the* name for "getting found by AI" among Perth's local operators. Lead with the verticals where the pain and the proof are sharpest (trades first; they feel a missed job immediately), then fan into health and allied health, beauty/wellness, hospitality, real estate, and professional services. Same playbook, same tooling spine, near-zero new product per vertical.
+2. **Go deep vertical by vertical within Perth** — each gets its own check prompts, its own slice of the data moat, its own first-deposit article and proof. Be the obvious choice in one category before chasing the next.
+3. **Replicate the Perth model in other AU cities** — only once the Perth motion is systematised and partly automated.
 
 Each new vertical/region gets its own check, its own data moat, its own first-deposit article. Reuse everything; rebuild nothing.
 
@@ -107,7 +107,7 @@ Each new vertical/region gets its own check, its own data moat, its own first-de
 - **Platform dependency:** AI engines change ranking/citation logic and could absorb the layer (e.g. Google "just fixes" profiles). Mitigation — the *relationship and the trust* are the asset, not the technique; sell outcomes, stay tool-agnostic, keep the affiliate bridge so we win regardless of which tool wins.
 - **AI non-determinism / over-promising:** never guarantee rankings or jobs; always frame results as a dated snapshot (already in the Terms). One oversell burns the BS-detector audience.
 - **Over-building:** the temptation is to build voice AI / a CRM / a review tool. Don't — the research is unanimous that incumbents own these and the engineering cost is prohibitive. Assemble and affiliate.
-- **Spreading thin:** resist horizontal expansion until WA tradies are genuinely won. Trying to help everyone is how you defend nothing.
+- **Spreading thin:** resist other-city expansion until Perth is genuinely won, and resist becoming a generic "any business anywhere" shop. The net is wider now (all Perth local service businesses) but the discipline is the same: own the city, one vertical at a time. Trying to help everyone everywhere is how you defend nothing.
 - **Cost/abuse of automation:** the auto-draft check costs real money per run; keep it gated and monitored (already done).
 
 ---

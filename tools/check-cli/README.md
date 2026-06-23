@@ -1,6 +1,6 @@
 # @aao/check-cli
 
-Operator accelerator for the **Free AI Check** SOP. Gathers AI engine signals, Google Business Profile data, and website quality indicators for a trade business, then drafts a one-page report using Claude. The operator reviews and sends — this tool never sends.
+Operator accelerator for the **Free AI Check** SOP. Gathers AI engine signals, Google Business Profile data, and website quality indicators for a local business, then drafts a one-page report using Claude. The operator reviews and sends — this tool never sends.
 
 ## Install
 

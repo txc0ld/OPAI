@@ -21,7 +21,7 @@ export function WhyTradies() {
         </div>
         <Photo
           src="/photos/electrician.jpg"
-          alt="A WA tradesman working on an electrical job"
+          alt="An electrician at work on a job in Perth"
           className="aspect-[4/5] w-full"
         />
       </div>
