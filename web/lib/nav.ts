@@ -1,5 +1,6 @@
 export const PRIMARY_NAV = [
   { href: "/how-it-works/", label: "How it works" },
+  { href: "/agent-2-you/", label: "Agent 2 You" },
   { href: "/done-for-you/", label: "Done-for-you" },
   { href: "/articles/", label: "Articles" },
   { href: "/about/", label: "About" },
