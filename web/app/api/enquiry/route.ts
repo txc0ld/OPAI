@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendEnquiryEmail, type EnquiryPayload } from "@/lib/email";
+import { captureLead } from "@/lib/leads";
 
 export const runtime = "nodejs";
 
@@ -53,6 +54,19 @@ export async function POST(request: Request) {
     if ((payload.message || "").length > 4000) {
       return NextResponse.json({ error: "Message must be 4000 characters or fewer." }, { status: 400 });
     }
+
+    // Store the lead durably (never throws) before emailing the operator.
+    await captureLead({
+      source: payload.source,
+      name: payload.name,
+      company: payload.company,
+      email: payload.email,
+      phone: payload.phone,
+      suburb: payload.suburb,
+      businessType: payload.trade,
+      website: payload.url,
+      message: payload.message,
+    });
 
     const result = await sendEnquiryEmail(payload);
     return NextResponse.json({ ok: true, delivered: result.delivered });
