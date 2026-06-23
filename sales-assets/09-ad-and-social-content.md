@@ -6,6 +6,8 @@
 
 **Voice rules (hold these):** plain, blunt, en-AU. No hype, no jargon, no em-dashes. Real claims only. The free check is the offer; never hard-sell. The strongest device across every platform is **proof you can do yourself**: "open ChatGPT, ask for a good [your category] in [your suburb], and see if you come up."
 
+**Voice split (company vs personal):** the site and the Meta brand ads speak as the company ("we"). The Reddit value-posts and the TikTok talking-head scripts stay first-person ("I") on purpose, because they run from a real personal / founder account, not a brand account. That personal voice is the whole reason they work on those channels, so don't sanitise them into corporate "we". About-page and founder content stays personal too.
+
 **The funnel:** ad/post → curiosity ("am I on the list?") → free check (`/check`) → human rundown → done-for-you.
 
 ---
@@ -71,14 +73,14 @@ Each: **Primary text** (the caption), **Headline**, **Description**, **CTA butto
 - **Creative:** A phone showing a ChatGPT-style answer naming 2-3 businesses with a red "you're not here" marker. Or a short clip of someone typing the question and reading the answer aloud.
 
 ### Ad 2 — The Free Check (curiosity / low friction)
-- **Primary text:** Want to know exactly what ChatGPT and Google's AI say about your business right now? Send your business name and suburb and I'll send back a free rundown: whether you show up, who gets recommended instead, and the one thing costing you customers. A real person checks it, not a bot. Perth based.
+- **Primary text:** Want to know exactly what ChatGPT and Google's AI say about your business right now? Send your business name and suburb and we'll send back a free rundown: whether you show up, who gets recommended instead, and the one thing costing you customers. A real person checks it, not a bot. Perth based.
 - **Headline:** See what AI says about your business
 - **Description:** Free. One business day. No pitch.
 - **CTA:** Sign up
 - **Creative:** Clean text-on-paper: "What does AI say about [Your Business]?" with the lime accent. Or a screen-record of the check rundown being written.
 
 ### Ad 3 — The Proof (demonstration / credibility)
-- **Primary text:** Did a free AI check on a Perth business last week. Strong operation, 360+ reviews, 4.9 stars. But their Google listing name didn't match their trading name, so when AI searched their reviews it pulled up the wrong businesses (one was in Florida). AI literally couldn't tell who they were. Fixable in an afternoon. Most local businesses have something like this and have no idea. Want yours checked? Free.
+- **Primary text:** We ran a free AI check on a Perth business last week. Strong operation, 360+ reviews, 4.9 stars. But their Google listing name didn't match their trading name, so when AI searched their reviews it pulled up the wrong businesses (one was in Florida). AI literally couldn't tell who they were. Fixable in an afternoon. Most local businesses have something like this and have no idea. Want yours checked? Free.
 - **Headline:** You can be the better business and still lose the job
 - **Description:** Because the AI couldn't read your details. Free check.
 - **CTA:** Learn more

@@ -9,7 +9,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/how-it-works/`;
 const TITLE = "How AI Picks Which Business to Recommend";
 const DESCRIPTION =
-  "How AI decides which local business to recommend, and exactly what I do to get you on the shortlist and ready for AI booking.";
+  "How AI decides which local business to recommend, and exactly what we do to get you on the shortlist and ready for AI booking.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -25,19 +25,19 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     title: "Google Business Profile, machine-perfect",
-    body: "The AI leans on your Google Business Profile harder than anything you own. I list every service as its own line, set your exact service area, fix categories and hours, sort the Q&A, and get real job photos up. A complete, accurate profile is what gives an AI the confidence to put your name forward.",
+    body: "The AI leans on your Google Business Profile harder than anything you own. We list every service as its own line, set your exact service area, fix categories and hours, sort the Q&A, and get real job photos up. A complete, accurate profile is what gives an AI the confidence to put your name forward.",
   },
   {
     title: "Plain-text services, prices & area",
-    body: "AI can't read a price inside a flyer or PDF. I put what you do, where you do it, and a 'starting from' or callout price into plain words on your site. That's the one sentence an AI can pick up and use.",
+    body: "AI can't read a price inside a flyer or PDF. We put what you do, where you do it, and a 'starting from' or callout price into plain words on your site. That's the one sentence an AI can pick up and use.",
   },
   {
     title: "Reviews: plenty, recent, replied-to",
-    body: "When AI is choosing between two of you, reviews are one of the heaviest things on the scale: the number, how recent, and whether you reply. I set up a one-tap way to ask every happy customer, and a habit of replying to all of them.",
+    body: "When AI is choosing between two of you, reviews are one of the heaviest things on the scale: the number, how recent, and whether you reply. We set up a one-tap way to ask every happy customer, and a habit of replying to all of them.",
   },
   {
     title: "Answer fast (and get ready for AI booking)",
-    body: "Speed is quietly becoming the whole game. If a lead lands and you take three days to call back, AI learns to stop sending them. I help you catch missed calls and reply in minutes, which wins jobs now and readies you for the day AI starts booking them.",
+    body: "Speed is quietly becoming the whole game. If a lead lands and you take three days to call back, AI learns to stop sending them. We help you catch missed calls and reply in minutes, which wins jobs now and readies you for the day AI starts booking them.",
   },
 ];
 
@@ -55,7 +55,7 @@ export default function HowItWorksPage() {
       <Section tone="paper" className="pt-32 lg:pt-40">
         <MonoLabel tone="light">How it works</MonoLabel>
         <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em] text-[var(--color-ink)]">
-          Not magic, not random. Here&rsquo;s how AI picks and what I fix.
+          Not magic, not random. Here&rsquo;s how AI picks and what we fix.
         </h1>
         <p className="mt-5 max-w-[56ch] text-[17px] leading-[1.6] text-[var(--color-ink-soft)]">
           AI builds its recommendation from a small handful of sources, and it trusts whatever is clearest, most

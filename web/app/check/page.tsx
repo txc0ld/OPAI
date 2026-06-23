@@ -9,7 +9,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/check/`;
 const TITLE = "Free AI Visibility Check for Perth Businesses";
 const DESCRIPTION =
-  "Send your business name and suburb. I'll send back a free rundown of what ChatGPT and Google's AI say about you, including the one thing costing you jobs.";
+  "Send your business name and suburb. We'll send back a free rundown of what ChatGPT and Google's AI say about you, including the one thing costing you jobs.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -43,7 +43,7 @@ export default function CheckPage() {
             See what AI says about your business.
           </h1>
           <p className="mt-5 max-w-[46ch] text-[17px] leading-[1.6] text-[var(--color-fg-variant)]">
-            Send your name and suburb. I&rsquo;ll personally check what AI says about you and send back a plain-English
+            Send your name and suburb. We&rsquo;ll check what AI says about you by hand and send back a plain-English
             rundown. It&rsquo;s free because the work proves itself. No catch, no spam.
           </p>
           <ul className="mt-8 grid gap-3">
@@ -85,7 +85,7 @@ export default function CheckPage() {
         <ol className="mt-8 grid gap-5 sm:grid-cols-3">
           {[
             ["01", "You send it", "Business name, suburb, business type. Takes about 30 seconds."],
-            ["02", "I check it by hand", "I look at what AI says about you. A real person, not an autoresponder."],
+            ["02", "We check it by hand", "A real person on our team looks at what AI says about you, not an autoresponder."],
             ["03", "You get the rundown", "A plain-English summary and the one thing to fix. No pressure to buy anything."],
           ].map(([n, h, p]) => (
             <li

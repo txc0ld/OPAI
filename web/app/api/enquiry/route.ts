@@ -35,10 +35,10 @@ export async function POST(request: Request) {
 
     if (source === "ai-visibility-check") {
       if (!payload.company || !payload.suburb || !payload.trade) {
-        return NextResponse.json({ error: "Business name, suburb and trade are required." }, { status: 400 });
+        return NextResponse.json({ error: "Business name, suburb and business type are required." }, { status: 400 });
       }
       if (!payload.email && !payload.phone) {
-        return NextResponse.json({ error: "Add an email or a mobile so I can send your rundown." }, { status: 400 });
+        return NextResponse.json({ error: "Add an email or a mobile so we can send your rundown." }, { status: 400 });
       }
     } else {
       if (!payload.name || (!payload.email && !payload.phone)) {

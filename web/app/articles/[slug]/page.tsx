@@ -132,7 +132,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             Want to know how you currently look to AI?
           </h2>
           <p className="mx-auto mt-4 max-w-[46ch] text-[16px] leading-[1.55] text-[var(--color-ink-soft)]">
-            Send your business name and suburb. I&rsquo;ll send back a free rundown of what AI says about you, and the
+            Send your business name and suburb. We&rsquo;ll send back a free rundown of what AI says about you, and the
             one thing costing you jobs.
           </p>
           <div className="mt-7 flex justify-center">

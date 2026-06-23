@@ -35,7 +35,7 @@ export default function ContactPage() {
           <a href="/check/" className="text-[var(--color-ink)] underline underline-offset-4 hover:opacity-70">
             free AI check
           </a>
-          , but if you&rsquo;d rather email me, drop a line below or write to{" "}
+          , but if you&rsquo;d rather email us, drop a line below or write to{" "}
           <a
             href={`mailto:${BUSINESS.email}`}
             className="text-[var(--color-ink)] underline underline-offset-4 hover:opacity-70"

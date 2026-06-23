@@ -25,7 +25,7 @@ export function ContactForm() {
       if (!response.ok) throw new Error(result.error || "That could not be sent.");
       form.reset();
       setState("sent");
-      setMessage("Thanks. I'll get back to you.");
+      setMessage("Thanks. We'll get back to you.");
     } catch (error) {
       setState("error");
       setMessage(error instanceof Error ? error.message : "That could not be sent.");
@@ -69,7 +69,7 @@ export function ContactForm() {
           role={state === "error" ? "alert" : "status"}
           className={state === "error" ? "text-[13px] text-[var(--color-error)]" : "text-[13px] text-[var(--color-fg-variant)]"}
         >
-          {message || "I'll reply by email or text."}
+          {message || "We'll reply by email or text."}
         </p>
       </div>
     </form>

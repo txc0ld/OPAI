@@ -24,7 +24,7 @@ export function CheckCta() {
             Want to know how you look to AI right now?
           </h2>
           <p className="mt-5 max-w-[44ch] text-[16px] leading-[1.6] text-[var(--color-fg-variant)]">
-            Send your name and suburb. I check it by hand and send the rundown back. Free, no pitch.
+            Send your name and suburb. We check it by hand and send the rundown back. Free, no pitch.
           </p>
           <div className="mt-8">
             <CheckButton />

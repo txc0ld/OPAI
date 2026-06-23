@@ -33,7 +33,7 @@ export function HowItWorksGrid() {
     <Section tone="paper">
       <MonoLabel tone="light">How the AI picks who it picks</MonoLabel>
       <h2 className="mt-5 max-w-[24ch] text-[length:var(--text-section)] font-extrabold leading-[1.04] tracking-[-0.025em] text-[var(--color-ink)]">
-        It trusts whatever is clearest. Here&rsquo;s what I fix.
+        It trusts whatever is clearest. Here&rsquo;s what we fix.
       </h2>
       <div className="mt-12 grid gap-5 md:grid-cols-2">
         {LEVERS.map((lever, i) => (

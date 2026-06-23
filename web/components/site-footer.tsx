@@ -12,7 +12,7 @@ export function SiteFooter() {
             <Logo />
           </Link>
           <p className="mt-5 max-w-[360px] text-[15px] leading-[1.6] text-[var(--color-fg-variant)]">
-            I help Perth local service businesses get found, recommended and booked by AI, sorted for how customers search now and how AI is about to book them next.
+            We help Perth local service businesses get found, recommended and booked by AI, sorted for how customers search now and how AI is about to book them next.
           </p>
         </div>
 

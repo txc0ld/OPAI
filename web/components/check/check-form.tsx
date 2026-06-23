@@ -75,10 +75,10 @@ export function CheckForm() {
           <span className="inline-block h-3 w-[7px] animate-pulse bg-[var(--color-signal)]" aria-hidden />
           REQUEST RECEIVED
         </div>
-        Got it. I&rsquo;ll personally check what AI says about{" "}
+        Got it. We&rsquo;ll check what AI says about{" "}
         <span className="text-[var(--color-signal)]">{business || "your business"}</span>
-        {suburb ? <> in <span className="text-[var(--color-signal)]">{suburb}</span></> : null} and send your rundown
-        within one business day. Cheers, Taylor
+        {suburb ? <> in <span className="text-[var(--color-signal)]">{suburb}</span></> : null} by hand and send your
+        rundown within one business day. Cheers, the OperateAI team
       </div>
     );
   }
@@ -124,7 +124,7 @@ export function CheckForm() {
       </div>
 
       <label className={labelClass} htmlFor={`${formId}-message`}>
-        Anything you want me to look at? (optional)
+        Anything you want us to look at? (optional)
         <textarea id={`${formId}-message`} name="message" rows={3} className={inputClass} />
       </label>
 

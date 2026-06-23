@@ -28,6 +28,6 @@ test("check form shows the human confirmation after submit", async ({ page }) =>
   await page.getByLabel("Business type").selectOption("Plumber");
   await page.getByLabel("Email").fill("test@example.com");
   await page.getByRole("button", { name: /send my free check/i }).click();
-  await expect(page.getByText(/I.ll personally check what AI says about/i)).toBeVisible();
+  await expect(page.getByText(/check what AI says about/i)).toBeVisible();
   await expect(page.getByText("Test Plumbing")).toBeVisible();
 });
