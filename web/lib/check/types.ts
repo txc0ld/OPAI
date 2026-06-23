@@ -19,6 +19,14 @@ export interface CheckInput {
   specificJob?: string;
 }
 
+/** Normalise a user-supplied website: trim, and prepend https:// if no scheme. */
+export function normalizeUrl(raw: unknown): string | undefined {
+  if (typeof raw !== "string") return undefined;
+  const trimmed = raw.trim();
+  if (!trimmed) return undefined;
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+}
+
 /** Validate a CheckInput; returns an error string or null. */
 export function validateCheckInput(
   raw: Record<string, unknown>,
@@ -35,7 +43,7 @@ export function validateCheckInput(
       business,
       suburb,
       trade,
-      url: typeof raw.url === "string" && raw.url.trim() ? raw.url.trim() : undefined,
+      url: normalizeUrl(raw.url),
       phone: typeof raw.phone === "string" && raw.phone.trim() ? raw.phone.trim() : undefined,
       urgentJob:
         typeof raw.urgentJob === "string" && raw.urgentJob.trim() ? raw.urgentJob.trim() : undefined,

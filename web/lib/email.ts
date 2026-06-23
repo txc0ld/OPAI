@@ -6,6 +6,7 @@ export type EnquiryPayload = {
   phone?: string;
   suburb?: string;
   trade?: string;
+  url?: string;
   interest?: string;
   message?: string;
 };
@@ -37,6 +38,7 @@ export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ deliv
     ["Contact name", payload.name],
     ["Suburb / area", payload.suburb || "Not supplied"],
     ["Business type", payload.trade || "Not supplied"],
+    ["Website", payload.url || "Not supplied"],
     ["Email", payload.email || "Not supplied"],
     ["Phone", payload.phone || "Not supplied"],
   ];

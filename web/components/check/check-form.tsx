@@ -19,6 +19,8 @@ const BUSINESS_TYPES = [
   "Gym / fitness",
   "Real estate",
   "Lawyer / accountant",
+  "Ecommerce / online store",
+  "Brand / product business",
   "Other",
 ] as const;
 
@@ -111,6 +113,19 @@ export function CheckForm() {
           </select>
         </label>
       </div>
+
+      <label className={labelClass} htmlFor={`${formId}-url`}>
+        Website (optional)
+        <input
+          id={`${formId}-url`}
+          name="url"
+          type="text"
+          inputMode="url"
+          autoComplete="url"
+          className={inputClass}
+          placeholder="yourbusiness.com.au"
+        />
+      </label>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <label className={labelClass} htmlFor={`${formId}-email`}>

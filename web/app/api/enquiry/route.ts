@@ -30,6 +30,7 @@ export async function POST(request: Request) {
       phone: clean(body.phone),
       suburb: clean(body.suburb),
       trade: clean(body.trade),
+      url: clean(body.url),
       message: clean(body.message),
     };
 
