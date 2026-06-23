@@ -16,7 +16,7 @@ export function FinalCta() {
           </h2>
           <p className="mx-auto mt-6 max-w-[50ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-fg-variant)]">
             Send your name and suburb. We&rsquo;ll send back a free rundown of what AI says about you, including the one thing
-            costing you jobs.
+            costing you customers.
           </p>
           <div className="mt-9 flex justify-center">
             <CheckButton />

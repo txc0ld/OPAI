@@ -155,7 +155,7 @@ export function CheckForm() {
           role={state === "error" ? "alert" : "status"}
           className={state === "error" ? "text-[13px] text-[var(--color-error)]" : "text-[13px] text-[var(--color-fg-variant)]"}
         >
-          {state === "error" ? error : "Your details are only used to send your rundown. No spam."}
+          {state === "error" ? error : "Your details are only used to send your rundown and the occasional useful update. No spam."}
         </p>
       </div>
     </form>

@@ -264,7 +264,7 @@ export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
 
               <!-- Top issue dark panel -->
               <div style="margin:0 28px 24px;background:#15140f;border-radius:10px;padding:20px 24px;">
-                <div style="font-size:10px;font-weight:700;color:#f3fc85;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">The #1 thing costing you jobs</div>
+                <div style="font-size:10px;font-weight:700;color:#f3fc85;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">The #1 thing costing you customers</div>
                 <div style="font-size:18px;font-weight:700;color:#ffffff;line-height:1.3;margin-bottom:8px;">${esc(data.topIssue.title)}</div>
                 <div style="font-size:14px;color:#d8d7cf;line-height:1.6;">${esc(data.topIssue.why)}</div>
               </div>

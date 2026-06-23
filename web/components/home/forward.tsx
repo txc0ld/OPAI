@@ -13,7 +13,7 @@ export function Forward() {
       </p>
       <p className="mt-7 max-w-[60ch] text-[19px] leading-[1.6] text-[var(--color-ink-soft)]">
         It&rsquo;ll check your diary, send a quote, even take a deposit for the customer. That&rsquo;s not tomorrow, so
-        no panic about robots. But getting ready for it is the same work that wins you jobs{" "}
+        no panic about robots. But getting ready for it is the same work that wins you customers{" "}
         <span className="font-semibold text-[var(--color-ink)]">today</span>. Sort the basics now and you&rsquo;re set
         for both.
       </p>

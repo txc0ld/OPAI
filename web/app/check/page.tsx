@@ -9,7 +9,7 @@ import { BUSINESS } from "@/lib/business";
 const PAGE_URL = `${BUSINESS.url}/check/`;
 const TITLE = "Free AI Visibility Check for Perth Businesses";
 const DESCRIPTION =
-  "Send your business name and suburb. We'll send back a free rundown of what ChatGPT and Google's AI say about you, including the one thing costing you jobs.";
+  "Send your business name and suburb. We'll send back a free rundown of what ChatGPT and Google's AI say about you, including the one thing costing you customers.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 const RUNDOWN = [
   "What ChatGPT and Google's AI actually say when someone asks for a good business in your area",
   "Whether you make the shortlist or get skipped",
-  "The one thing costing you jobs right now",
+  "The one thing costing you customers right now",
   "How to fix it (no pressure, no jargon)",
 ];
 

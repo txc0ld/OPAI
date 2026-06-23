@@ -130,7 +130,7 @@ Field rules:
 - askedPrompts: exactly the prompts that were asked (copy from PROMPTS ASKED below).
 - whatItSaid: 1 short paragraph — which competitors were named instead, any wrong info, sources cited (from GATHERED DATA only).
 - scorecard: EXACTLY these 5 dimensions in this order. Rating must be "R", "A", or "G". Note must be 4-9 words. If a dimension wasn't gathered, set rating "A" and note "Not checked automatically".
-- topIssue.title: the #1 specific thing costing jobs right now (the headline Red finding, or the biggest Amber if no Reds).
+- topIssue.title: the #1 specific thing costing them customers right now (the headline Red finding, or the biggest Amber if no Reds).
 - topIssue.why: 1-2 sentences on why it costs them work, specific to their business type and suburb.
 - fixes: 2-4 fixes, top issue first. Each fix must be fully actionable. effort e.g. "About 15 minutes". steps must be 3-7 clear imperative do-this-then-that instructions a busy owner can follow.
 - quickWins: 2-3 short wins they can do today.

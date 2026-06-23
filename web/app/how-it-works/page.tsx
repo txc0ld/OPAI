@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     title: "Google Business Profile, machine-perfect",
-    body: "The AI leans on your Google Business Profile harder than anything you own. We list every service as its own line, set your exact service area, fix categories and hours, sort the Q&A, and get real job photos up. A complete, accurate profile is what gives an AI the confidence to put your name forward.",
+    body: "The AI leans on your Google Business Profile harder than anything you own. We list every service as its own line, set your exact service area, fix categories and hours, sort the Q&A, and get real photos of your work up. A complete, accurate profile is what gives an AI the confidence to put your name forward.",
   },
   {
     title: "Plain-text services, prices & area",
@@ -37,7 +37,7 @@ const STEPS = [
   },
   {
     title: "Answer fast (and get ready for AI booking)",
-    body: "Speed is quietly becoming the whole game. If a lead lands and you take three days to call back, AI learns to stop sending them. We help you catch missed calls and reply in minutes, which wins jobs now and readies you for the day AI starts booking them.",
+    body: "Speed is quietly becoming the whole game. If a lead lands and you take three days to call back, AI learns to stop sending them. We help you catch missed calls and reply in minutes, which wins customers now and readies you for the day AI starts booking them.",
   },
 ];
 

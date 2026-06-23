@@ -5,7 +5,7 @@ import { CheckButton } from "@/components/ui/check-button";
 const ITEMS = [
   "What AI actually says about you",
   "Whether you make the shortlist",
-  "The one thing costing you jobs",
+  "The one thing costing you customers",
   "How to fix it, in plain English",
 ];
 
