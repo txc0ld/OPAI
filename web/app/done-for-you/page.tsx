@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
 import { CheckButton } from "@/components/ui/check-button";
+import { ButtonLink } from "@/components/ui/button-link";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
@@ -103,10 +103,6 @@ const FAQ_ITEMS = [
   },
 ];
 
-// Ghost CTA link to /contact/ (CheckButton hard-links to /check/, so this covers other targets).
-const GHOST_CTA =
-  "inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] px-7 py-3.5 text-[15px] font-bold tracking-tight text-[var(--color-fg)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-signal)] hover:text-[var(--color-signal)]";
-
 export default function DoneForYouPage() {
   return (
     <>
@@ -127,9 +123,7 @@ export default function DoneForYouPage() {
 
       {/* Hero */}
       <Section className="pt-32 lg:pt-40">
-        <div className="max-w-[40ch]">
-          <MonoLabel>Done-for-you · Always on</MonoLabel>
-        </div>
+        <MonoLabel>Done-for-you · Always on</MonoLabel>
         <h1 className="mt-5 max-w-[20ch] text-[length:var(--text-display)] font-extrabold leading-[0.98] tracking-[-0.035em]">
           The check finds the gaps. We fix them — and keep them fixed.
         </h1>
@@ -139,10 +133,7 @@ export default function DoneForYouPage() {
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-4">
           <CheckButton label="Start with a free check" />
-          <Link href="/contact/" className={GHOST_CTA}>
-            Talk to us
-            <span aria-hidden>→</span>
-          </Link>
+          <ButtonLink href="/contact/" variant="ghost" label="Talk to us" />
         </div>
         <p className="mt-5 text-[13px] text-[var(--color-fg-variant)]">
           From {PRICE_FROM} + {SETUP} one-off setup. No lock-in. You&rsquo;ll know the exact price before anything starts.
@@ -260,10 +251,7 @@ export default function DoneForYouPage() {
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <CheckButton label="Start with a free check" />
-                <Link href="/contact/" className={GHOST_CTA}>
-                  Talk to us
-                  <span aria-hidden>→</span>
-                </Link>
+                <ButtonLink href="/contact/" variant="ghost" label="Talk to us" />
               </div>
             </div>
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-lowest)] p-6 font-mono text-[13px] leading-[1.9]">
@@ -311,10 +299,7 @@ export default function DoneForYouPage() {
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
               <CheckButton label="See what AI says about you" />
-              <Link href="/contact/" className={GHOST_CTA}>
-                Talk to us
-                <span aria-hidden>→</span>
-              </Link>
+              <ButtonLink href="/contact/" variant="ghost" label="Talk to us" />
             </div>
           </div>
         </div>

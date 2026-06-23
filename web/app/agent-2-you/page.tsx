@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
 import { CheckButton } from "@/components/ui/check-button";
+import { ButtonLink } from "@/components/ui/button-link";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
@@ -101,12 +101,6 @@ const FAQ_ITEMS = [
   },
 ];
 
-// CTA link styles (CheckButton hard-links to /check/, so these cover /contact/).
-const SOLID_CTA =
-  "group inline-flex items-center gap-2 rounded-full bg-[var(--color-signal)] px-7 py-3.5 text-[15px] font-bold tracking-tight text-[var(--color-on-signal)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_var(--color-signal),0_16px_44px_-10px_var(--color-signal-glow)]";
-const GHOST_CTA =
-  "inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] px-7 py-3.5 text-[15px] font-bold tracking-tight text-[var(--color-fg)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-signal)] hover:text-[var(--color-signal)]";
-
 export default function Agent2YouPage() {
   return (
     <>
@@ -137,12 +131,7 @@ export default function Agent2YouPage() {
           business and set the whole thing up.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-4">
-          <Link href="/contact/" className={SOLID_CTA}>
-            Book a setup call
-            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">
-              →
-            </span>
-          </Link>
+          <ButtonLink href="/contact/" label="Book a setup call" />
           <CheckButton label="Start with a free check" variant="ghost" />
         </div>
         <p className="mt-5 text-[13px] text-[var(--color-fg-variant)]">
@@ -151,39 +140,39 @@ export default function Agent2YouPage() {
       </Section>
 
       {/* What it takes off your plate */}
-      <Section tone="dark">
-        <MonoLabel>What it takes off your plate</MonoLabel>
-        <h2 className="mt-5 max-w-[24ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em]">
+      <Section tone="paper-warm">
+        <MonoLabel tone="light">What it takes off your plate</MonoLabel>
+        <h2 className="mt-5 max-w-[24ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em] text-[var(--color-ink)]">
           The work that&rsquo;s eating your week, handled.
         </h2>
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {JOBS.map(([h, p]) => (
-            <div
-              key={h}
-              className="grain rounded-2xl border border-[var(--color-border)] p-7 transition-colors hover:border-[color-mix(in_oklab,var(--color-signal)_40%,transparent)]"
-              style={{ background: "linear-gradient(150deg,var(--color-surface-high),var(--color-surface-container))" }}
-            >
-              <h3 className="font-bold text-[var(--color-fg)]">{h}</h3>
-              <p className="mt-2 text-[14px] leading-[1.6] text-[var(--color-fg-variant)]">{p}</p>
+            <div key={h} className="rounded-2xl border border-[var(--color-line-ink)] bg-[var(--color-paper)] p-7">
+              <h3 className="font-bold text-[var(--color-ink)]">{h}</h3>
+              <p className="mt-2 text-[14px] leading-[1.6] text-[var(--color-ink-soft)]">{p}</p>
             </div>
           ))}
         </div>
       </Section>
 
       {/* How it works */}
-      <Section tone="paper">
-        <MonoLabel tone="light">How we set it up</MonoLabel>
-        <h2 className="mt-5 max-w-[22ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em] text-[var(--color-ink)]">
+      <Section tone="dark">
+        <MonoLabel>How we set it up</MonoLabel>
+        <h2 className="mt-5 max-w-[22ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em]">
           Done for you, start to finish.
         </h2>
         <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map(([n, h, p]) => (
-            <li key={n} className="rounded-2xl border border-[var(--color-line-ink)] bg-[var(--color-paper)] p-7">
-              <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--color-ink)] text-[13px] font-extrabold text-[var(--color-paper)]">
+            <li
+              key={n}
+              className="grain rounded-2xl border border-[var(--color-border)] p-7"
+              style={{ background: "linear-gradient(150deg,var(--color-surface-high),var(--color-surface-container))" }}
+            >
+              <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--color-signal)] text-[13px] font-extrabold text-[var(--color-on-signal)]">
                 {n}
               </div>
-              <h3 className="mt-4 font-bold text-[var(--color-ink)]">{h}</h3>
-              <p className="mt-2 text-[14px] leading-[1.6] text-[var(--color-ink-soft)]">{p}</p>
+              <h3 className="mt-4 font-bold text-[var(--color-fg)]">{h}</h3>
+              <p className="mt-2 text-[14px] leading-[1.6] text-[var(--color-fg-variant)]">{p}</p>
             </li>
           ))}
         </ol>
@@ -243,16 +232,8 @@ export default function Agent2YouPage() {
               your plate — and what it&rsquo;d cost.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
-              <Link href="/contact/" className={SOLID_CTA}>
-                Book a setup call
-                <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">
-                  →
-                </span>
-              </Link>
-              <Link href="/done-for-you/" className={GHOST_CTA}>
-                See done-for-you
-                <span aria-hidden>→</span>
-              </Link>
+              <ButtonLink href="/contact/" label="Book a setup call" />
+              <ButtonLink href="/done-for-you/" variant="ghost" label="See done-for-you" />
             </div>
           </div>
         </div>
