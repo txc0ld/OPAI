@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
+import { ButtonLink } from "@/components/ui/button-link";
 
 const ITEMS = [
   "Checked every week, not once",
@@ -11,7 +11,7 @@ const ITEMS = [
 
 export function DoneForYouCta() {
   return (
-    <Section tone="paper-warm">
+    <Section tone="paper-warm" className="border-t border-[var(--color-line-ink)]">
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr]">
         <div>
           <MonoLabel tone="light">Done-for-you · Always on</MonoLabel>
@@ -23,15 +23,7 @@ export function DoneForYouCta() {
             approving anything before it goes live.
           </p>
           <div className="mt-8">
-            <Link
-              href="/done-for-you/"
-              className="group inline-flex items-center gap-2 rounded-full border border-[var(--color-line-ink)] px-7 py-3.5 text-[15px] font-bold tracking-tight text-[var(--color-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-ink)] hover:text-white"
-            >
-              See the done-for-you service
-              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">
-                →
-              </span>
-            </Link>
+            <ButtonLink href="/done-for-you/" variant="ghost" tone="light" label="See the done-for-you service" />
           </div>
         </div>
 

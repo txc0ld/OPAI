@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
+import { ButtonLink } from "@/components/ui/button-link";
 import { CheckForm } from "@/components/check/check-form";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, wrapGraph } from "@/lib/schema";
@@ -116,15 +116,13 @@ export default function CheckPage() {
               The check is a snapshot. Done-for-you keeps you on the shortlist, always on.
             </h2>
           </div>
-          <Link
+          <ButtonLink
             href="/done-for-you/"
-            className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-[var(--color-line-ink)] px-7 py-3.5 text-[15px] font-bold tracking-tight text-[var(--color-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-ink)] hover:text-white"
-          >
-            See done-for-you
-            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">
-              →
-            </span>
-          </Link>
+            variant="ghost"
+            tone="light"
+            label="See done-for-you"
+            className="shrink-0"
+          />
         </div>
       </Section>
     </>
