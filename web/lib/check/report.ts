@@ -2,7 +2,7 @@
  * web/lib/check/report.ts
  *
  * Calls Claude (Opus 4.8) to produce a structured JSON report for a Perth
- * trade business AI visibility check. Returns rendered HTML + plain-text.
+ * local business AI visibility check. Returns rendered HTML + plain-text.
  * Never fabricates. Never sends.
  */
 
@@ -96,9 +96,9 @@ const JSON_SCHEMA = `{
 // Prompt builders
 // ---------------------------------------------------------------------------
 
-const SYSTEM_PROMPT = `You are producing a structured JSON report for a "Free AI Check" for a Perth trade business.
+const SYSTEM_PROMPT = `You are producing a structured JSON report for a "Free AI Check" for a Perth local service business.
 
-Brand voice: blunt, plain-English Perth tradie tone. en-AU spelling. No em-dashes. No marketing hype. Short sentences. State facts, name specifics.
+Brand voice: blunt, plain-English Perth local-business-owner tone. en-AU spelling. No em-dashes. No marketing hype. Short sentences. State facts, name specifics.
 
 Four non-negotiable rules:
 1. NEVER FABRICATE — use ONLY the data supplied in the user message. If something wasn't gathered (available: false), note it was not checked automatically. Do not invent competitor names, review counts, or scores.
@@ -131,8 +131,8 @@ Field rules:
 - whatItSaid: 1 short paragraph — which competitors were named instead, any wrong info, sources cited (from GATHERED DATA only).
 - scorecard: EXACTLY these 5 dimensions in this order. Rating must be "R", "A", or "G". Note must be 4-9 words. If a dimension wasn't gathered, set rating "A" and note "Not checked automatically".
 - topIssue.title: the #1 specific thing costing jobs right now (the headline Red finding, or the biggest Amber if no Reds).
-- topIssue.why: 1-2 sentences on why it costs them work, specific to their trade and suburb.
-- fixes: 2-4 fixes, top issue first. Each fix must be fully actionable. effort e.g. "About 15 minutes". steps must be 3-7 clear imperative do-this-then-that instructions a tradie can follow.
+- topIssue.why: 1-2 sentences on why it costs them work, specific to their business type and suburb.
+- fixes: 2-4 fixes, top issue first. Each fix must be fully actionable. effort e.g. "About 15 minutes". steps must be 3-7 clear imperative do-this-then-that instructions a busy owner can follow.
 - quickWins: 2-3 short wins they can do today.
 - closing: 1 sentence on the realistic upside if they fix the gaps.
 

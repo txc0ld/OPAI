@@ -7,9 +7,9 @@ import { buildService, buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/how-it-works/`;
-const TITLE = "How AI Picks Which Tradie to Recommend";
+const TITLE = "How AI Picks Which Business to Recommend";
 const DESCRIPTION =
-  "How AI decides which tradie to recommend, and exactly what I do to get you on the shortlist and ready for AI booking.";
+  "How AI decides which local business to recommend, and exactly what I do to get you on the shortlist and ready for AI booking.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -47,7 +47,7 @@ export default function HowItWorksPage() {
       <JsonLd
         schema={wrapGraph([
           buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION }),
-          buildService({ name: "AI search visibility for trades", url: PAGE_URL, description: DESCRIPTION }),
+          buildService({ name: "AI search visibility for local business", url: PAGE_URL, description: DESCRIPTION }),
         ])}
       />
 

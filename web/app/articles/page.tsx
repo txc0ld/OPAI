@@ -9,8 +9,8 @@ import { buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/articles/`;
-const TITLE = "Articles for WA Trade Businesses";
-const DESCRIPTION = "Plain-English guides for WA tradies on getting found, recommended and booked by AI.";
+const TITLE = "Articles for Perth Local Businesses";
+const DESCRIPTION = "Plain-English guides for Perth local businesses on getting found, recommended and booked by AI.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -49,7 +49,7 @@ export default function ArticlesPage() {
                   {a.tags?.[0] ? (
                     <>
                       <span aria-hidden>,</span>
-                      <span className="text-[var(--color-signal-dim)]">{a.tags[0]}</span>
+                      <span className="text-[var(--color-ink-soft)]">{a.tags[0]}</span>
                     </>
                   ) : null}
                 </div>

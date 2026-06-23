@@ -7,7 +7,7 @@ import { buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/check/`;
-const TITLE = "Free AI Visibility Check for WA Tradies";
+const TITLE = "Free AI Visibility Check for Perth Businesses";
 const DESCRIPTION =
   "Send your business name and suburb. I'll send back a free rundown of what ChatGPT and Google's AI say about you, including the one thing costing you jobs.";
 
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 const RUNDOWN = [
-  "What ChatGPT and Google's AI actually say when someone asks for a good tradie in your area",
+  "What ChatGPT and Google's AI actually say when someone asks for a good business in your area",
   "Whether you make the shortlist or get skipped",
   "The one thing costing you jobs right now",
   "How to fix it (no pressure, no jargon)",
@@ -84,7 +84,7 @@ export default function CheckPage() {
         <h2 className="mt-5 text-[22px] font-bold tracking-tight">Three steps. Thirty seconds on your end.</h2>
         <ol className="mt-8 grid gap-5 sm:grid-cols-3">
           {[
-            ["01", "You send it", "Business name, suburb, trade. Takes about 30 seconds."],
+            ["01", "You send it", "Business name, suburb, business type. Takes about 30 seconds."],
             ["02", "I check it by hand", "I look at what AI says about you. A real person, not an autoresponder."],
             ["03", "You get the rundown", "A plain-English summary and the one thing to fix. No pressure to buy anything."],
           ].map(([n, h, p]) => (

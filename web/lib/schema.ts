@@ -56,8 +56,8 @@ export function buildLocalBusiness(): SchemaNode {
     areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "AdministrativeArea", name: a })),
     serviceType: [
       "Google Business Profile optimisation",
-      "AI search visibility for trades",
-      "Local SEO for tradies",
+      "AI search visibility for local business",
+      "Local SEO for Perth business",
       "Online reviews setup",
     ],
   };

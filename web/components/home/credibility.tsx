@@ -3,7 +3,7 @@ import { MonoLabel } from "@/components/ui/mono-label";
 import { Photo } from "@/components/ui/photo";
 
 const POINTS: [string, string][] = [
-  ["Perth-based", "A real person who knows WA trades. Not an overseas agency or a dashboard."],
+  ["Perth-based", "A real person who knows Perth small business. Not an overseas agency or a dashboard."],
   ["No lock-in", "No long contracts. The work proves itself, or it doesn't."],
   ["Free check first", "You see exactly what's wrong before you spend a cent."],
 ];

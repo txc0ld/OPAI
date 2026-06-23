@@ -45,7 +45,7 @@ export default function PrivacyPage() {
               921 362), based in Perth, Western Australia, Australia.
             </p>
             <p>
-              We help WA trade businesses get found, recommended, and booked by AI search. Our main services are a
+              We help Perth local service businesses get found, recommended, and booked by AI search. Our main services are a
               free&nbsp;AI Visibility Check and optional done-for-you setup work.
             </p>
             <p>

@@ -9,7 +9,7 @@ import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/about/`;
 const TITLE = "About OperateAI";
-const DESCRIPTION = "A Perth-based operator helping WA trade businesses get found and recommended by AI.";
+const DESCRIPTION = "A Perth-based operator helping local service businesses get found and recommended by AI.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -35,13 +35,13 @@ export default function AboutPage() {
             </h1>
             <div className="mt-8 grid max-w-[52ch] gap-5 text-[17px] leading-[1.7] text-[var(--color-ink-soft)]">
               <p>
-                I&rsquo;m Taylor. I help WA trade businesses get found, recommended and booked in a world where
-                customers ask AI who to call instead of scrolling Google.
+                I&rsquo;m Taylor. I help Perth local service businesses get found, recommended and booked in a world
+                where customers ask AI who to call instead of scrolling Google.
               </p>
               <p>
                 I&rsquo;ve spent the better part of three years working with these systems, so I know how they decide who
-                gets recommended and who gets skipped. That&rsquo;s the whole game now, and most trades aren&rsquo;t set
-                up for it yet.
+                gets recommended and who gets skipped. That&rsquo;s the whole game now, and most local businesses
+                aren&rsquo;t set up for it yet.
               </p>
               <p>
                 When you take the complimentary check, I look at your business myself. Not a template, not a call

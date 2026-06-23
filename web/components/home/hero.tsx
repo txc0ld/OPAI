@@ -19,15 +19,15 @@ export function Hero() {
       />
 
       <div className="relative">
-        <MonoLabel tone="light">Perth, WA trades</MonoLabel>
+        <MonoLabel tone="light">Perth local business</MonoLabel>
 
         <h1 className="mt-6 max-w-[15ch] text-[length:var(--text-display)] font-extrabold leading-[0.97] tracking-[-0.035em] text-[var(--color-ink)]">
           Your next customer won&rsquo;t scroll Google. They&rsquo;ll ask <span className="hl">AI</span> who to call.
         </h1>
 
         <p className="mt-7 max-w-[46ch] text-[length:var(--text-lede)] leading-[1.5] text-[var(--color-ink-soft)]">
-          More Perth homeowners now ask ChatGPT or Google&rsquo;s AI for a good tradie. It names two or three. Miss
-          that list, and you don&rsquo;t exist for that job.
+          More people now ask ChatGPT or Google&rsquo;s AI for a good local business, a plumber, a physio, a place to
+          eat. It names two or three. Miss that list, and you don&rsquo;t exist for that customer.
         </p>
 
         <div className="mt-9 flex flex-col gap-x-5 gap-y-4 sm:flex-row sm:items-center">

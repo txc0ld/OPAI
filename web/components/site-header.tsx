@@ -40,7 +40,7 @@ export function SiteHeader() {
         "lg:h-[68px] lg:px-12",
       )}
     >
-      <Link href="/" className="flex items-center" aria-label="OperateAI home">
+      <Link href="/" className="flex items-center">
         <Logo />
       </Link>
 

@@ -25,7 +25,7 @@ const LOADERS: Record<string, () => Promise<{ default: React.ComponentType }>> =
 // Short scannable summary shown at the top of each article (the retention hook).
 const TAKEAWAYS: Record<string, string[]> = {
   "your-next-customer-wont-scroll-google": [
-    "AI now names just two or three tradies. You need to be one of them.",
+    "AI now names just two or three businesses. You need to be one of them.",
     "Your Google Business Profile is the biggest lever. Finish it properly.",
     "Put your services, prices and area in plain text, not inside images.",
     "Get recent reviews, reply to them, and answer fast.",

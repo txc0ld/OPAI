@@ -36,12 +36,12 @@ export default function HomePage() {
           {
             question: "What's SEO, in plain English?",
             answer:
-              "SEO is Search Engine Optimisation. It's the old game of getting your business to show up when someone Googles a tradie, then letting them pick from the list. Still worth doing, but it's not the whole story anymore.",
+              "SEO is Search Engine Optimisation. It's the old game of getting your business to show up when someone Googles a local business, then letting them pick from the list. Still worth doing, but it's not the whole story anymore.",
           },
           {
             question: "And what's AEO?",
             answer:
-              "AEO is Answer Engine Optimisation. Same idea, but for AI. Instead of getting you onto a list, it's about getting ChatGPT and Google's AI to actually name you when someone asks for a good tradie. The AI only picks two or three, so being one it names is the new goal.",
+              "AEO is Answer Engine Optimisation. Same idea, but for AI. Instead of getting you onto a list, it's about getting ChatGPT and Google's AI to actually name you when someone asks for a good local business. The AI only picks two or three, so being one it names is the new goal.",
           },
           {
             question: "Is this just SEO with a new name?",
@@ -64,14 +64,14 @@ export default function HomePage() {
               "The profile and review fixes start working within weeks as AI re-reads your details. It's not instant, but it compounds.",
           },
           {
-            question: "I'm flat out on the tools. Can you just handle it?",
+            question: "I'm flat out running the business. Can you just handle it?",
             answer:
               "Yes. That's the done-for-you option: profile rebuilt, site made AI-readable, reviews system set up, so you show up without losing weekends to it.",
           },
           {
             question: "Will AI really send me customers?",
             answer:
-              "It already recommends local tradies by name today, and it's moving toward booking them. Being on that shortlist is the whole game.",
+              "It already recommends local businesses by name today, and it's moving toward booking them. Being on that shortlist is the whole game.",
           },
         ]}
       />

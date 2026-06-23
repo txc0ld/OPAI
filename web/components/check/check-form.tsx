@@ -4,17 +4,21 @@ import { useId, useState } from "react";
 
 type SubmitState = "idle" | "sending" | "sent" | "error";
 
-const TRADES = [
+const BUSINESS_TYPES = [
   "Plumber",
-  "Electrician / sparky",
-  "Builder",
-  "Carpenter / chippy",
-  "Landscaper",
-  "Painter",
-  "Tiler",
-  "Roofer",
-  "Concreter",
-  "HVAC / air-con",
+  "Electrician",
+  "Builder / carpenter",
+  "Cleaning",
+  "Landscaping / gardening",
+  "Mechanic / auto",
+  "Hair / beauty salon",
+  "Health / medical clinic",
+  "Physio / allied health",
+  "Dentist",
+  "Cafe / restaurant",
+  "Gym / fitness",
+  "Real estate",
+  "Lawyer / accountant",
   "Other",
 ] as const;
 
@@ -94,12 +98,12 @@ export function CheckForm() {
           <input id={`${formId}-suburb`} name="suburb" required className={inputClass} placeholder="e.g. Midland" />
         </label>
         <label className={labelClass} htmlFor={`${formId}-trade`}>
-          Trade
+          Business type
           <select id={`${formId}-trade`} name="trade" required defaultValue="" className={inputClass}>
             <option value="" disabled className="bg-[var(--color-surface)]">
               Pick one
             </option>
-            {TRADES.map((t) => (
+            {BUSINESS_TYPES.map((t) => (
               <option key={t} value={t} className="bg-[var(--color-surface)] text-[var(--color-fg)]">
                 {t}
               </option>

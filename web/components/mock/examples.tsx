@@ -43,7 +43,7 @@ export function GbpCard() {
               <span>Plumber</span>
             </div>
             <div className="mt-1.5 text-[13px]">
-              <span className="font-semibold text-[#1e8e3e]">Open 24 hours</span>
+              <span className="font-semibold text-[#1c8439]">Open 24 hours</span>
               <span className="text-[var(--color-ink-soft)]"> · Subiaco, WA</span>
             </div>
           </div>
@@ -219,7 +219,7 @@ export function KeyTakeaways({ points }: { points: string[] }) {
       <ul className="mt-4 grid gap-2.5">
         {points.map((p) => (
           <li key={p} className="flex items-start gap-3 text-[15.5px] leading-[1.5] text-[var(--color-ink)]">
-            <Check className="mt-0.5 h-4 w-4 flex-none text-[#1e8e3e]" aria-hidden />
+            <Check className="mt-0.5 h-4 w-4 flex-none text-[#1c8439]" aria-hidden />
             {p}
           </li>
         ))}

@@ -7,7 +7,7 @@ export function WhyTradies() {
     <Section tone="paper">
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
-          <MonoLabel tone="light">Why it hits tradies hardest</MonoLabel>
+          <MonoLabel tone="light">Why it hits local business hardest</MonoLabel>
           <h2 className="mt-5 max-w-[16ch] text-[length:var(--text-section)] font-extrabold leading-[1.04] tracking-[-0.025em] text-[var(--color-ink)]">
             Your business lives on local discovery. That&rsquo;s the bit AI eats first.
           </h2>

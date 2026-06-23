@@ -36,7 +36,7 @@ export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ deliv
     ["Business", payload.company || payload.name],
     ["Contact name", payload.name],
     ["Suburb / area", payload.suburb || "Not supplied"],
-    ["Trade", payload.trade || "Not supplied"],
+    ["Business type", payload.trade || "Not supplied"],
     ["Email", payload.email || "Not supplied"],
     ["Phone", payload.phone || "Not supplied"],
   ];
@@ -94,7 +94,7 @@ export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ deliv
 }
 
 // ---------------------------------------------------------------------------
-// Draft report email (operator-only — never sent to the tradie)
+// Draft report email (operator-only — never sent to the client)
 // The html param IS the fully rendered report. Operator sees exactly what the
 // client will get, with a short preamble note at top.
 // ---------------------------------------------------------------------------

@@ -4,8 +4,8 @@
  *
  * Operator accelerator for the Free AI Check SOP.
  *
- * Automates the grunt work of a free AI visibility check for a trade business:
- *   1. Builds prompts from the business/suburb/trade inputs.
+ * Automates the grunt work of a free AI visibility check for a local business:
+ *   1. Builds prompts from the business/suburb/type inputs.
  *   2. Gathers answers from Perplexity, OpenAI, and Gemini (each skipped
  *      gracefully if the API key is missing).
  *   3. Fetches Google Places data and runs a PageSpeed check (both skipped
@@ -292,7 +292,7 @@ program
 
 program
   .command("run")
-  .description("Run the Free AI Check for a trade business.")
+  .description("Run the Free AI Check for a local business.")
   .requiredOption("--business <s>", "Business trading name")
   .requiredOption("--suburb <s>", "Suburb to search within")
   .requiredOption("--trade <s>", "Trade type (e.g. plumber, electrician)")

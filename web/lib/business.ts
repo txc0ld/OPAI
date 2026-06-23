@@ -15,9 +15,9 @@ export const BUSINESS = {
   email: "team@operateai.com.au",
   telephone: undefined as string | undefined,
   abn: "ABN 51 559 921 362",
-  tagline: "Get your trade business found, recommended and booked by AI.",
+  tagline: "Get your local business found, recommended and booked by AI.",
   description:
-    "When a Perth homeowner asks AI for a good tradie, it names two or three businesses. OperateAI gets WA trade businesses onto that shortlist and ready for the day AI starts booking the jobs.",
+    "When someone asks AI for a good business in Perth, it names two or three. OperateAI gets Perth local service businesses onto that shortlist and ready for the day AI starts booking the work.",
   address: {
     addressLocality: "Perth",
     addressRegion: "WA",
