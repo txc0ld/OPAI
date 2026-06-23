@@ -12,6 +12,15 @@ function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+// Temporary diagnostic: reports ONLY booleans (never the secret values) so we
+// can confirm which env vars the live runtime can see. Remove after verifying.
+export async function GET() {
+  return NextResponse.json({
+    dbConfigured: Boolean(process.env.DATABASE_URL || process.env.POSTGRES_URL),
+    resendConfigured: Boolean(process.env.RESEND_API_KEY),
+  });
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
