@@ -8,13 +8,17 @@
  * /api/enquiry already went out).
  */
 
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { validateCheckInput } from "@/lib/check/types";
 import { runCheck } from "@/lib/check/run";
 import { sendCheckDraftEmail } from "@/lib/email";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+// Raised from 60s: the gather+report pipeline runs ~45-65s and was racing the
+// old cap, silently dropping reports. 300 is the Pro ceiling (Hobby clamps to
+// 60 — see note in route body). Combined with `after()` below, the work is
+// decoupled from the response so a dropped client never cancels it.
+export const maxDuration = 300;
 
 // ---------------------------------------------------------------------------
 // Simple best-effort in-memory per-IP rate limit (max 3 requests / 60s).
@@ -101,20 +105,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, autodraft: false });
     }
 
-    // Run pipeline fire-and-forget style — wrap so any failure returns ok.
-    try {
-      const { html, text, triage } = await runCheck(input);
-      console.log("[check] triage headline:", triage.headline);
-      await sendCheckDraftEmail({
-        business: input.business,
-        suburb: input.suburb,
-        html,
-        text,
-      });
-      console.log("[check] draft emailed for:", input.business);
-    } catch (e) {
-      console.error("[check] pipeline error:", e);
-    }
+    // Run the pipeline AFTER the response is sent. `after()` decouples the
+    // gather→report→email work from the request/response lifecycle, so the
+    // browser's fire-and-forget fetch returning (or the connection dropping)
+    // never cancels the report. The work still counts toward maxDuration (300).
+    after(async () => {
+      try {
+        const { html, text, triage } = await runCheck(input);
+        console.log("[check] triage headline:", triage.headline);
+        await sendCheckDraftEmail({
+          business: input.business,
+          suburb: input.suburb,
+          html,
+          text,
+        });
+        console.log("[check] draft emailed for:", input.business);
+      } catch (e) {
+        console.error("[check] pipeline error:", e);
+      }
+    });
 
     return NextResponse.json({ ok: true, autodraft: true });
   } catch (e) {
