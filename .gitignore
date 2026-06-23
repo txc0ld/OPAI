@@ -19,3 +19,6 @@ test-results
 
 # Operator output — real client/business data, keep out of the repo
 checks/
+
+# Local redesign scratch — already used, not part of the tracked product
+redesign/
