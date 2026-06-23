@@ -1,73 +1,84 @@
-# OperateAI website (rebranded from AAO Group)
+# OperateAI
 
-> AI agents, automation, hosting and training for Australian businesses.
+> Get your local business found, recommended and booked by AI.
 
-This repo contains everything required to operate OperateAI as a managed AI operations business: the marketing site, the operator skill library, the sales asset pack, the legal scaffolds, the per-client workspace template, the operator playbook, and the operator CLI.
+OperateAI helps **Perth local service businesses** show up when customers ask AI for a recommendation ("who's a good plumber / dentist / physio / [x] near me?") instead of scrolling Google. AI assistants now name two or three businesses and hand over the decision — there is no page two. We get a business onto that shortlist, and ready for the day AI starts booking the work.
+
+The wedge is a free **AI Visibility Check**: a business sends its name + suburb (and website, optionally), and gets back a plain-English rundown of what ChatGPT and Google's AI actually say about them, plus the one thing costing them customers. Paid work is done-for-you "AI-findable" setup: a machine-perfect Google Business Profile, plain-text/AI-readable services and pricing, a reviews engine, and fast response.
+
+Live at **[operateai.com.au](https://www.operateai.com.au)**.
+
+## The funnel
+
+```
+ad / Reddit / article
+        |
+        v
+free AI Visibility Check  (/check)
+        |
+        v
+human-reviewed rundown   (emailed to the operator + stored as a lead)
+        |
+        v
+done-for-you AI-findable setup
+```
 
 ## Repo layout
 
 ```
 .
-├── australian_smb_ai_ops_prd.md     # The PRD (source of truth for product, offers, governance)
-├── OPERATOR_PLAYBOOK.md             # Day-to-day motion: discovery -> audit -> pilot -> subscription
-├── docs/                            # Spec + implementation plan for the marketing site v1
-├── web/                             # Marketing site (Next.js, deployed to Vercel)
-├── sales-assets/                    # Capability statement, discovery deck, audit sample, etc.
-├── legal-scaffolds/                 # MSA, SOW, DPS, AI disclosure, AUP, SLA, cancellation (DRAFT)
-├── clients/                         # Per-client workspaces (template at `_template/`)
-├── tools/audit-cli/                 # CLI that automates the audit pipeline via Claude API
-└── vercel.json                      # Deploy config
+├── web/                  # Next.js 16 marketing site + Free AI Check + lead capture (Vercel, syd1)
+├── tools/check-cli/      # Operator CLI: the AI Visibility Check pipeline, run from the terminal
+├── tools/audit-cli/      # Earlier AAO "AI Operations Audit" pipeline (separate product, legacy)
+├── docs/
+│   ├── strategy/future-services-roadmap.md   # Current expansion roadmap (research-backed)
+│   └── superpowers/                          # Dated design specs + implementation plans (historical)
+├── sales-assets/         # Ad & social content, capability statement, etc.
+├── legal-scaffolds/      # MSA, SOW, DPS drafts (counsel review pending)
+├── clients/              # Per-client workspaces (template at _template/)
+├── australian_smb_ai_ops_prd.md   # Earlier/broader strategy (legacy context)
+├── OPERATOR_PLAYBOOK.md           # Earlier operating motion (legacy context)
+└── vercel.json
 ```
 
-## Quick start for new operators
+Two surfaces contain real code: **`web/`** and **`tools/check-cli/`** (plus the legacy `tools/audit-cli/`). Everything else is Markdown/JSON assets.
 
-1. Read the PRD: `australian_smb_ai_ops_prd.md`
-2. Read the playbook: `OPERATOR_PLAYBOOK.md`
-3. Familiarise yourself with the 12 AAO skills (live in `~/.claude/skills/aao-*`)
-4. Walk the marketing site at https://operateai.com.au (or `cd web && pnpm dev`)
-5. Walk the demo agents at https://operateai.com.au/demo
-6. To run a real audit: instantiate `clients/_template/` for the client, follow the playbook
+## Quick start
 
-## Where the dollar comes from
-
+```bash
+cd web
+pnpm install
+pnpm dev --port 3456      # http://localhost:3456
 ```
-Outbound (week 0)
-  |
-  v
-15-min discovery call (week 1)
-  |
-  v
-AI Operations Audit  $2,500-$7,500   1-2 weeks
-  |
-  v
-First Agent Pilot    $10,000-$30,000  2-4 weeks
-  |
-  v
-Managed Subscription $5,000-$35,000+/mo  ongoing
-```
+
+See **[`web/README.md`](web/README.md)** for the full site guide, and **[`tools/check-cli/README.md`](tools/check-cli/README.md)** for the CLI.
+
+## How a lead is handled
+
+Every Free AI Check / contact submission posts to `web/app/api/enquiry/route.ts`, which:
+
+1. **Stores** the lead in **Neon Postgres** (`leads` table) — `web/lib/leads.ts`.
+2. **Emails** the operator the enquiry — `web/lib/email.ts` (Resend).
+3. **Adds** the email to a **Resend Audience** (marketing list) — `web/lib/email.ts`.
+
+Every integration **no-ops gracefully when its env var is unset**, so the site runs end-to-end with nothing configured (submissions log a stub). Optionally, `AUTO_CHECK=1` runs the full check pipeline server-side and emails the operator a draft report. See `web/.env.example`.
 
 ## Stack snapshot
 
-- **Marketing site:** Next.js 16, Tailwind v4, MDX, Vercel (syd1)
-- **Skills:** 12 Claude Code Skills at `~/.claude/skills/aao-*` (advisory + preparatory; never act on client systems)
-- **Agent runtime (v1):** Deterministic state machine + LangGraph task agents + NeMo Guardrails (input/output/topical/dialog/policy rails)
-- **LLM providers:** Claude via Bedrock Sydney; GPT via Azure Australia East where applicable
-- **Sandboxing:** NemoClaw / OpenShell reserved for premium / R&D
-- **Approval queue:** the product. Everything else supports it.
+- **Site:** Next.js 16 (App Router, `trailingSlash`), React 19, TypeScript (strict), Tailwind v4, MDX, deployed to Vercel (`syd1`).
+- **Free AI Check:** gathers signals from Perplexity, OpenAI, Google (Gemini), Google Places, a website scan and PageSpeed, triages them, and writes the report with Claude (`claude-opus-4-8`).
+- **Data:** Neon Postgres (leads) + Resend (email + audience).
 
 ## Status
 
-v1 marketing site shipped (16 routes, 19/19 smoke tests passing, deployed to Vercel).
-v1 operating system shipped (skills, sales pack, legal scaffolds, playbook, demos, operator dashboard skeleton).
+Marketing site shipped and live (Free AI Check funnel, lead capture). Desktop Lighthouse 100/100/100/100; mobile Accessibility/Best-Practices/SEO 100.
 
-Pending before first paid audit:
+Outstanding ops:
 
-- [ ] Domain DNS pointed at Vercel (`operateai.com.au` -> Vercel)
+- [ ] Set `DATABASE_URL` (Neon) and `RESEND_AUDIENCE_ID` in Vercel for production lead capture + list
 - [ ] Counsel review of `legal-scaffolds/`
-- [ ] Founder photograph for `/about`
-- [ ] First-vertical Calendly event types under `calendly.com/operateai`
-- [ ] First 10 outbound contacts per `sales-assets/08-outreach-pack.md`
+- [ ] Rotate any API credentials that have been shared in plain text
 
 ## Contact
 
-Taylor Mayor  ·  taylor@operateai.com.au  ·  Perth, Western Australia
+team@operateai.com.au · Perth, Western Australia
