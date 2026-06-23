@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { sendEnquiryEmail, type EnquiryPayload } from "@/lib/email";
+import { sendEnquiryEmail, addContactToAudience, type EnquiryPayload } from "@/lib/email";
 import { captureLead } from "@/lib/leads";
 
 export const runtime = "nodejs";
@@ -67,6 +67,9 @@ export async function POST(request: Request) {
       website: payload.url,
       message: payload.message,
     });
+
+    // Add to the marketing audience (never throws; no-ops until configured).
+    await addContactToAudience({ email: payload.email, name: payload.name || payload.company });
 
     const result = await sendEnquiryEmail(payload);
     return NextResponse.json({ ok: true, delivered: result.delivered });

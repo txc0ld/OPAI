@@ -154,3 +154,55 @@ export async function sendCheckDraftEmail({
 
   return { delivered: true };
 }
+
+// ---------------------------------------------------------------------------
+// Marketing list: add a contact to a Resend Audience.
+// No-ops if RESEND_API_KEY or RESEND_AUDIENCE_ID is unset, or no email given.
+// Never throws — a list failure must not affect the lead email or DB capture.
+// ---------------------------------------------------------------------------
+
+export async function addContactToAudience(params: {
+  email?: string;
+  name?: string;
+}): Promise<{ added: boolean }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  const email = (params.email || "").trim();
+
+  if (!email) return { added: false };
+  if (!apiKey || !audienceId) {
+    console.log("[audience-stub]", email);
+    return { added: false };
+  }
+
+  try {
+    const parts = (params.name || "").trim().split(/\s+/).filter(Boolean);
+    const firstName = parts[0];
+    const lastName = parts.length > 1 ? parts.slice(1).join(" ") : undefined;
+
+    const response = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        ...(firstName ? { first_name: firstName } : {}),
+        ...(lastName ? { last_name: lastName } : {}),
+        unsubscribed: false,
+      }),
+    });
+
+    if (!response.ok) {
+      // 409/422 = contact already on the list — fine, not a real failure.
+      const txt = await response.text();
+      console.error("[audience] add failed:", response.status, txt.slice(0, 200));
+      return { added: false };
+    }
+    return { added: true };
+  } catch (err) {
+    console.error("[audience] error:", err instanceof Error ? err.message : err);
+    return { added: false };
+  }
+}
