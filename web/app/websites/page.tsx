@@ -101,7 +101,7 @@ export default function WebsitesPage() {
           <CheckButton label="Start with a free check" variant="ghost" />
         </div>
         <p className="mt-5 text-[13px] text-[var(--color-fg-variant)]">
-          Fixed-price packages from $849. 50% deposit to start, balance on launch.
+          Fixed-price packages from A$849. 50% deposit to start, balance on launch.
         </p>
       </Section>
 

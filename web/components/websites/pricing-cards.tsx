@@ -1,7 +1,8 @@
 import { ButtonLink } from "@/components/ui/button-link";
 import { WEBSITE_PACKAGES, type WebsitePackage } from "@/lib/business";
 
-const aud = new Intl.NumberFormat("en-AU", {
+// en-US locale renders AUD as "A$" (en-AU renders just "$"), so the currency is explicit.
+const aud = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "AUD",
   maximumFractionDigits: 0,

@@ -13,8 +13,8 @@ const TITLE = "Done-for-you: we keep you on AI's shortlist";
 const DESCRIPTION =
   "The free check finds the gaps. The done-for-you service fixes them and keeps them fixed, always on. We monitor what AI says about you, keep your profile and site current, and send proof of the work.";
 
-const PRICE_FROM = `$${DONE_FOR_YOU.priceFrom}/mo`;
-const SETUP = `$${DONE_FOR_YOU.setup}`;
+const PRICE_FROM = `A$${DONE_FOR_YOU.priceFrom}/mo`;
+const SETUP = `A$${DONE_FOR_YOU.setup}`;
 
 export const metadata: Metadata = {
   title: TITLE,

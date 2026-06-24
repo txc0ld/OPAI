@@ -1,7 +1,8 @@
 import { ButtonLink } from "@/components/ui/button-link";
 import { IOAGENT_PLANS, IOAGENT_INCLUDES, type AgentPlan } from "@/lib/business";
 
-const aud = new Intl.NumberFormat("en-AU", {
+// en-US locale renders AUD as "A$" (en-AU renders just "$"), so the currency is explicit.
+const aud = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "AUD",
   maximumFractionDigits: 0,

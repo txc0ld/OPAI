@@ -97,7 +97,7 @@ const FAQ_ITEMS = [
   {
     question: "What does it cost?",
     answer:
-      "Plans start at $999/mo for one agent (unlimited usage, 24/7 monitoring, GPT-5.5 Pro included). Three agents is $2,900/mo, five is $5,750/mo. We custom-build each agent and set it up for you; the plan is just how many you run. Cancel anytime.",
+      "Plans start at A$999/mo for one agent (unlimited usage, 24/7 monitoring, GPT-5.5 Pro included). Three agents is A$2,900/mo, five is A$5,750/mo. We custom-build each agent and set it up for you; the plan is just how many you run. Cancel anytime.",
   },
 ];
 
@@ -135,7 +135,7 @@ export default function IOAgentPage() {
           <ButtonLink href="/contact/" label="Book a setup call" variant="ghost" />
         </div>
         <p className="mt-5 text-[13px] text-[var(--color-fg-variant)]">
-          Plans from $999/mo. Unlimited usage, 24/7 monitoring, GPT-5.5 Pro included.
+          Plans from A$999/mo. Unlimited usage, 24/7 monitoring, GPT-5.5 Pro included.
         </p>
       </Section>
 
