@@ -3,10 +3,6 @@ import { Logo } from "@/components/logo";
 import { FOOTER_LEGAL } from "@/lib/nav";
 import { BUSINESS, emails } from "@/lib/business";
 
-// Footer adapted from ruixen-footer03 (21st.dev) into the OperateAI theme:
-// site tokens instead of shadcn vars, real links, the °OA logo, and the
-// site's own ScrollReveal (.reveal) for the fade-up instead of framer-motion.
-
 type FooterLink = { href: string; label: string };
 
 const SERVICES: FooterLink[] = [

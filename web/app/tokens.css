@@ -30,19 +30,6 @@
   --color-warning: #ffb86b;
   --color-error: #ffb4ab;
 
-  /* ===== Legacy aliases (keep older chrome resolving) ===== */
-  --color-bg: var(--color-void);
-  --color-accent: var(--color-signal);
-  --color-light: var(--color-paper);
-  --color-on-surface: var(--color-fg);
-  --color-muted: var(--color-fg-variant);
-  --color-rule: var(--color-border);
-  --color-w70: rgba(233, 231, 228, 0.7);
-  --color-w50: rgba(233, 231, 228, 0.5);
-  --color-w30: rgba(233, 231, 228, 0.3);
-  --color-w10: rgba(255, 255, 255, 0.1);
-  --color-outline: rgba(255, 255, 255, 0.18);
-
   /* ===== Fonts (CSS vars set by next/font in layout.tsx) ===== */
   --font-sans: var(--font-hanken);
   --font-heading: var(--font-hanken);

@@ -12,7 +12,8 @@
 // Structured data types (what Claude returns as JSON)
 // ---------------------------------------------------------------------------
 
-export type Rag = "R" | "A" | "G";
+import type { Rag } from "./types";
+export type { Rag };
 
 export interface ScorecardRow {
   label: string;

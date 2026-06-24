@@ -162,9 +162,3 @@ export const IOAGENT_PLANS: AgentPlan[] = [
   },
 ];
 
-export const NAV_LABELS = {
-  howItWorks: "How it works",
-  articles: "Articles",
-  about: "About",
-  check: "Free AI Check",
-} as const;

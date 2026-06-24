@@ -21,9 +21,12 @@ export function ButtonLink({ href, label, variant = "solid", tone = "dark", clas
   const ghostLight =
     "border border-[var(--color-line-ink)] text-[var(--color-ink)] hover:-translate-y-0.5 hover:border-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-white";
 
+  const external = /^https?:\/\//.test(href);
+
   return (
     <Link
       href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className={cn(base, variant === "solid" ? solid : tone === "light" ? ghostLight : ghostDark, className)}
     >
       {label}

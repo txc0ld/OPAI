@@ -161,7 +161,7 @@ export function ReviewStrip() {
           {r.reply ? (
             <div className="mt-3 rounded-xl bg-[color-mix(in_oklab,var(--color-ink)_5%,white)] px-3.5 py-2.5 text-[13px] leading-[1.5] text-[var(--color-ink-soft)]">
               <span className="font-semibold text-[var(--color-ink)]">Owner reply:</span> Thanks Sarah! Glad we could
-              get there fast. — Dave
+              get there fast. Cheers, Dave
             </div>
           ) : null}
         </div>
