@@ -16,6 +16,11 @@ const withMDX = createMDX({
 const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   trailingSlash: true,
+  // Pin both roots to this app dir. Vercel builds from the repo root (see
+  // vercel.json), where a stray root package.json would otherwise make Next
+  // infer outputFileTracingRoot as the repo root — mismatching turbopack.root
+  // and triggering the "both set, must match" warning.
+  outputFileTracingRoot: __dirname,
   turbopack: {
     root: __dirname,
   },
