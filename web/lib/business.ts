@@ -142,6 +142,7 @@ export const IOAGENT_PLANS: AgentPlan[] = [
     pricePerMonth: 999,
     blurb: "One always-on agent on your biggest time-sink.",
     stripeUrl: "https://buy.stripe.com/9B6fZg40J7h1aSV29U8og03",
+    featured: true,
   },
   {
     id: "team",
@@ -150,7 +151,6 @@ export const IOAGENT_PLANS: AgentPlan[] = [
     pricePerMonth: 2900,
     blurb: "Three agents across your busiest workflows.",
     stripeUrl: "https://buy.stripe.com/00w3cugNv58T6CF4i28og04",
-    featured: true,
   },
   {
     id: "fleet",
