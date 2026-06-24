@@ -110,6 +110,58 @@ export const WEBSITE_PACKAGES: WebsitePackage[] = [
   },
 ];
 
+// iOAgent subscription plans (priced by how many agents you run).
+export type AgentPlan = {
+  id: string;
+  name: string;
+  agents: number;
+  pricePerMonth: number; // AUD per month
+  blurb: string;
+  stripeUrl?: string; // Stripe subscription Payment Link; "" = book-a-call fallback
+  featured?: boolean;
+};
+
+// Shared inclusions across every iOAgent plan. PLACEHOLDER copy — edit freely.
+export const IOAGENT_INCLUDES = [
+  "Unlimited usage, no per-task fees",
+  "24/7 monitoring",
+  "GPT-5.5 Pro subscription included",
+  "Built and set up for you",
+  "Proof-of-work reporting",
+  "You approve before it acts",
+  "Cancel anytime",
+] as const;
+
+// PLACEHOLDER prices — edit here, and paste each tier's Stripe subscription
+// Payment Link into stripeUrl. Empty stripeUrl falls back to a book-a-call CTA.
+export const IOAGENT_PLANS: AgentPlan[] = [
+  {
+    id: "solo",
+    name: "Solo",
+    agents: 1,
+    pricePerMonth: 999,
+    blurb: "One always-on agent on your biggest time-sink.",
+    stripeUrl: "",
+  },
+  {
+    id: "team",
+    name: "Team",
+    agents: 3,
+    pricePerMonth: 2900,
+    blurb: "Three agents across your busiest workflows.",
+    stripeUrl: "",
+    featured: true,
+  },
+  {
+    id: "fleet",
+    name: "Fleet",
+    agents: 5,
+    pricePerMonth: 5750,
+    blurb: "A full fleet running the repetitive work end to end.",
+    stripeUrl: "",
+  },
+];
+
 export const NAV_LABELS = {
   howItWorks: "How it works",
   articles: "Articles",
