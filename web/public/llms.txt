@@ -14,6 +14,7 @@
 - [How it works](https://www.operateai.com.au/how-it-works/): How AI decides which local business to recommend, and what we fix.
 - [Articles](https://www.operateai.com.au/articles/): Guides on getting found and recommended by AI.
 - [About](https://www.operateai.com.au/about/): Who we are and how we work.
+- [AI visibility by trade & suburb](https://www.operateai.com.au/ai-visibility/): How Perth trades get recommended by AI, by trade and suburb.
 
 ## Contact
 - Email: team@operateai.com.au
