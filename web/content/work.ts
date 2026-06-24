@@ -5,7 +5,7 @@ export type WebsiteExample = {
   trade: string;
   blurb: string;
   url: string; // faux URL shown in the browser frame
-  image: string; // /work/site-<key>.png
+  image: string; // /work/site-<key>.webp
   alt: string;
 };
 
@@ -26,8 +26,8 @@ export const WEBSITE_EXAMPLES: WebsiteExample[] = [
     business: "Coastal Plumbing & Gas",
     trade: "Plumber",
     blurb: "Bold, trust-first, built for 24/7 emergency callouts.",
-    url: "coastalplumbing.com.au",
-    image: "/work/site-coastal-plumbing.png",
+    url: "coastalplumbing.example",
+    image: "/work/site-coastal-plumbing.webp",
     alt: "Example website mockup for a Perth plumbing business",
   },
   {
@@ -35,8 +35,8 @@ export const WEBSITE_EXAMPLES: WebsiteExample[] = [
     business: "Brightwire Electrical",
     trade: "Electrician",
     blurb: "Dark, modern and technical, with clear service tiers.",
-    url: "brightwire.com.au",
-    image: "/work/site-brightwire.png",
+    url: "brightwire.example",
+    image: "/work/site-brightwire.webp",
     alt: "Example website mockup for a Perth electrical business",
   },
   {
@@ -44,8 +44,8 @@ export const WEBSITE_EXAMPLES: WebsiteExample[] = [
     business: "Tide & Co Building",
     trade: "Builder",
     blurb: "Architectural and editorial, leading with the work.",
-    url: "tideandco.com.au",
-    image: "/work/site-tide-co.png",
+    url: "tideandco.example",
+    image: "/work/site-tide-co.webp",
     alt: "Example website mockup for a Perth building company",
   },
   {
@@ -53,8 +53,8 @@ export const WEBSITE_EXAMPLES: WebsiteExample[] = [
     business: "Glow Skin & Laser",
     trade: "Skin clinic",
     blurb: "Elegant and calm, for a premium booking experience.",
-    url: "glowskin.com.au",
-    image: "/work/site-glow-skin.png",
+    url: "glowskin.example",
+    image: "/work/site-glow-skin.webp",
     alt: "Example website mockup for a Perth skin clinic",
   },
 ];
