@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
 import { CheckButton } from "@/components/ui/check-button";
-import { AIReadout } from "@/components/ai-readout";
+import { AIReadoutLive } from "@/components/ai-readout-live";
 
 export function Hero() {
   return (
@@ -49,11 +49,10 @@ export function Hero() {
       </div>
 
       <div className="relative">
-        <AIReadout
+        <AIReadoutLive
           caption="Asked just now"
           prompt="Who's a good emergency plumber in Perth?"
-          names={["Coastal Plumbing & Gas", "RapidFlow Plumbers", "Westside Emergency Plumbing"]}
-          hook="is your name here?"
+          competitors={["No Probs Plumbing", "GA Perry", "Sarros Plumbing"]}
         />
       </div>
     </Section>
