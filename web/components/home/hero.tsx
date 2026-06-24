@@ -30,6 +30,10 @@ export function Hero() {
           eat. It names two or three. Miss that list, and you don&rsquo;t exist for that customer.
         </p>
 
+        <p className="mt-4 max-w-[46ch] text-[15px] leading-[1.55] text-[var(--color-ink-soft)]">
+          And when you&rsquo;re ready, we build the AI-readable website and the agents that run your busywork.
+        </p>
+
         <div className="mt-9 flex flex-col gap-x-5 gap-y-4 sm:flex-row sm:items-center">
           <CheckButton />
           <Link
