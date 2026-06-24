@@ -14,9 +14,12 @@ for (const { path, needle } of ROUTES) {
   });
 }
 
-test("seeded leaf without snapshot is noindex", async ({ page }) => {
+test("filled leaf is indexable", async ({ page }) => {
   await page.goto("/ai-visibility/plumbers/subiaco/");
-  // entries.ts seed has no aiSnapshot yet → robots noindex meta present
   const robots = page.locator('head meta[name="robots"]');
-  await expect(robots).toHaveAttribute("content", /noindex/);
+  // No noindex meta (or content does not contain noindex)
+  const count = await robots.count();
+  if (count > 0) {
+    await expect(robots).not.toHaveAttribute("content", /noindex/);
+  }
 });
