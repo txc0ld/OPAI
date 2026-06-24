@@ -84,10 +84,35 @@
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   .caret { animation: blink 1.1s step-end infinite; }
 
+  /* Live AI readout — cinematic "answer being generated" reveal.
+     Pure CSS (paint-in lineage): starts hidden in markup, plays on load, so no
+     hydration flash and no-JS still resolves. JS only adds the interaction. */
+  @keyframes air-type { to { clip-path: inset(0 0 0 0); } }
+  @keyframes air-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes air-think { 0%, 10% { opacity: 0; } 26%, 60% { opacity: 0.9; } 90%, 100% { opacity: 0; } }
+  @keyframes air-dot { 0%, 100% { opacity: 0.3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-2px); } }
+
+  .air-prompt { clip-path: inset(0 100% 0 0); animation: air-type 600ms var(--ease) 220ms forwards; }
+  .air-think { opacity: 0; animation: air-think 1450ms var(--ease) 140ms both; }
+  .air-think i { animation: air-dot 850ms ease-in-out infinite; }
+  .air-think i:nth-of-type(2) { animation-delay: 140ms; }
+  .air-think i:nth-of-type(3) { animation-delay: 280ms; }
+  .air-row { opacity: 0; animation: air-rise 460ms var(--ease) both; }
+  .air-row:nth-child(1) { animation-delay: 1480ms; }
+  .air-row:nth-child(2) { animation-delay: 1660ms; }
+  .air-row:nth-child(3) { animation-delay: 1840ms; }
+  .air-row:nth-child(4) { animation-delay: 2040ms; }
+  .air-foot { opacity: 0; animation: air-rise 460ms var(--ease) 2280ms both; }
+  /* View Transition for the re-rank: a touch slower than default for weight */
+  ::view-transition-group(*) { animation-duration: 460ms; animation-timing-function: var(--ease); }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
     .paint-in { opacity: 1; animation: none !important; }
     .caret { animation: none; }
+    .air-prompt { animation: none !important; clip-path: none !important; }
+    .air-row, .air-foot { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .air-think { display: none !important; }
   }
 }
