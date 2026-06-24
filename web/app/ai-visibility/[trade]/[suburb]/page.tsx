@@ -84,17 +84,39 @@ export default async function LeafPage({
         <p className="mt-5 max-w-[58ch] text-[17px] leading-[1.6] text-[var(--color-ink-soft)]">{entry.intro}</p>
       </Section>
 
-      {/* AI snapshot (proprietary) */}
+      {/* AI snapshot (proprietary) — the signature "readout" moment */}
       {entry.aiSnapshot ? (
         <Section tone="paper-warm" className="pt-0">
-          <div className="rounded-2xl border border-[var(--color-line-ink)] bg-white p-7 lg:p-9">
-            <MonoLabel tone="light">What AI says right now</MonoLabel>
-            <p className="mt-4 max-w-[64ch] text-[16px] leading-[1.7] text-[var(--color-ink)]">
-              {entry.aiSnapshot.summary}
-            </p>
-            <p className="mt-4 text-[13px] text-[var(--color-ink-soft)]">
-              Captured {entry.aiSnapshot.capturedOn} · {entry.aiSnapshot.source}
-            </p>
+          <div className="relative overflow-hidden rounded-3xl bg-[var(--color-void)] p-8 text-[var(--color-fg)] shadow-[0_40px_80px_-44px_rgba(0,0,0,0.7)] ring-1 ring-[var(--color-border)] lg:p-12">
+            {/* lime bloom */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full blur-3xl"
+              style={{ background: "radial-gradient(circle, var(--color-signal-glow), transparent 70%)" }}
+            />
+            <div className="relative">
+              <div className="flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.28em] text-[var(--color-signal)]">
+                <span
+                  className="h-2 w-2 flex-none rounded-full bg-[var(--color-signal)]"
+                  style={{ boxShadow: "0 0 12px 2px var(--color-signal-glow)" }}
+                />
+                What AI says right now
+              </div>
+              <p className="mt-6 max-w-[68ch] text-[clamp(1.05rem,2.2vw,1.3rem)] leading-[1.6] text-[var(--color-fg)]">
+                {entry.aiSnapshot.summary}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-2 border-t border-[var(--color-border)] pt-6 font-mono text-[12px] text-[var(--color-fg-variant)]">
+                {["ChatGPT", "Perplexity", "Gemini"].map((e) => (
+                  <span
+                    key={e}
+                    className="rounded-full border border-[var(--color-border)] px-2.5 py-1 text-[var(--color-fg)]"
+                  >
+                    {e}
+                  </span>
+                ))}
+                <span className="ml-auto tracking-[0.12em]">Captured {entry.aiSnapshot.capturedOn}</span>
+              </div>
+            </div>
           </div>
         </Section>
       ) : null}
@@ -120,8 +142,24 @@ export default async function LeafPage({
         </h2>
         <ul className="mt-5 grid gap-3">
           {entry.exampleQueries.map((q) => (
-            <li key={q} className="text-[16px] italic leading-[1.5] text-[var(--color-ink)]">
-              &quot;{q}&quot;
+            <li
+              key={q}
+              className="flex items-start gap-3 rounded-xl border border-[var(--color-line-ink)] bg-white px-5 py-4 text-[15px] leading-[1.5] text-[var(--color-ink)]"
+            >
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mt-0.5 h-4 w-4 flex-none text-[var(--color-ink-soft)]"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M21 21l-4.3-4.3" />
+              </svg>
+              <span>{q}</span>
             </li>
           ))}
         </ul>

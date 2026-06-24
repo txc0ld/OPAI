@@ -26,7 +26,10 @@ export function listArticles(): Article[] {
       const slug = file.replace(/\.mdx$/, "");
       const raw = fs.readFileSync(path.join(CONTENT_DIR, file), "utf8");
       const { data } = matter(raw);
-      return { slug, ...(data as ArticleFrontmatter) };
+      const fm = data as ArticleFrontmatter;
+      // Guard the one array field gray-matter can't type-check, so a missing
+      // `takeaways:` in frontmatter degrades to [] instead of a render crash.
+      return { slug, ...fm, takeaways: Array.isArray(fm.takeaways) ? fm.takeaways : [] };
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }

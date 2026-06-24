@@ -6,6 +6,7 @@ import { MonoLabel } from "@/components/ui/mono-label";
 import { CheckButton } from "@/components/ui/check-button";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildBreadcrumb, buildItemList, wrapGraph } from "@/lib/schema";
+import { StepsStrip } from "@/components/programmatic/steps-strip";
 import { BUSINESS } from "@/lib/business";
 import { SUBURBS, TRADES, getTrade } from "@/lib/programmatic";
 
@@ -68,9 +69,15 @@ export default async function TradeHub({ params }: { params: Promise<{ trade: st
             <li key={s.slug}>
               <Link
                 href={`/ai-visibility/${tSlug}/${s.slug}/`}
-                className="block rounded-xl border border-[var(--color-line-ink)] bg-white p-4 text-[15px] font-semibold text-[var(--color-ink)] transition-colors hover:border-[color-mix(in_oklab,var(--color-signal)_60%,var(--color-line-ink))]"
+                className="group flex items-center justify-between gap-3 rounded-xl border border-[var(--color-line-ink)] bg-white p-4 text-[15px] font-semibold text-[var(--color-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-signal)_60%,var(--color-line-ink))] hover:shadow-[0_16px_32px_-24px_rgba(18,18,18,0.5)]"
               >
                 {s.name}
+                <span
+                  aria-hidden
+                  className="text-[var(--color-ink-soft)] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-[var(--color-ink)]"
+                >
+                  →
+                </span>
               </Link>
             </li>
           ))}
@@ -87,6 +94,7 @@ export default async function TradeHub({ params }: { params: Promise<{ trade: st
             <CheckButton />
           </div>
         </div>
+        <StepsStrip />
       </Section>
     </>
   );
