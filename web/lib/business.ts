@@ -60,8 +60,8 @@ export const WEBSITE_PACKAGES: WebsitePackage[] = [
     id: "starter",
     name: "Starter",
     tagline: "Get online",
-    priceFrom: 1490,
-    deposit: 745,
+    priceFrom: 849,
+    deposit: 425,
     blurb: "For sole traders and brand-new businesses that need a real presence, fast.",
     features: [
       "One-page site, built mobile-first",
@@ -76,8 +76,8 @@ export const WEBSITE_PACKAGES: WebsitePackage[] = [
     id: "business",
     name: "Business",
     tagline: "Get found",
-    priceFrom: 3490,
-    deposit: 1745,
+    priceFrom: 1490,
+    deposit: 745,
     blurb: "The one most local businesses need: found by customers and by AI.",
     features: [
       "Up to 5 pages, custom designed",
@@ -94,8 +94,8 @@ export const WEBSITE_PACKAGES: WebsitePackage[] = [
     id: "premium",
     name: "Premium",
     tagline: "Get booked",
-    priceFrom: 6490,
-    deposit: 3245,
+    priceFrom: 3490,
+    deposit: 1745,
     blurb: "For multi-service and growing businesses ready to turn traffic into booked jobs.",
     features: [
       "Everything in Business, plus:",
