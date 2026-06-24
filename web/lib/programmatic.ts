@@ -23,7 +23,7 @@ export const TRADES: Trade[] = [
 
 export const SUBURBS: Suburb[] = [
   { slug: "subiaco", name: "Subiaco", region: "inner western suburbs" },
-  { slug: "fremantle", name: "Fremantle", region: "Fremantle" },
+  { slug: "fremantle", name: "Fremantle", region: "Fremantle and port suburbs" },
   { slug: "joondalup", name: "Joondalup", region: "northern suburbs" },
   { slug: "scarborough", name: "Scarborough", region: "coastal suburbs" },
   { slug: "mount-lawley", name: "Mount Lawley", region: "inner northern suburbs" },
