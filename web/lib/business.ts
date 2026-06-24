@@ -70,7 +70,7 @@ export const WEBSITE_PACKAGES: WebsitePackage[] = [
       "Linked to your Google Business Profile",
     ],
     timeline: "Live in ~1 week",
-    stripeUrl: "",
+    stripeUrl: "https://buy.stripe.com/aFa5kCdBjbxh4ux6qa8og00",
   },
   {
     id: "business",
@@ -87,7 +87,7 @@ export const WEBSITE_PACKAGES: WebsitePackage[] = [
       "Enquiry form straight to your inbox",
     ],
     timeline: "Live in ~2–3 weeks",
-    stripeUrl: "",
+    stripeUrl: "https://buy.stripe.com/fZuaEW54NcBl5yB4i28og01",
     featured: true,
   },
   {
@@ -106,7 +106,7 @@ export const WEBSITE_PACKAGES: WebsitePackage[] = [
       "60 days of post-launch support",
     ],
     timeline: "Live in ~4 weeks",
-    stripeUrl: "",
+    stripeUrl: "https://buy.stripe.com/4gM14mdBj8l54ux7ue8og02",
   },
 ];
 
@@ -141,7 +141,7 @@ export const IOAGENT_PLANS: AgentPlan[] = [
     agents: 1,
     pricePerMonth: 999,
     blurb: "One always-on agent on your biggest time-sink.",
-    stripeUrl: "",
+    stripeUrl: "https://buy.stripe.com/9B6fZg40J7h1aSV29U8og03",
   },
   {
     id: "team",
@@ -149,7 +149,7 @@ export const IOAGENT_PLANS: AgentPlan[] = [
     agents: 3,
     pricePerMonth: 2900,
     blurb: "Three agents across your busiest workflows.",
-    stripeUrl: "",
+    stripeUrl: "https://buy.stripe.com/00w3cugNv58T6CF4i28og04",
     featured: true,
   },
   {
@@ -158,7 +158,7 @@ export const IOAGENT_PLANS: AgentPlan[] = [
     agents: 5,
     pricePerMonth: 5750,
     blurb: "A full fleet running the repetitive work end to end.",
-    stripeUrl: "",
+    stripeUrl: "https://buy.stripe.com/3cI28q68R1WH0eh7ue8og05",
   },
 ];
 
