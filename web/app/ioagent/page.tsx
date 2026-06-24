@@ -7,6 +7,7 @@ import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
 import { BUSINESS, IOAGENT_PLANS } from "@/lib/business";
+import { AgentDemos } from "@/components/work/agent-demos";
 
 const PAGE_URL = `${BUSINESS.url}/ioagent/`;
 const TITLE = "iOAgent: your own AI agent, built for your business";
@@ -154,6 +155,19 @@ export default function IOAgentPage() {
             </div>
           ))}
         </div>
+      </Section>
+
+      {/* See it in action */}
+      <Section tone="void">
+        <MonoLabel>See it in action</MonoLabel>
+        <h2 className="mt-5 max-w-[24ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em]">
+          What an agent actually does.
+        </h2>
+        <p className="mt-5 max-w-[60ch] text-[16px] leading-[1.6] text-[var(--color-fg-variant)]">
+          Demo conversations, not real client chats. A taste of the jobs an agent runs for you, and where you stay in
+          control.
+        </p>
+        <AgentDemos />
       </Section>
 
       {/* How it works */}
