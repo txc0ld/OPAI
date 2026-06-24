@@ -54,8 +54,8 @@ export function SiteHeader() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 text-[var(--color-fg)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
           scrolled
-            ? "border-b border-[var(--color-border)] bg-[rgba(10,10,10,0.8)] py-2.5 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl backdrop-saturate-150"
-            : "border-b border-transparent bg-[rgba(10,10,10,0.4)] py-4 backdrop-blur-md",
+            ? "border-b border-[var(--color-border)] bg-[rgba(10,10,10,0.92)] py-2.5 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl backdrop-saturate-150"
+            : "border-b border-[var(--color-border)] bg-[rgba(10,10,10,0.82)] py-4 backdrop-blur-xl backdrop-saturate-150",
         )}
       >
         <div className="relative flex items-center justify-between px-6 lg:px-12">
