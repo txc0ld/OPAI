@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
-import { CheckButton } from "@/components/ui/check-button";
 import { ButtonLink } from "@/components/ui/button-link";
+import { IOAgentPlans } from "@/components/ioagent/pricing-cards";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
@@ -97,7 +97,7 @@ const FAQ_ITEMS = [
   {
     question: "What does it cost?",
     answer:
-      "It's priced to your build, because every agent's scoped to what your business needs. It's far less than a hire and it never clocks off. Start with a quick call and you'll get a clear, fixed quote before anything's built.",
+      "Plans start at $999/mo for one agent (unlimited usage, 24/7 monitoring, GPT-5.5 Pro included). Three agents is $2,900/mo, five is $5,750/mo. We custom-build each agent and set it up for you; the plan is just how many you run. Cancel anytime.",
   },
 ];
 
@@ -131,11 +131,11 @@ export default function IOAgentPage() {
           business and set the whole thing up.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-4">
-          <ButtonLink href="/contact/" label="Book a setup call" />
-          <CheckButton label="Start with a free check" variant="ghost" />
+          <ButtonLink href="#pricing" label="See plans" />
+          <ButtonLink href="/contact/" label="Book a setup call" variant="ghost" />
         </div>
         <p className="mt-5 text-[13px] text-[var(--color-fg-variant)]">
-          Built for you · Runs 24/7 · You stay in control. Priced to your build. Clear quote before anything starts.
+          Plans from $999/mo. Unlimited usage, 24/7 monitoring, GPT-5.5 Pro included.
         </p>
       </Section>
 
@@ -198,8 +198,30 @@ export default function IOAgentPage() {
         </div>
       </Section>
 
+      {/* Pricing */}
+      <Section tone="dark" id="pricing" className="scroll-mt-24 border-t border-[var(--color-border)]">
+        <MonoLabel>Pricing</MonoLabel>
+        <h2 className="mt-5 max-w-[20ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em]">
+          Simple monthly plans.
+        </h2>
+        <p className="mt-5 max-w-[54ch] text-[16px] leading-[1.6] text-[var(--color-fg-variant)]">
+          Pick how many agents you want running. Every plan is custom-built and set up for you, with unlimited usage and
+          24/7 monitoring. Cancel any time.
+        </p>
+        <div className="mt-10">
+          <IOAgentPlans />
+        </div>
+        <p className="mt-8 text-[14px] text-[var(--color-fg-variant)]">
+          Not sure how many you need?{" "}
+          <a href="/contact/" className="font-semibold text-[var(--color-signal)] underline-offset-4 hover:underline">
+            Book a setup call
+          </a>{" "}
+          and we&rsquo;ll scope it with you.
+        </p>
+      </Section>
+
       {/* You stay in control */}
-      <Section tone="void">
+      <Section tone="void" className="border-t border-[var(--color-border)]">
         <div className="mx-auto max-w-[44ch] text-center">
           <MonoLabel className="justify-center">It&rsquo;s your agent</MonoLabel>
           <h2 className="mt-5 text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.03em]">
