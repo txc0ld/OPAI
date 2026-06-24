@@ -74,9 +74,10 @@ export type ServiceSchemaOptions = {
   url: string;
   description: string;
   offers?: ServiceOffer[];
+  areaServedName?: string; // single AdministrativeArea (e.g. a suburb); falls back to BUSINESS.areaServed
 };
 
-export function buildService({ name, url, description, offers }: ServiceSchemaOptions): SchemaNode {
+export function buildService({ name, url, description, offers, areaServedName }: ServiceSchemaOptions): SchemaNode {
   return {
     "@type": "Service",
     "@id": `${url}#service`,
@@ -84,7 +85,9 @@ export function buildService({ name, url, description, offers }: ServiceSchemaOp
     url,
     description,
     provider: { "@id": `${BUSINESS.url}/#organization` },
-    areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "AdministrativeArea", name: a })),
+    areaServed: areaServedName
+      ? [{ "@type": "AdministrativeArea", name: areaServedName }]
+      : BUSINESS.areaServed.map((a) => ({ "@type": "AdministrativeArea", name: a })),
     ...(offers && offers.length
       ? {
           offers: offers.map((o) => ({
@@ -203,6 +206,18 @@ export function buildBreadcrumb(items: BreadcrumbItem[]): SchemaNode {
       position: index + 1,
       name: item.name,
       item: item.url,
+    })),
+  };
+}
+
+export function buildItemList(items: { name: string; url: string }[]): SchemaNode {
+  return {
+    "@type": "ItemList",
+    itemListElement: items.map((it, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: it.name,
+      url: it.url,
     })),
   };
 }

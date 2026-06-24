@@ -10,27 +10,12 @@ import { getArticleSlugs, listArticles, formatArticleDate } from "@/lib/articles
 import { JsonLd } from "@/components/json-ld";
 import { buildArticle, buildBreadcrumb, buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
+import { LOADERS } from "../loaders.generated";
 
 export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug }));
 }
 
-// Keep in sync with content/articles/*.mdx — every article file needs an entry here
-// (Turbopack can't resolve a bare template-literal dynamic import).
-const LOADERS: Record<string, () => Promise<{ default: React.ComponentType }>> = {
-  "your-next-customer-wont-scroll-google": () =>
-    import("@/content/articles/your-next-customer-wont-scroll-google.mdx"),
-};
-
-// Short scannable summary shown at the top of each article (the retention hook).
-const TAKEAWAYS: Record<string, string[]> = {
-  "your-next-customer-wont-scroll-google": [
-    "AI now names just two or three businesses. You need to be one of them.",
-    "Your Google Business Profile is the biggest lever. Finish it properly.",
-    "Put your services, prices and area in plain text, not inside images.",
-    "Get recent reviews, reply to them, and answer fast.",
-  ],
-};
 
 async function loadArticle(slug: string) {
   const meta = listArticles().find((a) => a.slug === slug);
@@ -63,7 +48,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   if (!loaded) notFound();
   const { meta, Content } = loaded;
   const url = `${BUSINESS.url}/articles/${slug}/`;
-  const takeaways = TAKEAWAYS[slug] ?? [];
+  const takeaways = meta.takeaways ?? [];
 
   return (
     <>

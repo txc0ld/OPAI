@@ -14,6 +14,7 @@ const SERVICES: FooterLink[] = [
 
 const COMPANY: FooterLink[] = [
   { href: "/how-it-works/", label: "How it works" },
+  { href: "/ai-visibility/", label: "Areas we serve" },
   { href: "/about/", label: "About" },
   { href: "/articles/", label: "Articles" },
   { href: "/contact/", label: "Contact" },
