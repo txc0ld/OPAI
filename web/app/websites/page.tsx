@@ -5,6 +5,7 @@ import { CheckButton } from "@/components/ui/check-button";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Faq } from "@/components/faq";
 import { PricingCards } from "@/components/websites/pricing-cards";
+import { WebsiteGallery } from "@/components/work/website-gallery";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
 import { BUSINESS, WEBSITE_PACKAGES } from "@/lib/business";
@@ -148,6 +149,19 @@ export default function WebsitesPage() {
           </a>{" "}
           and we&rsquo;ll point you to the right one.
         </p>
+      </Section>
+
+      {/* Example builds */}
+      <Section tone="paper">
+        <MonoLabel tone="light">Example builds</MonoLabel>
+        <h2 className="mt-5 max-w-[24ch] text-[length:var(--text-section)] font-extrabold leading-[1.05] tracking-[-0.025em] text-[var(--color-ink)]">
+          The kind of site we build.
+        </h2>
+        <p className="mt-5 max-w-[60ch] text-[16px] leading-[1.6] text-[var(--color-ink-soft)]">
+          Example builds, not client work, four different businesses, four different looks. Every one is built so AI can
+          read the services, area and pricing.
+        </p>
+        <WebsiteGallery />
       </Section>
 
       <Faq tone="paper" title="Website questions" items={FAQ_ITEMS} />
