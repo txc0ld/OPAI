@@ -1,61 +1,85 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { FOOTER_LEGAL, PRIMARY_NAV, CHECK_CTA } from "@/lib/nav";
-import { BUSINESS } from "@/lib/business";
+import { FOOTER_LEGAL } from "@/lib/nav";
+import { BUSINESS, emails } from "@/lib/business";
+
+// Footer adapted from ruixen-footer03 (21st.dev) into the OperateAI theme:
+// site tokens instead of shadcn vars, real links, the °OA logo, and the
+// site's own ScrollReveal (.reveal) for the fade-up instead of framer-motion.
+
+type FooterLink = { href: string; label: string };
+
+const SERVICES: FooterLink[] = [
+  { href: "/ioagent/", label: "iOAgent" },
+  { href: "/websites/", label: "Websites" },
+  { href: "/done-for-you/", label: "Done-for-you" },
+  { href: "/check/", label: "Free AI Check" },
+];
+
+const COMPANY: FooterLink[] = [
+  { href: "/how-it-works/", label: "How it works" },
+  { href: "/about/", label: "About" },
+  { href: "/articles/", label: "Articles" },
+  { href: "/contact/", label: "Contact" },
+];
+
+const linkClass =
+  "link text-[15px] text-[var(--color-fg-variant)] transition-colors duration-300 hover:text-[var(--color-signal)]";
+const headingClass = "text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-fg-variant)]";
+
+function Column({ title, links, d }: { title: string; links: FooterLink[]; d: number }) {
+  return (
+    <div className="reveal" data-d={d}>
+      <h3 className={headingClass}>{title}</h3>
+      <ul className="mt-5 grid gap-3">
+        {links.map((item) => (
+          <li key={item.href}>
+            <Link href={item.href} className={linkClass}>
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export function SiteFooter() {
   return (
-    <footer className="grain relative border-t border-[var(--color-border)] bg-[var(--color-void)] px-6 pt-20 pb-10 text-[var(--color-fg)] lg:px-12 lg:pt-24 lg:pb-12">
-      <div className="relative z-[1] mx-auto grid w-full max-w-[var(--container-max)] gap-12 md:grid-cols-[2fr_1fr_1fr]">
-        <div>
-          <Link href="/" className="inline-flex">
+    <footer className="grain relative border-t border-[var(--color-border)] bg-[var(--color-void)] px-6 pt-16 pb-10 text-[var(--color-fg)] lg:px-12 lg:pt-24 lg:pb-12">
+      <div className="relative z-[1] mx-auto grid w-full max-w-[var(--container-max)] gap-12 xl:grid-cols-3 xl:gap-8">
+        {/* Brand */}
+        <div className="reveal flex flex-col items-start">
+          <Link href="/" className="inline-flex" aria-label="OperateAI home">
             <Logo />
           </Link>
-          <p className="mt-5 max-w-[360px] text-[15px] leading-[1.6] text-[var(--color-fg-variant)]">
-            We help Perth local service businesses get found, recommended and booked by AI, sorted for how customers search now and how AI is about to book them next.
+          <p className="mt-5 max-w-[340px] text-[15px] leading-[1.6] text-[var(--color-fg-variant)]">
+            We help Perth local service businesses get found, recommended and booked by AI, sorted for how customers
+            search now and how AI is about to book them next.
           </p>
+          <a
+            href={`mailto:${emails.team}`}
+            className="mt-6 text-[15px] font-semibold text-[var(--color-fg)] transition-colors duration-300 hover:text-[var(--color-signal)]"
+          >
+            {emails.team}
+          </a>
         </div>
 
-        <div>
-          <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-fg-variant)]">
-            Navigate
-          </p>
-          <ul className="grid gap-3">
-            {[...PRIMARY_NAV, CHECK_CTA].map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-[15px] text-[var(--color-fg-variant)] transition-colors hover:text-[var(--color-signal)]"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-fg-variant)]">
-            Legal
-          </p>
-          <ul className="grid gap-3">
-            {FOOTER_LEGAL.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-[15px] text-[var(--color-fg-variant)] transition-colors hover:text-[var(--color-signal)]"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        {/* Link columns */}
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 xl:col-span-2">
+          <Column title="Services" links={SERVICES} d={1} />
+          <Column title="Company" links={COMPANY} d={2} />
+          <Column title="Legal" links={[...FOOTER_LEGAL]} d={3} />
         </div>
       </div>
 
-      <div className="relative z-[1] mx-auto mt-16 flex w-full max-w-[var(--container-max)] flex-wrap justify-between gap-2 border-t border-[var(--color-border)] pt-7 text-[12px] tracking-[0.02em] text-[var(--color-fg-variant)]">
+      {/* Bottom bar */}
+      <div
+        className="reveal relative z-[1] mx-auto mt-16 flex w-full max-w-[var(--container-max)] flex-wrap justify-between gap-2 border-t border-[var(--color-border)] pt-7 text-[12px] tracking-[0.02em] text-[var(--color-fg-variant)] lg:mt-20"
+        data-d={4}
+      >
         <span>
-          {BUSINESS.abn}, © {BUSINESS.copyrightYear} {BUSINESS.legalName}
+          {BUSINESS.abn}, &copy; {BUSINESS.copyrightYear} {BUSINESS.legalName}
         </span>
         <span>Perth, WA</span>
       </div>
