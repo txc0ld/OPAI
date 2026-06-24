@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0a0a0a; --surface:#0e0e0e; --surface-low:#111; --surface-high:#1c1c1c; --surface-container:#161616;
+    --paper:#f3f3f0; --paper-warm:#ecebe4; --ink:#121212; --ink-soft:#46443f;
+    --fg:#e9e7e4; --fg-variant:#c2c0b8;
+    --signal:#f3fc85; --on-signal:#0a0a0a; --glow:rgba(243,252,133,0.18);
+    --border:rgba(255,255,255,0.12); --line-ink:rgba(18,18,18,0.14);
+    --grain:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#222;font-family:'Hanken Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
+  .frame{
+    position:relative; width:1080px; height:1920px; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:200px 96px 240px; /* top/bottom = Story safe zones */
+  }
+  .frame.dark{background:var(--surface); color:var(--fg)}
+  .frame.void{background:var(--void); color:var(--fg)}
+  .frame.paper{background:var(--paper); color:var(--ink)}
+  .frame.signal{background:var(--signal); color:var(--on-signal)}
+  .grain{position:absolute; inset:0; background-image:var(--grain); opacity:.10; mix-blend-mode:overlay; pointer-events:none}
+  .glow{position:absolute; width:1000px; height:1000px; border-radius:50%; filter:blur(120px); background:radial-gradient(circle,var(--glow),transparent 68%); pointer-events:none}
+  .wm{display:flex; align-items:center; gap:18px; position:relative; z-index:2}
+  .wm .dot{width:22px; height:22px; border-radius:6px; background:var(--signal)}
+  .frame.signal .wm .dot{background:var(--on-signal)}
+  .wm .name{font-weight:900; font-size:34px; letter-spacing:-0.02em}
+  .eyebrow{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:24px; letter-spacing:.28em; text-transform:uppercase; display:flex; align-items:center; gap:20px}
+  .eyebrow .rule{height:2px; width:64px; background:var(--signal)}
+  .frame.paper .eyebrow{color:var(--ink-soft)} .frame.paper .eyebrow .rule{background:var(--ink-soft)}
+  .frame.signal .eyebrow{color:var(--on-signal); opacity:.7} .frame.signal .eyebrow .rule{background:var(--on-signal)}
+  .dark .eyebrow,.void .eyebrow{color:var(--signal)}
+  .mid{position:relative; z-index:2; display:flex; flex-direction:column; gap:40px}
+  h1{font-weight:900; font-size:108px; line-height:.97; letter-spacing:-0.035em}
+  h1 .hl{color:var(--signal)} .frame.paper h1 .hl{color:#7a8a17}
+  .sub{font-size:40px; line-height:1.4; color:var(--fg-variant); max-width:780px}
+  .frame.paper .sub{color:var(--ink-soft)} .frame.signal .sub{color:var(--on-signal); opacity:.82}
+  .foot{position:relative; z-index:2; display:flex; flex-direction:column; gap:28px}
+  .pill{align-self:flex-start; display:inline-flex; align-items:center; gap:16px; background:var(--signal); color:var(--on-signal); font-weight:800; font-size:34px; padding:26px 44px; border-radius:999px}
+  .frame.signal .pill{background:var(--on-signal); color:var(--signal)}
+  .url{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:28px; color:var(--fg-variant); letter-spacing:.02em}
+  .frame.paper .url,.frame.signal .url{color:var(--ink-soft)}
+  /* readout terminal mock */
+  .readout{position:relative; z-index:2; border:2px solid var(--border); border-radius:28px; background:var(--surface-low); padding:44px; font-family:'JetBrains Mono',monospace; font-size:30px; line-height:1.6}
+  .readout .q{color:var(--fg-variant)}
+  .readout .a{color:var(--fg); margin-top:20px}
+  .readout .miss{color:var(--signal); font-weight:700}
+  .readout .strike{color:var(--fg-variant); text-decoration:line-through; opacity:.55}
+  .big{font-weight:900; font-size:300px; line-height:.8; letter-spacing:-0.05em; color:var(--ink)}
+  .big .u{color:#7a8a17}
+</style>
+</head>
+<body>
+
+<!-- 1 · THE TEST (curiosity / interactive) -->
+<section class="frame dark" id="f1">
+  <div class="grain"></div><div class="glow" style="top:-200px;right:-260px"></div>
+  <div class="wm"><span class="dot"></span><span class="name">OperateAI</span></div>
+  <div class="mid">
+    <div class="eyebrow"><span class="rule"></span>The 10-second test</div>
+    <h1>Ask AI for a tradie in <span class="hl">your suburb.</span></h1>
+    <div class="readout">
+      <div class="q">&gt; best plumber in Midland?</div>
+      <div class="a">Top picks: Competitor A,<br/>Competitor B, Competitor C…</div>
+      <div class="a miss">// your business: not named</div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="pill">Did it say your name? →</span>
+    <span class="url">Free check · operateai.com.au</span>
+  </div>
+</section>
+
+<!-- 2 · FOMO -->
+<section class="frame void" id="f2">
+  <div class="grain"></div><div class="glow" style="bottom:-260px;left:-280px"></div>
+  <div class="wm"><span class="dot"></span><span class="name">OperateAI</span></div>
+  <div class="mid">
+    <div class="eyebrow"><span class="rule"></span>Right now, in Perth</div>
+    <h1>Someone just asked AI for a business <span class="hl">like yours.</span></h1>
+    <div class="sub">It named three. If you weren&rsquo;t one of them, you never even got the call.</div>
+  </div>
+  <div class="foot">
+    <span class="pill">Were you on the list? →</span>
+    <span class="url">operateai.com.au/check</span>
+  </div>
+</section>
+
+<!-- 3 · BEAT THE MASSES (early mover) -->
+<section class="frame paper" id="f3">
+  <div class="wm"><span class="dot"></span><span class="name">OperateAI</span></div>
+  <div class="mid">
+    <div class="eyebrow"><span class="rule"></span>Early movers win</div>
+    <div class="big">9<span class="u">/</span>10</div>
+    <div class="sub">Perth businesses aren&rsquo;t ready for AI search. The ones who fix it now get named for years. Be that one.</div>
+  </div>
+  <div class="foot">
+    <span class="pill">Get ahead of them →</span>
+    <span class="url">operateai.com.au/check</span>
+  </div>
+</section>
+
+<!-- 4 · ARE YOU READY FOR AI? (provocation) -->
+<section class="frame dark" id="f4">
+  <div class="grain"></div><div class="glow" style="top:40%;right:-320px"></div>
+  <div class="wm"><span class="dot"></span><span class="name">OperateAI</span></div>
+  <div class="mid">
+    <div class="eyebrow"><span class="rule"></span>Are you ready for AI?</div>
+    <h1>Your next customer won&rsquo;t scroll Google. They&rsquo;ll <span class="hl">ask AI.</span></h1>
+    <div class="sub">And AI doesn&rsquo;t show a list. It names two or three. The whole game is being one it names.</div>
+  </div>
+  <div class="foot">
+    <span class="pill">See if you make the cut →</span>
+    <span class="url">Free AI Visibility Check</span>
+  </div>
+</section>
+
+<!-- 5 · LOSS / MISSED CALL -->
+<section class="frame void" id="f5">
+  <div class="grain"></div><div class="glow" style="bottom:-200px;right:-240px"></div>
+  <div class="wm"><span class="dot"></span><span class="name">OperateAI</span></div>
+  <div class="mid">
+    <div class="eyebrow"><span class="rule"></span>The new missed call</div>
+    <h1>Miss the list, <span class="hl">miss the job.</span></h1>
+    <div class="sub">A missed call used to cost you one customer. Now AI decides who gets called at all &mdash; before the phone even rings.</div>
+  </div>
+  <div class="foot">
+    <span class="pill">Find out where you stand →</span>
+    <span class="url">operateai.com.au/check</span>
+  </div>
+</section>
+
+<!-- 6 · FREE OFFER / CTA (signal) -->
+<section class="frame signal" id="f6">
+  <div class="wm"><span class="dot"></span><span class="name">OperateAI</span></div>
+  <div class="mid">
+    <div class="eyebrow"><span class="rule"></span>Free · one business day</div>
+    <h1>See exactly what AI says about your business.</h1>
+    <div class="sub">Send your name and suburb. We check ChatGPT, Gemini &amp; Perplexity by hand and send back a plain-English rundown. No catch, no spam.</div>
+  </div>
+  <div class="foot">
+    <span class="pill">Claim your free check →</span>
+    <span class="url">operateai.com.au/check</span>
+  </div>
+</section>
+
+</body>
+</html>
