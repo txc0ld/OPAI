@@ -732,7 +732,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Joondalup air-con business in AI answers?",
-        a: "Likely a thin profile, image-locked services, or few reviews. AI recommends readable, well-reviewed listings, so completing your profile and gathering recent reviews is the route in.",
+        a: "Often because your ducted and split-system range isn't spelled out in plain text, or your northern-suburbs service area is too vague. AI picked Joondalup installers who listed every system type by name — match that level of detail and you move into contention.",
       },
     ],
     aiSnapshot: {
@@ -804,7 +804,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Mount Lawley air-con business in AI answers?",
-        a: "Likely a thin profile, image-locked services, or few reviews. AI recommends readable, well-reviewed listings, so completing your profile and gathering recent reviews is the route in.",
+        a: "Often because ARCtick certification, split-system brands and same-day service aren't stated in plain text. AI highlighted Mount Lawley installers who published credentials clearly — get those details out of images and into readable text and you give AI a reason to name you.",
       },
     ],
     aiSnapshot: {
@@ -840,7 +840,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Cannington air-conditioning business appear in AI answers?",
-        a: "Likely a thin profile, services in images, or few reviews. AI recommends readable, well-reviewed listings, so completing your profile and gathering recent reviews is the fix.",
+        a: "Often because your dual electrical-and-HVAC capability isn't visible in plain text, or your Cannington service area isn't stated. AI named installers who made both credentials readable — spell out your combined trade licence, brand range and local base to close that gap.",
       },
     ],
     aiSnapshot: {
@@ -876,7 +876,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Midland air-con business in AI answers?",
-        a: "Likely a thin profile, image-locked services, or few reviews. AI recommends readable, well-reviewed listings, so completing your profile and gathering recent reviews is the route in.",
+        a: "Often because evaporative-cooling expertise and Perth Hills coverage aren't stated in plain text. AI singled out Midland installers who named their system specialisms and reputation scores — document those clearly and you give AI the confidence to name you.",
       },
     ],
     aiSnapshot: {
@@ -912,7 +912,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Rockingham air-con business appear in AI answers?",
-        a: "Likely a thin profile, services in images, or few reviews. AI recommends readable, well-reviewed listings, so completing your profile and gathering recent reviews is the fix.",
+        a: "Often because award history, tailored coastal-home advice and Baldivis coverage aren't visible in plain text. AI favoured Rockingham installers who named those differentiators clearly — publish your awards, service area and consultation process and you become a confident local pick.",
       },
     ],
     aiSnapshot: {
@@ -1023,7 +1023,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Joondalup building business in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the route in.",
+        a: "Often because award count, client testimonials and your northern-suburbs project history are locked in a gallery rather than readable text. AI named Joondalup builders who made all three visible — move those details into plain text and you give AI what it needs to cite you.",
       },
     ],
     aiSnapshot: {
@@ -1059,7 +1059,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Scarborough building business appear in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the fix.",
+        a: "Often because coastal-corridor experience, hipages ratings and two-storey build detail are sitting in a photo gallery rather than readable text. AI named Scarborough builders who put those credentials in plain text — do the same and you become the local answer AI can actually quote.",
       },
     ],
     aiSnapshot: {
@@ -1131,7 +1131,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Cannington building business appear in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the fix.",
+        a: "Often because your East Cannington base, review count and family-owned credibility aren't stated in plain text. AI leaned on those signals when naming Cannington builders — write them out clearly on your profile and site so AI has something concrete to quote.",
       },
     ],
     aiSnapshot: {
@@ -1167,7 +1167,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Midland building business in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the route in.",
+        a: "Often because your physical Midland address, custom-home and granny-flat range, and star rating aren't visible in plain text. AI named builders who made those details readable — put your local base, project types and recent reviews front and centre so AI can place and recommend you.",
       },
     ],
     aiSnapshot: {
@@ -1203,7 +1203,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Rockingham building business appear in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the fix.",
+        a: "Often because award history, HIA membership and southern-suburbs project experience are buried in photos rather than readable text. AI cited those signals when naming Rockingham builders — document them plainly on your profile and site so AI has credible detail to repeat.",
       },
     ],
     aiSnapshot: {
@@ -1278,7 +1278,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Fremantle landscaping business appear in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the fix.",
+        a: "Often because limestone-wall work, coastal-garden experience and heritage-block credentials sit in photos rather than readable text. AI named Freo landscapers who described that local expertise plainly — put your Fremantle-specific materials and conditions into words so AI can quote them.",
       },
     ],
     aiSnapshot: {
@@ -1314,7 +1314,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Joondalup landscaping business in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the route in.",
+        a: "Often because Waterwise credentials, reticulation expertise and your northern-suburbs service area aren't stated in plain text. AI picked out Joondalup landscapers who made those details readable — write them into your profile and site so AI has something specific to cite.",
       },
     ],
     aiSnapshot: {
@@ -1350,7 +1350,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Scarborough landscaping business appear in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the fix.",
+        a: "Often because pool-surround work, coastal-garden design and your Scarborough service area are locked in before-and-after photos rather than readable text. AI named landscapers who spelled those things out — describe the specific coastal and pool projects you do and you give AI a reason to recommend you.",
       },
     ],
     aiSnapshot: {
@@ -1386,7 +1386,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Mount Lawley landscaping business in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the route in.",
+        a: "Often because your design-and-construct process, award credentials and character-property experience aren't described in readable text. AI favoured Mount Lawley landscapers who named that design expertise clearly — document your end-to-end process and any awards in plain text so AI has a reason to cite you.",
       },
     ],
     aiSnapshot: {
@@ -1422,7 +1422,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Cannington landscaping business appear in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the fix.",
+        a: "Often because local community recommendations, builder relationships and your Cannington service history aren't in readable text. AI named landscapers whose local credibility was verifiable in plain text — state how long you've worked the area and any builder partnerships so AI has something concrete to repeat.",
       },
     ],
     aiSnapshot: {
@@ -1458,7 +1458,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why isn't my Midland landscaping business in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the route in.",
+        a: "Often because Water Corporation Waterwise endorsements, decades of north-east experience and integrated design-and-construct capability aren't visible in plain text. AI cited those signals for Midland landscapers — state your credentials and local track record clearly so AI can present you as the benchmark choice.",
       },
     ],
     aiSnapshot: {
@@ -1494,7 +1494,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Rockingham landscaping business appear in AI answers?",
-        a: "Likely projects in image galleries, a thin profile, or few reviews. AI recommends readable, well-reviewed listings, so documenting your work in plain text and gathering reviews is the fix.",
+        a: "Often because your 20-plus years' local experience, Baldivis coverage and pool-paving work are shown in before-and-after photos rather than readable text. AI named Rockingham landscapers who put those details into words — describe your track record and service area in plain text so AI can confidently recommend you.",
       },
     ],
     aiSnapshot: {
@@ -1641,7 +1641,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Scarborough painting business appear in AI answers?",
-        a: "Likely a thin profile, services in images, or few reviews. AI recommends readable, well-reviewed listings, so completing your profile and gathering recent reviews is the fix.",
+        a: "Often because Master Painters award recognition, coastal-suburb experience and before-and-after job photos aren't translated into readable text. AI named Scarborough painters who put those credentials in plain words — list your awards, years in the suburb and the exterior and interior work you do so AI has a reason to single you out.",
       },
     ],
     aiSnapshot: {
@@ -1785,7 +1785,7 @@ export const ENTRIES: Record<string, Entry> = {
       },
       {
         q: "Why doesn't my Rockingham painting business appear in AI answers?",
-        a: "Likely a thin profile, services in images, or few reviews. AI recommends readable, well-reviewed listings, so completing your profile and gathering recent reviews is the fix.",
+        a: "Often because your licence number, decades of local experience and cross-platform review count aren't stated in plain text. AI cited those specifics when naming Rockingham painters — publish your licence, insurance and how long you've served the area so AI has verifiable detail to quote.",
       },
     ],
     aiSnapshot: {
