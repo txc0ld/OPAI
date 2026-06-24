@@ -6,7 +6,7 @@ import { IOAgentPlans } from "@/components/ioagent/pricing-cards";
 import { Faq } from "@/components/faq";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
-import { BUSINESS } from "@/lib/business";
+import { BUSINESS, IOAGENT_PLANS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/ioagent/`;
 const TITLE = "iOAgent: your own AI agent, built for your business";
@@ -111,6 +111,7 @@ export default function IOAgentPage() {
             name: "iOAgent: custom AI agent setup",
             url: PAGE_URL,
             description: DESCRIPTION,
+            offers: IOAGENT_PLANS.map((p) => ({ name: p.name, price: p.pricePerMonth, recurring: true })),
           }),
           buildBreadcrumb([
             { name: "Home", url: `${BUSINESS.url}/` },

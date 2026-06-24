@@ -63,13 +63,20 @@ export function buildLocalBusiness(): SchemaNode {
   };
 }
 
+export type ServiceOffer = {
+  name: string;
+  price: number; // AUD
+  recurring?: boolean; // true = per-month subscription
+};
+
 export type ServiceSchemaOptions = {
   name: string;
   url: string;
   description: string;
+  offers?: ServiceOffer[];
 };
 
-export function buildService({ name, url, description }: ServiceSchemaOptions): SchemaNode {
+export function buildService({ name, url, description, offers }: ServiceSchemaOptions): SchemaNode {
   return {
     "@type": "Service",
     "@id": `${url}#service`,
@@ -78,6 +85,28 @@ export function buildService({ name, url, description }: ServiceSchemaOptions): 
     description,
     provider: { "@id": `${BUSINESS.url}/#organization` },
     areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "AdministrativeArea", name: a })),
+    ...(offers && offers.length
+      ? {
+          offers: offers.map((o) => ({
+            "@type": "Offer",
+            name: o.name,
+            price: String(o.price),
+            priceCurrency: "AUD",
+            availability: "https://schema.org/InStock",
+            url,
+            ...(o.recurring
+              ? {
+                  priceSpecification: {
+                    "@type": "UnitPriceSpecification",
+                    price: String(o.price),
+                    priceCurrency: "AUD",
+                    unitText: "MONTH",
+                  },
+                }
+              : {}),
+          })),
+        }
+      : {}),
   };
 }
 

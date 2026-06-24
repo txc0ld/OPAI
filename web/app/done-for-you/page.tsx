@@ -113,6 +113,7 @@ export default function DoneForYouPage() {
             name: "Done-for-you AI visibility (always-on)",
             url: PAGE_URL,
             description: DESCRIPTION,
+            offers: [{ name: "Done-for-you", price: DONE_FOR_YOU.priceFrom, recurring: true }],
           }),
           buildBreadcrumb([
             { name: "Home", url: `${BUSINESS.url}/` },

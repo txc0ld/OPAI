@@ -7,7 +7,7 @@ import { Faq } from "@/components/faq";
 import { PricingCards } from "@/components/websites/pricing-cards";
 import { JsonLd } from "@/components/json-ld";
 import { buildWebPage, buildService, buildBreadcrumb, wrapGraph } from "@/lib/schema";
-import { BUSINESS } from "@/lib/business";
+import { BUSINESS, WEBSITE_PACKAGES } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/websites/`;
 const TITLE = "Website design that AI can read and recommend";
@@ -68,7 +68,12 @@ export default function WebsitesPage() {
       <JsonLd
         schema={wrapGraph([
           buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION }),
-          buildService({ name: "Website design (AI-readable)", url: PAGE_URL, description: DESCRIPTION }),
+          buildService({
+            name: "Website design (AI-readable)",
+            url: PAGE_URL,
+            description: DESCRIPTION,
+            offers: WEBSITE_PACKAGES.map((p) => ({ name: p.name, price: p.priceFrom })),
+          }),
           buildBreadcrumb([
             { name: "Home", url: `${BUSINESS.url}/` },
             { name: "Websites", url: PAGE_URL },
