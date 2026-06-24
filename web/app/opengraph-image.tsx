@@ -32,9 +32,7 @@ export default async function Image() {
               alignItems: "baseline",
             }}
           >
-            <span style={{ fontWeight: 200, color: "#f3fc85", opacity: 0.7 }}>[</span>
-            <span style={{ fontWeight: 700, color: "#f3fc85" }}>opai</span>
-            <span style={{ fontWeight: 200, color: "#f3fc85", opacity: 0.7 }}>]</span>
+            <span style={{ fontWeight: 800, color: "#f3fc85" }}>OperateAI</span>
           </div>
           <div
             style={{
@@ -48,7 +46,7 @@ export default async function Image() {
               fontFamily: "monospace",
             }}
           >
-            OperateAI. Get found by AI.
+            Get found, recommended & booked by AI
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>

@@ -53,12 +53,28 @@ export function SiteFooter() {
             We help Perth local service businesses get found, recommended and booked by AI, sorted for how customers
             search now and how AI is about to book them next.
           </p>
-          <a
-            href={`mailto:${emails.team}`}
-            className="mt-6 text-[15px] font-semibold text-[var(--color-fg)] transition-colors duration-300 hover:text-[var(--color-signal)]"
-          >
-            {emails.team}
-          </a>
+          <div className="mt-6 flex flex-col gap-2.5">
+            <a
+              href={`mailto:${emails.team}`}
+              className="text-[15px] font-semibold text-[var(--color-fg)] transition-colors duration-300 hover:text-[var(--color-signal)]"
+            >
+              {emails.team}
+            </a>
+            <a
+              href={`tel:${BUSINESS.telephone.replace(/\s+/g, "")}`}
+              className="text-[15px] text-[var(--color-fg-variant)] transition-colors duration-300 hover:text-[var(--color-signal)]"
+            >
+              {BUSINESS.telephone}
+            </a>
+            <a
+              href={BUSINESS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[15px] text-[var(--color-fg-variant)] transition-colors duration-300 hover:text-[var(--color-signal)]"
+            >
+              Instagram @operateai.au
+            </a>
+          </div>
         </div>
 
         {/* Link columns */}

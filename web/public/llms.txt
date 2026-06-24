@@ -1,0 +1,22 @@
+# OperateAI
+
+> OperateAI gets Perth local-service businesses found, recommended and booked by AI. When someone asks ChatGPT, Gemini or Google's AI for a good local business, it names two or three — we get you onto that shortlist and keep you there. Voice: plain-English, Australian. Area served: Perth, Western Australia.
+
+## Start here
+- [Free AI Visibility Check](https://www.operateai.com.au/check/): Free, by-hand check of what AI says about your business and the one thing costing you customers.
+
+## Services
+- [Done-for-you](https://www.operateai.com.au/done-for-you/): Always-on AI visibility — we monitor, fix and hold your AI presence and send proof of the work. From A$490/mo.
+- [Websites](https://www.operateai.com.au/websites/): Websites built AI-readable so ChatGPT, Gemini and Google's AI can read your services and recommend you. Fixed-price packages from A$849 (50% deposit to start).
+- [iOAgent](https://www.operateai.com.au/ioagent/): Custom-built, always-on AI agents that do the repetitive work (enquiries, follow-ups, back-office). Monthly plans from A$999/mo, unlimited usage, you approve before they act.
+
+## Learn
+- [How it works](https://www.operateai.com.au/how-it-works/): How AI decides which local business to recommend, and what we fix.
+- [Articles](https://www.operateai.com.au/articles/): Guides on getting found and recommended by AI.
+- [About](https://www.operateai.com.au/about/): Who we are and how we work.
+
+## Contact
+- Email: team@operateai.com.au
+- Phone: +61 400 279 379
+- Instagram: https://www.instagram.com/operateai.au
+- Location: Perth, Western Australia, Australia

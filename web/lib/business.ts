@@ -13,7 +13,7 @@ export const BUSINESS = {
   legalName: "Operate AI - by Fantom Labs Tech",
   url: "https://www.operateai.com.au",
   email: "team@operateai.com.au",
-  telephone: undefined as string | undefined,
+  telephone: "+61 400 279 379",
   abn: "ABN 51 559 921 362",
   tagline: "Get your local business found, recommended and booked by AI.",
   description:
@@ -24,9 +24,12 @@ export const BUSINESS = {
     addressCountry: "AU",
   },
   areaServed: ["Perth", "Western Australia"],
-  sameAs: [] as string[],
+  sameAs: ["https://www.instagram.com/operateai.au"] as string[],
   founded: "2026",
   copyrightYear: 2026,
+  instagram: "https://www.instagram.com/operateai.au",
+  // Paste your Google Search Console verification token here to verify the property.
+  googleSiteVerification: "",
 } as const;
 
 // Done-for-you (always-on) service offering.

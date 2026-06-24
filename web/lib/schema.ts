@@ -110,6 +110,33 @@ export function buildService({ name, url, description, offers }: ServiceSchemaOp
   };
 }
 
+export type HowToStep = { name: string; text: string };
+
+export function buildHowTo({
+  name,
+  description,
+  url,
+  steps,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  steps: HowToStep[];
+}): SchemaNode {
+  return {
+    "@type": "HowTo",
+    "@id": `${url}#howto`,
+    name,
+    description,
+    step: steps.map((s, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+    })),
+  };
+}
+
 export type FaqItem = { question: string; answer: string };
 
 export function buildFaqPage(items: FaqItem[]): SchemaNode {

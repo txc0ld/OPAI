@@ -3,7 +3,7 @@ import { Section } from "@/components/ui/section";
 import { MonoLabel } from "@/components/ui/mono-label";
 import { CheckButton } from "@/components/ui/check-button";
 import { JsonLd } from "@/components/json-ld";
-import { buildService, buildWebPage, wrapGraph } from "@/lib/schema";
+import { buildHowTo, buildService, buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
 
 const PAGE_URL = `${BUSINESS.url}/how-it-works/`;
@@ -48,6 +48,12 @@ export default function HowItWorksPage() {
         schema={wrapGraph([
           buildWebPage({ url: PAGE_URL, title: TITLE, description: DESCRIPTION }),
           buildService({ name: "AI search visibility for local business", url: PAGE_URL, description: DESCRIPTION }),
+          buildHowTo({
+            name: TITLE,
+            description: DESCRIPTION,
+            url: PAGE_URL,
+            steps: STEPS.map((s) => ({ name: s.title, text: s.body })),
+          }),
         ])}
       />
 

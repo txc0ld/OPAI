@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { StructuredData } from "@/components/structured-data";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { BUSINESS } from "@/lib/business";
 import "./globals.css";
 
@@ -67,6 +68,7 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
+  ...(BUSINESS.googleSiteVerification ? { verification: { google: BUSINESS.googleSiteVerification } } : {}),
 };
 
 export const viewport: Viewport = {
@@ -84,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <SiteFooter />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
