@@ -10,17 +10,11 @@ import { getArticleSlugs, listArticles, formatArticleDate } from "@/lib/articles
 import { JsonLd } from "@/components/json-ld";
 import { buildArticle, buildBreadcrumb, buildWebPage, wrapGraph } from "@/lib/schema";
 import { BUSINESS } from "@/lib/business";
+import { LOADERS } from "../loaders.generated";
 
 export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug }));
 }
-
-// Keep in sync with content/articles/*.mdx — every article file needs an entry here
-// (Turbopack can't resolve a bare template-literal dynamic import).
-const LOADERS: Record<string, () => Promise<{ default: React.ComponentType }>> = {
-  "your-next-customer-wont-scroll-google": () =>
-    import("@/content/articles/your-next-customer-wont-scroll-google.mdx"),
-};
 
 // Short scannable summary shown at the top of each article (the retention hook).
 const TAKEAWAYS: Record<string, string[]> = {

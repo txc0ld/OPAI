@@ -7,7 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "articles:gen": "node scripts/gen-article-loaders.mjs",
+    "prebuild": "node scripts/gen-article-loaders.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.105.0",
