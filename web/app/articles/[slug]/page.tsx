@@ -16,15 +16,6 @@ export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug }));
 }
 
-// Short scannable summary shown at the top of each article (the retention hook).
-const TAKEAWAYS: Record<string, string[]> = {
-  "your-next-customer-wont-scroll-google": [
-    "AI now names just two or three businesses. You need to be one of them.",
-    "Your Google Business Profile is the biggest lever. Finish it properly.",
-    "Put your services, prices and area in plain text, not inside images.",
-    "Get recent reviews, reply to them, and answer fast.",
-  ],
-};
 
 async function loadArticle(slug: string) {
   const meta = listArticles().find((a) => a.slug === slug);
@@ -57,7 +48,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   if (!loaded) notFound();
   const { meta, Content } = loaded;
   const url = `${BUSINESS.url}/articles/${slug}/`;
-  const takeaways = TAKEAWAYS[slug] ?? [];
+  const takeaways = meta.takeaways ?? [];
 
   return (
     <>

@@ -8,9 +8,11 @@ export type ArticleFrontmatter = {
   title: string;
   description: string;
   date: string;
+  updated?: string;
   readingMinutes: number;
   author: string;
   tags: string[];
+  takeaways: string[];
 };
 
 export type Article = ArticleFrontmatter & { slug: string };
