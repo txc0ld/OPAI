@@ -4,7 +4,7 @@ import { getArticleSlugs } from "@/lib/articles";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = BUSINESS.url;
-  const staticRoutes = ["/", "/check/", "/ioagent/", "/done-for-you/", "/how-it-works/", "/articles/", "/about/", "/contact/", "/legal/privacy/", "/legal/terms/"];
+  const staticRoutes = ["/", "/check/", "/ioagent/", "/websites/", "/done-for-you/", "/how-it-works/", "/articles/", "/about/", "/contact/", "/legal/privacy/", "/legal/terms/"];
   const articleRoutes = getArticleSlugs().map((slug) => `/articles/${slug}/`);
   return [...staticRoutes, ...articleRoutes].map((route) => ({
     url: `${base}${route}`,
