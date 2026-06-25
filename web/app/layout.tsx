@@ -6,6 +6,7 @@ import { StructuredData } from "@/components/structured-data";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { BUSINESS } from "@/lib/business";
 import "./globals.css";
 
@@ -87,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteFooter />
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics />
       </body>
     </html>
   );
