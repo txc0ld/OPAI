@@ -263,7 +263,7 @@ export async function renderReport(
   logReportUsage(usage, ms);
 
   const reportData = parseReportJson(raw, triage.headline);
-  const meta = { business: input.business, suburb: input.suburb, date: today };
+  const meta = { business: input.business, suburb: input.suburb, date: today, prompts: data.prompts };
 
   const html = renderReportHtml(reportData, meta);
   const text = renderReportText(reportData, meta);

@@ -47,6 +47,7 @@ export interface ReportMeta {
   business: string;
   suburb: string;
   date: string;
+  prompts: string[]; // the exact prompts sent to the AI engines — shown verbatim
 }
 
 // ---------------------------------------------------------------------------
@@ -180,12 +181,13 @@ function renderAskedPrompts(prompts: string[]): string {
 // ---------------------------------------------------------------------------
 
 export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
-  const { business, suburb, date } = meta;
+  const { business, suburb, date, prompts } = meta;
 
   const scorecardRows   = renderScorecardRows(data.scorecard);
   const fixCards        = data.fixes.map((f, i) => renderFixCard(f, i)).join("");
   const quickWinsList   = renderQuickWins(data.quickWins);
-  const askedPromptList = renderAskedPrompts(data.askedPrompts);
+  // Use the REAL prompts we sent (not the model's echo) so every question is listed verbatim.
+  const askedPromptList = renderAskedPrompts(prompts);
 
   // Fonts / base styles
   const fontStack = `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`;
@@ -195,7 +197,7 @@ export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Visibility Check — ${esc(business)}</title>
+  <title>AI SEO + AEO Report — ${esc(business)}</title>
 </head>
 <body style="margin:0;padding:0;background:#f4f4f1;font-family:${fontStack};">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f1;min-height:100vh;">
@@ -207,26 +209,34 @@ export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
           <tr>
             <td style="padding:0;">
 
-              <!-- Header bar -->
-              <div style="padding:22px 28px 0;">
+              <!-- Masthead -->
+              <div style="background:#0e0e0e;padding:22px 28px;">
                 <table width="100%" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td>
-                      <span style="font-size:20px;font-weight:800;color:#15140f;letter-spacing:-0.03em;">OperateAI<span style="color:#c8d400;">.</span></span>
+                    <td style="vertical-align:middle;">
+                      <table cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td style="vertical-align:middle;padding-right:11px;">
+                            <img src="https://www.operateai.com.au/LOGOMAIN.png" width="32" height="32" alt="OperateAI" style="display:block;border-radius:8px;" />
+                          </td>
+                          <td style="vertical-align:middle;">
+                            <span style="font-size:19px;font-weight:800;color:#ffffff;letter-spacing:-0.03em;">OperateAI</span>
+                          </td>
+                        </tr>
+                      </table>
                     </td>
-                    <td align="right">
-                      <span style="font-size:10px;font-variant:small-caps;letter-spacing:0.08em;color:#6b6a63;text-transform:uppercase;">AI Visibility Check</span>
+                    <td align="right" style="vertical-align:middle;">
+                      <span style="font-size:10px;font-weight:700;letter-spacing:0.18em;color:#f3fc85;text-transform:uppercase;">AI SEO + AEO Report</span>
                     </td>
                   </tr>
                 </table>
-                <!-- Lime rule -->
-                <div style="height:3px;background:#f3fc85;margin-top:14px;border-radius:2px;"></div>
               </div>
 
               <!-- Title block -->
-              <div style="padding:24px 28px 20px;">
-                <div style="font-size:26px;font-weight:800;color:#15140f;line-height:1.2;letter-spacing:-0.02em;">${esc(business)}</div>
-                <div style="font-size:13px;color:#6b6a63;margin-top:6px;">${esc(suburb)} &middot; Checked ${esc(date)} across ChatGPT, Google AI and Perplexity</div>
+              <div style="padding:28px 28px 20px;">
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:#9b9a92;text-transform:uppercase;">Prepared for</div>
+                <div style="font-size:28px;font-weight:800;color:#15140f;line-height:1.15;letter-spacing:-0.02em;margin-top:6px;">${esc(business)}</div>
+                <div style="font-size:13px;color:#6b6a63;margin-top:8px;">${esc(suburb)} &middot; ${esc(date)} &middot; Checked across ChatGPT, Google AI &amp; Perplexity</div>
               </div>
 
               <!-- Short version callout -->
@@ -295,12 +305,13 @@ export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
               </div>
 
               <!-- Footer -->
-              <div style="border-top:1px solid #ececE6;padding:18px 28px;text-align:center;">
-                <div style="font-size:12px;color:#6b6a63;line-height:1.6;">
-                  OperateAI &middot; Perth, WA &middot; <a href="mailto:team@operateai.com.au" style="color:#6b6a63;">team@operateai.com.au</a>
+              <div style="background:#faf9f3;border-top:1px solid #ececE6;padding:22px 28px;text-align:center;">
+                <div style="font-size:13px;font-weight:800;color:#15140f;letter-spacing:-0.02em;">OperateAI<span style="color:#c8d400;">.</span></div>
+                <div style="font-size:12px;color:#6b6a63;line-height:1.7;margin-top:4px;">
+                  Perth, WA &middot; <a href="mailto:team@operateai.com.au" style="color:#6b6a63;">team@operateai.com.au</a> &middot; <a href="https://www.operateai.com.au" style="color:#6b6a63;">operateai.com.au</a>
                 </div>
-                <div style="font-size:11px;color:#9b9a92;margin-top:4px;">
-                  Checked ${esc(date)}. AI results move around, so this is a snapshot; the underlying issues are stable.
+                <div style="font-size:11px;color:#9b9a92;margin-top:8px;line-height:1.5;">
+                  AI results move around, so this is a point-in-time snapshot taken ${esc(date)}. The underlying issues are stable.
                 </div>
               </div>
 
@@ -321,7 +332,7 @@ export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
 // ---------------------------------------------------------------------------
 
 export function renderReportText(data: ReportData, meta: ReportMeta): string {
-  const { business, suburb, date } = meta;
+  const { business, suburb, date, prompts } = meta;
 
   const ragLabel = (r: Rag) => r === "R" ? "Needs work" : r === "A" ? "Some gaps" : "Good";
 
@@ -329,7 +340,7 @@ export function renderReportText(data: ReportData, meta: ReportMeta): string {
     .map(row => `  [${row.rating}] ${row.label}: ${row.note} (${ragLabel(row.rating)})`)
     .join("\n");
 
-  const promptLines = data.askedPrompts
+  const promptLines = prompts
     .map((p, i) => `  ${i + 1}. "${p}"`)
     .join("\n");
 
@@ -342,7 +353,7 @@ export function renderReportText(data: ReportData, meta: ReportMeta): string {
   const quickWinsLines = data.quickWins.map(w => `  - ${w}`).join("\n");
 
   return [
-    `AI Visibility Check — ${business}, ${suburb}`,
+    `AI SEO + AEO Report — ${business}, ${suburb}`,
     `Checked ${date} across ChatGPT, Google AI and Perplexity`,
     "",
     "---",

@@ -90,7 +90,7 @@ export async function runCheck(input: CheckInput): Promise<RunResult> {
   const triage = computeTriage(data);
 
   const today = new Date().toISOString().slice(0, 10);
-  const meta = { business: input.business, suburb: input.suburb, date: today };
+  const meta = { business: input.business, suburb: input.suburb, date: today, prompts };
 
   if (!ENV.anthropic) {
     // No Claude key — return a minimal HTML so the email is still useful.

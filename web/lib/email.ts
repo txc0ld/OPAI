@@ -96,12 +96,11 @@ export async function sendEnquiryEmail(payload: EnquiryPayload): Promise<{ deliv
 }
 
 // ---------------------------------------------------------------------------
-// Draft report email (operator-only — never sent to the client)
-// The html param IS the fully rendered report. Operator sees exactly what the
-// client will get, with a short preamble note at top.
+// AI SEO + AEO report email. The html param IS the fully rendered, client-ready
+// report. Sent to the operator inbox to forward on as-is.
 // ---------------------------------------------------------------------------
 
-export async function sendCheckDraftEmail({
+export async function sendCheckReportEmail({
   business,
   suburb,
   html,
@@ -117,26 +116,11 @@ export async function sendCheckDraftEmail({
   const to = process.env.RESEND_TO_EMAIL || "team@operateai.com.au";
 
   if (!apiKey) {
-    console.log("[check-draft-stub]", { business, suburb });
+    console.log("[check-report-stub]", { business, suburb });
     return { delivered: false };
   }
 
-  const subject = `AI Check draft: ${business} (${suburb})`;
-
-  // Prepend an operator note above the report HTML.
-  const operatorNote = `<div style="font-family:Arial,sans-serif;background:#fffbe6;border:1px solid #f0c040;border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#7a5c00;max-width:620px;margin-left:auto;margin-right:auto;">
-    <strong>Draft AI Check</strong> — review, then forward to the client. Do not send until you have reviewed all findings for accuracy.
-  </div>`;
-
-  const fullHtml = operatorNote + html;
-
-  // Plain-text operator preamble.
-  const fullText = [
-    "DRAFT AI CHECK — review before forwarding to the client.",
-    "---",
-    "",
-    text,
-  ].join("\n");
+  const subject = `AI SEO + AEO Report — ${business}`;
 
   const response = await fetch(RESEND_ENDPOINT, {
     method: "POST",
@@ -144,12 +128,12 @@ export async function sendCheckDraftEmail({
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ from, to, subject, text: fullText, html: fullHtml }),
+    body: JSON.stringify({ from, to, subject, text, html }),
   });
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Resend (draft) failed with ${response.status}: ${errorText}`);
+    throw new Error(`Resend (report) failed with ${response.status}: ${errorText}`);
   }
 
   return { delivered: true };

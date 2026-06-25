@@ -11,7 +11,7 @@
 import { NextResponse, after } from "next/server";
 import { validateCheckInput } from "@/lib/check/types";
 import { runCheck } from "@/lib/check/run";
-import { sendCheckDraftEmail } from "@/lib/email";
+import { sendCheckReportEmail } from "@/lib/email";
 
 export const runtime = "nodejs";
 // Raised from 60s: the gather+report pipeline runs ~45-65s and was racing the
@@ -113,13 +113,13 @@ export async function POST(request: Request) {
       try {
         const { html, text, triage } = await runCheck(input);
         console.log("[check] triage headline:", triage.headline);
-        await sendCheckDraftEmail({
+        await sendCheckReportEmail({
           business: input.business,
           suburb: input.suburb,
           html,
           text,
         });
-        console.log("[check] draft emailed for:", input.business);
+        console.log("[check] report emailed for:", input.business);
       } catch (e) {
         console.error("[check] pipeline error:", e);
       }
