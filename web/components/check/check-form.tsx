@@ -4,24 +4,36 @@ import { useId, useState } from "react";
 
 type SubmitState = "idle" | "sending" | "sent" | "error";
 
+// Suggestions only — the field is free text, so anything can be typed.
 const BUSINESS_TYPES = [
   "Plumber",
   "Electrician",
   "Builder / carpenter",
-  "Cleaning",
+  "Roofing",
+  "Tiling",
+  "Painter",
+  "Concreting / concrete polishing",
   "Landscaping / gardening",
-  "Mechanic / auto",
+  "Fencing",
+  "Air-conditioning / HVAC",
+  "Pest control",
+  "Cleaning",
+  "Removalist",
+  "Pool service",
+  "Locksmith",
+  "Mobile mechanic / auto",
+  "Barber",
   "Hair / beauty salon",
-  "Health / medical clinic",
-  "Physio / allied health",
+  "Nail / skin clinic",
   "Dentist",
-  "Cafe / restaurant",
+  "Physio / allied health",
+  "Health / medical clinic",
   "Gym / fitness",
+  "Cafe / restaurant",
   "Real estate",
+  "Mortgage broker",
   "Lawyer / accountant",
   "Ecommerce / online store",
-  "Brand / product business",
-  "Other",
 ] as const;
 
 export function CheckForm() {
@@ -94,38 +106,45 @@ export function CheckForm() {
         <input id={`${formId}-company`} name="company" required autoComplete="organization" className={inputClass} />
       </label>
 
+      <label className={labelClass} htmlFor={`${formId}-trade`}>
+        What do you do?
+        <input
+          id={`${formId}-trade`}
+          name="trade"
+          required
+          list={`${formId}-trades`}
+          autoComplete="off"
+          className={inputClass}
+          placeholder="Type your trade — e.g. Concrete polishing, Barber, Plumber"
+        />
+        <datalist id={`${formId}-trades`}>
+          {BUSINESS_TYPES.map((t) => (
+            <option key={t} value={t} />
+          ))}
+        </datalist>
+        <span className="mt-2 block text-[12px] font-normal normal-case tracking-normal text-[var(--color-fg-variant)]">
+          Pick a suggestion or just type your own — any trade works.
+        </span>
+      </label>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <label className={labelClass} htmlFor={`${formId}-suburb`}>
           Suburb / service area
           <input id={`${formId}-suburb`} name="suburb" required className={inputClass} placeholder="e.g. Midland" />
         </label>
-        <label className={labelClass} htmlFor={`${formId}-trade`}>
-          Business type
-          <select id={`${formId}-trade`} name="trade" required defaultValue="" className={inputClass}>
-            <option value="" disabled className="bg-[var(--color-surface)]">
-              Pick one
-            </option>
-            {BUSINESS_TYPES.map((t) => (
-              <option key={t} value={t} className="bg-[var(--color-surface)] text-[var(--color-fg)]">
-                {t}
-              </option>
-            ))}
-          </select>
+        <label className={labelClass} htmlFor={`${formId}-url`}>
+          Website (optional)
+          <input
+            id={`${formId}-url`}
+            name="url"
+            type="text"
+            inputMode="url"
+            autoComplete="url"
+            className={inputClass}
+            placeholder="yourbusiness.com.au"
+          />
         </label>
       </div>
-
-      <label className={labelClass} htmlFor={`${formId}-url`}>
-        Website (optional)
-        <input
-          id={`${formId}-url`}
-          name="url"
-          type="text"
-          inputMode="url"
-          autoComplete="url"
-          className={inputClass}
-          placeholder="yourbusiness.com.au"
-        />
-      </label>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <label className={labelClass} htmlFor={`${formId}-email`}>
