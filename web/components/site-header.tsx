@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Logo } from "@/components/logo";
 import { PRIMARY_NAV, CHECK_CTA } from "@/lib/nav";
 import { cn } from "@/lib/cn";
@@ -32,6 +32,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(24);
+  const reduce = useReducedMotion();
 
   // Lock body scroll + close on Escape while the drawer is open.
   useEffect(() => {
@@ -149,7 +150,7 @@ export function SiteHeader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: EASE }}
+              transition={reduce ? { duration: 0 } : { duration: 0.4, ease: EASE }}
               onClick={() => setOpen(false)}
               className="fixed inset-0 z-40 bg-black/50 backdrop-blur-md lg:hidden"
             />
@@ -158,7 +159,7 @@ export function SiteHeader() {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 220 }}
+              transition={reduce ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 220 }}
               className="grain fixed inset-y-0 right-0 z-40 flex w-full max-w-sm flex-col overflow-y-auto border-l border-[var(--color-border)] bg-[var(--color-void)] px-10 pt-24 pb-12 lg:hidden"
             >
               <div className="my-auto">
@@ -171,7 +172,7 @@ export function SiteHeader() {
                       initial={{ opacity: 0, x: 24 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 24, transition: { delay: i * 0.03 } }}
-                      transition={{ delay: 0.08 + i * 0.06, duration: 0.6, ease: EASE }}
+                      transition={reduce ? { duration: 0 } : { delay: 0.08 + i * 0.06, duration: 0.6, ease: EASE }}
                     >
                       <Link
                         href={item.href}
@@ -193,7 +194,7 @@ export function SiteHeader() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={reduce ? { duration: 0 } : { delay: 0.4 }}
                 className="mt-12"
               >
                 <Link
