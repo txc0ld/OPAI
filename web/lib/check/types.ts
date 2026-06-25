@@ -145,39 +145,36 @@ export interface GatheredData {
 // Helpers
 // ---------------------------------------------------------------------------
 
-const TRADE_URGENT_JOBS: Record<string, string> = {
-  plumber: "burst pipe",
-  plumbing: "burst pipe",
-  electrician: "power outage",
-  electrical: "power outage",
-  sparky: "power outage",
-  sparkie: "power outage",
-  hvac: "aircon not working",
-  "air conditioning": "aircon not working",
-  "air con": "aircon not working",
-  aircon: "aircon not working",
-  builder: "storm damage",
-  building: "storm damage",
-  roofer: "roof leak",
-  roofing: "roof leak",
-  locksmith: "locked out",
-  pest: "pest infestation",
-  "pest control": "pest infestation",
-  cleaner: "flood cleanup",
-  cleaning: "flood cleanup",
-  tiler: "urgent tile repair",
-  tiling: "urgent tile repair",
-  painter: "urgent paint job",
-  painting: "urgent paint job",
-  landscaper: "storm garden damage",
-  landscaping: "storm garden damage",
-};
+// Emergency phrasing for trades where an urgent callout genuinely makes sense.
+// Substring match (so free-text like "plumbing", "gas fitter", "concrete
+// polishing" all resolve), checked in order. Trades with no entry return
+// undefined, and the prompt builder uses a non-emergency "book this week"
+// phrasing instead.
+const URGENT_JOBS: { match: string[]; job: string }[] = [
+  { match: ["plumb"], job: "burst pipe" },
+  { match: ["gas fit", "gasfit"], job: "gas leak" },
+  { match: ["electric", "sparky", "sparkie"], job: "power outage" },
+  { match: ["aircon", "air con", "air-con", "air conditioning", "hvac", "refrigeration"], job: "broken air conditioner" },
+  { match: ["roof"], job: "roof leak" },
+  { match: ["glaz", "glass"], job: "broken window" },
+  { match: ["garage door", "roller door"], job: "stuck door" },
+  { match: ["locksmith"], job: "lockout" },
+  { match: ["pest", "termite"], job: "pest infestation" },
+  { match: ["arborist", "tree lop", "tree remov", "tree surg"], job: "fallen tree" },
+  { match: ["tow truck", "towing", "roadside"], job: "breakdown" },
+  { match: ["fenc"], job: "storm-damaged fence" },
+];
 
 /**
- * Returns a sensible urgent-job phrase for a given trade.
- * Falls back to "urgent job" if the trade isn't in the map.
+ * Returns an urgent-job phrase for trades where an emergency callout makes
+ * sense (substring match against the free-text trade). Returns undefined when
+ * no emergency applies (e.g. barber, clinic) so the prompt builder can fall
+ * back to a non-emergency immediacy phrasing.
  */
-export function defaultUrgentJob(trade: string): string {
-  const key = trade.toLowerCase().trim();
-  return TRADE_URGENT_JOBS[key] ?? "urgent job";
+export function urgentJobFor(trade: string): string | undefined {
+  const t = trade.toLowerCase().trim();
+  for (const { match, job } of URGENT_JOBS) {
+    if (match.some((m) => t.includes(m))) return job;
+  }
+  return undefined;
 }

@@ -7,7 +7,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 import { ENV } from "./config";
-import { defaultUrgentJob } from "./types";
+import { urgentJobFor } from "./types";
 import type { CheckInput, GatheredData, Triage } from "./types";
 import { gatherPerplexity } from "./gather/perplexity";
 import { gatherOpenAI } from "./gather/openai";
@@ -26,39 +26,44 @@ export interface RunResult {
 }
 
 /**
- * Build the 5 prompts for the check.
- *   0. Emergency/urgent job recommendation
- *   1. Specific job type recommendation
- *   2. General trade recommendation in suburb
- *   3. Best trade for a specific task
- *   4. Reviews search (brand-name check)
+ * Normalise a free-text trade for natural prompt phrasing: lowercase, and turn
+ * "Builder / carpenter" into "builder or carpenter".
  */
-function buildPrompts(
-  business: string,
-  suburb: string,
-  trade: string,
-  urgentJob: string,
-  specificJob?: string,
-): string[] {
-  const specificJobLine = specificJob ?? `${trade} services`;
+function tradePhrase(trade: string): string {
+  return trade.replace(/\s*\/\s*/g, " or ").toLowerCase().trim();
+}
+
+/** "a" or "an" for the following word (best-effort; free-text is ~always singular). */
+function aOrAn(word: string): string {
+  return /^[aeiou]/i.test(word.trim()) ? "an" : "a";
+}
+
+/**
+ * Build the 5 prompts for the check — one per real LLM local-search intent,
+ * phrased conversationally and safe for any free-text trade:
+ *   0. Best / high-intent
+ *   1. Recommendation / near-me
+ *   2. Immediacy — emergency phrasing if the trade has one, else "book this week"
+ *   3. Trust / reviews
+ *   4. Brand-name reputation check
+ */
+function buildPrompts(business: string, suburb: string, trade: string, urgentJob?: string): string[] {
+  const t = tradePhrase(trade);
+  const immediacy = urgentJob
+    ? `Who do I call for ${aOrAn(urgentJob)} ${urgentJob} in ${suburb} right now? Give me 3 specific local businesses.`
+    : `I need ${aOrAn(t)} ${t} in ${suburb} as soon as possible — who can I book this week?`;
   return [
-    `Who do I call for a ${urgentJob} in ${suburb}? Give me 3 specific local businesses.`,
-    `Best ${trade} for ${specificJobLine} in ${suburb}? Top 3 with reasons.`,
-    `Recommend a reliable ${trade} near ${suburb}. Who comes up most?`,
-    `Who is the best ${trade} in ${suburb}?`,
-    `"${business}" ${suburb} reviews — what are people saying?`,
+    `Who's the best ${t} in ${suburb}, Perth? Name 2-3 you'd recommend and why.`,
+    `I need ${aOrAn(t)} ${t} near ${suburb} — who would you recommend, and who comes up most often?`,
+    immediacy,
+    `What's a trusted ${t} near ${suburb} with genuinely good reviews?`,
+    `"${business}" in ${suburb} — what do people say about them, and are they any good?`,
   ];
 }
 
 export async function runCheck(input: CheckInput): Promise<RunResult> {
-  const urgentJob = input.urgentJob ?? defaultUrgentJob(input.trade);
-  const prompts = buildPrompts(
-    input.business,
-    input.suburb,
-    input.trade,
-    urgentJob,
-    input.specificJob,
-  );
+  const urgentJob = input.urgentJob ?? urgentJobFor(input.trade);
+  const prompts = buildPrompts(input.business, input.suburb, input.trade, urgentJob);
 
   // Run all six gatherers in parallel — none depend on each other, so this
   // collapses the gather phase to the slowest single source (was two batches).
