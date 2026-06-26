@@ -17,7 +17,7 @@ test("check form renders required fields", async ({ page }) => {
   await page.goto("/check/");
   await expect(page.getByLabel("Business name")).toBeVisible();
   await expect(page.getByLabel("Suburb / service area")).toBeVisible();
-  await expect(page.getByLabel("Business type")).toBeVisible();
+  await expect(page.getByLabel("What do you do?")).toBeVisible();
   await expect(page.getByLabel("Website (optional)")).toBeVisible();
   await expect(page.getByRole("button", { name: /send my free check/i })).toBeVisible();
 });
@@ -26,7 +26,7 @@ test("check form shows the human confirmation after submit", async ({ page }) =>
   await page.goto("/check/");
   await page.getByLabel("Business name").fill("Test Plumbing");
   await page.getByLabel("Suburb / service area").fill("Midland");
-  await page.getByLabel("Business type").selectOption("Plumber");
+  await page.getByLabel("What do you do?").fill("Plumber");
   await page.getByLabel("Website (optional)").fill("testplumbing.com.au");
   await page.getByLabel("Email").fill("test@example.com");
   await page.getByRole("button", { name: /send my free check/i }).click();
