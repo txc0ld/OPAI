@@ -217,7 +217,7 @@ export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
                       <table cellpadding="0" cellspacing="0">
                         <tr>
                           <td style="vertical-align:middle;padding-right:11px;">
-                            <img src="https://www.operateai.com.au/LOGOMAIN.png" width="32" height="32" alt="OperateAI" style="display:block;border-radius:8px;" />
+                            <img src="https://operateai.com.au/LOGOMAIN.png" width="32" height="32" alt="OperateAI" style="display:block;border-radius:8px;" />
                           </td>
                           <td style="vertical-align:middle;">
                             <span style="font-size:19px;font-weight:800;color:#ffffff;letter-spacing:-0.03em;">OperateAI</span>
@@ -308,7 +308,7 @@ export function renderReportHtml(data: ReportData, meta: ReportMeta): string {
               <div style="background:#faf9f3;border-top:1px solid #ececE6;padding:22px 28px;text-align:center;">
                 <div style="font-size:13px;font-weight:800;color:#15140f;letter-spacing:-0.02em;">OperateAI<span style="color:#c8d400;">.</span></div>
                 <div style="font-size:12px;color:#6b6a63;line-height:1.7;margin-top:4px;">
-                  Perth, WA &middot; <a href="mailto:team@operateai.com.au" style="color:#6b6a63;">team@operateai.com.au</a> &middot; <a href="https://www.operateai.com.au" style="color:#6b6a63;">operateai.com.au</a>
+                  Perth, WA &middot; <a href="mailto:team@operateai.com.au" style="color:#6b6a63;">team@operateai.com.au</a> &middot; <a href="https://operateai.com.au" style="color:#6b6a63;">operateai.com.au</a>
                 </div>
                 <div style="font-size:11px;color:#9b9a92;margin-top:8px;line-height:1.5;">
                   AI results move around, so this is a point-in-time snapshot taken ${esc(date)}. The underlying issues are stable.

@@ -11,7 +11,7 @@ export const emails = {
 export const BUSINESS = {
   name: "OperateAI",
   legalName: "Operate AI - by Fantom Labs Tech",
-  url: "https://www.operateai.com.au",
+  url: "https://operateai.com.au",
   email: "team@operateai.com.au",
   telephone: "+61 400 279 379",
   abn: "ABN 51 559 921 362",
